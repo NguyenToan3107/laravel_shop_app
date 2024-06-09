@@ -1,0 +1,16 @@
+@import '~datatables.net-bs4/css/dataTables.bootstrap4.css';
+@import '~datatables.net-select-bs4/css/select.bootstrap4.css';
+@import '~datatables.net-searchpanes-bs4/css/searchPanes.bootstrap4.css';
+
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+/*// Variables*/
+/*@import 'variables';*/
+
+/*@import 'bootstrap/scss/bootstrap';*/
+
+/*// DataTables*/
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+@import "datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css";
+@import 'datatables.net-select-bs5/css/select.bootstrap5.css';
