@@ -8,20 +8,20 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link header_color_text" href="/users">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link header_color_text" href="/products">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link header_color_text" href="/categories">Categories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link header_color_text" href="/showCategories">Show</a>
-                    </li>
+{{--                    <li class="nav-item active">--}}
+{{--                        <a class="nav-link header_color_text" href="/users">Home</a>--}}
+{{--                    </li>--}}
+{{--                    <li class="nav-item">--}}
+{{--                        <a class="nav-link header_color_text" href="/products">Products</a>--}}
+{{--                    </li>--}}
+{{--                    <li class="nav-item">--}}
+{{--                        <a class="nav-link header_color_text" href="/categories">Categories</a>--}}
+{{--                    </li>--}}
                 </ul>
             </div>
+            <div class="header_icon_cus p-3"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <div class="header_icon_cus p-3"><i class="fa-regular fa-message"></i></div>
+            <div class="header_icon_cus p-3"><i class="fa-regular fa-envelope"></i></div>
             <img src="{{ asset('images/users/default_user.jpg') }}" class="img-thumbnail user-image" alt="Avatar">
         </nav>
     </div>

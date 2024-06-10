@@ -36,6 +36,7 @@ Route::resource('users', UserController::class);
 
 // products
 Route::resource('products', ProductController::class);
+Route::post('/soft_delete', [ProductController::class, 'softDelete']);
 
 // categories
 Route::resource('categories', CategoryController::class);
@@ -53,6 +54,9 @@ Route::post('/search-product', [SearchController::class, 'searchProduct']);
 
 
 //Route::post('/user-data', [ProductController::class, 'userData']);
+
+// trash
+Route::post('/products/trash', [ProductController::class, 'trashProduct']);
 
 
 

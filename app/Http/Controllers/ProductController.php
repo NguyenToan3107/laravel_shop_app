@@ -23,6 +23,7 @@ class ProductController extends Controller
     }
 
     public function index(ProductsDataTable $dataTable) {
+
         $categories = Category::with('children')->whereNull('parent_id')->get();
         return $dataTable->render('products.index', [
             'categories' => $categories
@@ -116,16 +117,115 @@ class ProductController extends Controller
         return redirect('/products');
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        $this->productService->deleteProduct($id);
-        return redirect(ProductController::PRODUCTS_PATH);
+        if($request->filled('id')) {
+            $this->productService->deleteProduct($id);
+        }
+        $model = Product::query()
+            ->select(['id', 'image', 'title', 'description', 'price', 'status', 'created_at', 'updated_at'])
+            ->where('deleted_at','<>', 'null')
+            ->where('status', 4);
+
+        return DataTables::of($model)
+            ->editColumn('status', function ($product) {
+                if ($product->status == 1) {
+                    return 'Hoạt động';
+                } elseif ($product->status == 2) {
+                    return 'Không hoạt động';
+                } elseif ($product->status == 3) {
+                    return 'Đợi';
+                } else {
+                    return 'Xóa mềm';
+                }
+            })
+            ->editColumn('price', function ($product) {
+                return number_format($product->price * 1000, 0, ',', ',');
+            })
+            ->addColumn('action', function ($product) {
+                return view('products.action_delete', ['product' => $product]);
+            })
+            ->editColumn('image', function ($row) {
+                return '<img class="img-thumbnail user-image-45" src="/images/products/' . $row->image . '" alt="' . $row->title . '">';
+            })
+            ->rawColumns(['image'])
+            ->make();
     }
 
     public function showCategories(Request $request)
     {
         $categories = Category::with('children')->where('parent_id', 0)->get();
         return view('products.category', ['categories' => $categories]);
+    }
+
+    // soft product
+    public function softDelete(Request $request)
+    {
+        $model = Product::query()
+            ->select(['id', 'image', 'title', 'description', 'price', 'status', 'created_at', 'updated_at'])
+            ->whereNull('deleted_at')
+            ->where('status', '<>', 4);
+        if ($request->filled('product_id')) {
+            Product::find($request->product_id)->update([
+                'deleted_at' => now(),
+                'status' => 4
+            ]);
+        }
+        return DataTables::of($model)
+            ->editColumn('status', function ($product) {
+                if ($product->status == 1) {
+                    return 'Hoạt động';
+                } elseif ($product->status == 2) {
+                    return 'Không hoạt động';
+                } elseif ($product->status == 3) {
+                    return 'Đợi';
+                } else {
+                    return 'Xóa mềm';
+                }
+            })
+            ->editColumn('price', function ($product) {
+                return number_format($product->price * 1000, 0, ',', ',');
+            })
+            ->addColumn('action', function ($product) {
+                return view('products.action', ['product' => $product]);
+            })
+            ->editColumn('image', function ($row) {
+                return '<img class="img-thumbnail user-image-45" src="/images/products/' . $row->image . '" alt="' . $row->title . '">';
+            })
+            ->rawColumns(['image'])
+            ->make();
+    }
+
+    public function trashProduct()
+    {
+        $model = Product::query()
+            ->select(['id', 'image', 'title', 'description', 'price', 'status', 'created_at', 'updated_at'])
+            ->where('deleted_at','<>', 'null')
+            ->where('status', 4);
+
+        return DataTables::of($model)
+            ->editColumn('status', function ($product) {
+                if ($product->status == 1) {
+                    return 'Hoạt động';
+                } elseif ($product->status == 2) {
+                    return 'Không hoạt động';
+                } elseif ($product->status == 3) {
+                    return 'Đợi';
+                } else {
+                    return 'Xóa mềm';
+                }
+            })
+            ->editColumn('price', function ($product) {
+                return number_format($product->price * 1000, 0, ',', ',');
+            })
+            ->addColumn('action', function ($product) {
+                return view('products.action_delete', ['product' => $product]);
+            })
+            ->editColumn('image', function ($row) {
+                return '<img class="img-thumbnail user-image-45" src="/images/products/' . $row->image . '" alt="' . $row->title . '">';
+            })
+            ->rawColumns(['image'])
+            ->make();
     }
 }
 

@@ -4,13 +4,13 @@
     <div class="container mt-5">
         <div class="row mb-4">
             <div class="col-md-12">
-                <h2 class="text-center">Category List</h2>
+                <h2 class="text-center">Danh mục sản phẩm</h2>
             </div>
         </div>
         <a href="categories/create"
            class="btn btn-primary margin_bottom_detail"
            role="button">
-            Create a new Category
+            Tạo mới một danh mục sản phẩm
         </a>
         <div class="row">
             <div class="col-md-12">
@@ -18,8 +18,8 @@
                     <thead class="thead-dark">
                     <tr>
                         <th>ID</th>
-                        <th>Title</th>
-                        <th>Description</th>
+                        <th>Tiêu đề</th>
+                        <th>Mô tả</th>
                     </tr>
                     </thead>
                     <tbody id="userTable">

@@ -23,14 +23,19 @@ class ProductsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn( 'status',function ($product) {
-                    if($product->status == 1) {
-                        return 'Active';
-                    }elseif($product->status == 2) {
-                        return 'Inactive';
-                    } else {
-                        return 'Pending';
-                    }
+            ->editColumn('status', function ($product) {
+                if ($product->status == 1) {
+                    return 'Hoạt động';
+                } elseif ($product->status == 2) {
+                    return 'Không hoạt động';
+                } elseif ($product->status == 3) {
+                    return 'Đợi';
+                } else {
+                    return 'Xóa mềm';
+                }
+            })
+            ->editColumn('price', function ($product) {
+                return number_format($product->price * 1000, 0, ',', ',');
             })
             ->addColumn('action', function ($product) {
                 return view('products.action', ['product' => $product]);
@@ -47,7 +52,8 @@ class ProductsDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->newQuery()->select(['id', 'image', 'title', 'description', 'price', 'status', 'created_at', 'updated_at']);
+        return $model->newQuery()->select(['id', 'image', 'title', 'description', 'price', 'status', 'created_at', 'updated_at'])
+                                ->whereNull('deleted_at')->where('status', '<>', 4);
     }
 
     /**

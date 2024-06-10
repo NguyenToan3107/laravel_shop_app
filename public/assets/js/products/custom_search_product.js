@@ -1,3 +1,4 @@
+// reset product
 document.getElementById('reset_btn').addEventListener('click', function(event) {
     event.preventDefault();
     document.getElementById('title_product').value = '';
@@ -29,6 +30,7 @@ document.getElementById('reset_btn').addEventListener('click', function(event) {
     });
 });
 
+// search product
 document.getElementById('product_search_form').addEventListener('submit', function(event) {
     event.preventDefault();
 

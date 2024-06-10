@@ -1,31 +1,46 @@
 <aside id="sidebar">
     <div class="h-100">
         <div class="sidebar-logo">
-            <a href="#">CodzSword</a>
+            <a href="#">ADMIN</a>
         </div>
         <!-- Sidebar Navigation -->
         <ul class="sidebar-nav">
             <li class="sidebar-header">
-                Tools & Components
+                Công cụ và thành phần hỗ trợ
             </li>
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link">
                     <i class="fa-solid fa-list pe-2"></i>
-                    Profile
+                    Hồ sơ
                 </a>
             </li>
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pages"
                    aria-expanded="false" aria-controls="pages">
-                    <i class="fa-regular fa-file-lines pe-2"></i>
+                    <i class="fa-brands fa-product-hunt"></i>
                     Quản lí sản phẩm
                 </a>
                 <ul id="pages" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                     <li class="sidebar-item">
-                        <a href="/categories" class="sidebar-link">Danh mục sản phẩm</a>
+                        <a href="/categories" class="sidebar-link">--Danh mục sản phẩm</a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="/products" class="sidebar-link">Sản phẩm</a>
+                        <a href="/products" class="sidebar-link">--Sản phẩm</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#posts"
+                   aria-expanded="false" aria-controls="posts">
+                    <i class="fa-regular fa-file-lines pe-2"></i>
+                    Quản lí bài viết
+                </a>
+                <ul id="posts" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+{{--                    <li class="sidebar-item">--}}
+{{--                        <a href="/categories" class="sidebar-link">--Quản lý bài viết</a>--}}
+{{--                    </li>--}}
+                    <li class="sidebar-item">
+                        <a href="/posts" class="sidebar-link">--Bài viết</a>
                     </li>
                 </ul>
             </li>
@@ -37,13 +52,31 @@
                 </a>
                 <ul id="dashboard" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                     <li class="sidebar-item">
-                        <a href="/users" class="sidebar-link">Quản lý người dùng</a>
+                        <a href="/users" class="sidebar-link">--Quản lý người dùng</a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">Dashboard Analytics</a>
+                        <a href="#" class="sidebar-link">--Dashboard</a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">Dashboard Ecommerce</a>
+                        <a href="#" class="sidebar-link">--Dashboard Analytics</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">--Dashboard Ecommerce</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#trash"
+                   aria-expanded="false" aria-controls="trash">
+                    <i class="fa-solid fa-trash"></i>
+                    Thùng rác
+                </a>
+                <ul id="trash" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="/categories" class="sidebar-link">--Danh mục sản phẩm</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="/products/trash" id="trash_link" class="sidebar-link">--Sản phẩm xóa</a>
                     </li>
                 </ul>
             </li>
@@ -55,10 +88,10 @@
                 </a>
                 <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                     <li class="sidebar-item">
-                        <a href="/auth/login" class="sidebar-link">Login</a>
+                        <a href="/auth/login" class="sidebar-link">--Đăng nhập</a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="/auth/register" class="sidebar-link">Register</a>
+                        <a href="/auth/register" class="sidebar-link">--Đăng ký</a>
                     </li>
                 </ul>
             </li>
@@ -87,6 +120,12 @@
                         </ul>
                     </li>
                 </ul>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Thoát
+                </a>
             </li>
         </ul>
     </div>
