@@ -3,6 +3,7 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.dashboard');
 });
 
 // login & register
@@ -41,6 +42,8 @@ Route::post('/soft_delete', [ProductController::class, 'softDelete']);
 // categories
 Route::resource('categories', CategoryController::class);
 
+// posts
+Route::resource('posts', PostController::class);
 
 Route::get('/showCategories', [ProductController::class, 'showCategories']);
 
@@ -57,6 +60,5 @@ Route::post('/search-product', [SearchController::class, 'searchProduct']);
 
 // trash
 Route::post('/products/trash', [ProductController::class, 'trashProduct']);
-
 
 

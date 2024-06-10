@@ -55,7 +55,7 @@
                         <a href="/users" class="sidebar-link">--Quản lý người dùng</a>
                     </li>
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">--Dashboard</a>
+                        <a href="/" class="sidebar-link">--Dashboard</a>
                     </li>
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link">--Dashboard Analytics</a>

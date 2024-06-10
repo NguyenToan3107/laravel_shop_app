@@ -12,4 +12,7 @@ class User extends Model
     protected $fillable = ['name', 'email', 'password', 'age', 'phoneNumber', 'address', 'role', 'image_path'];
     protected $hidden = ['password'];
 
+    public function posts() {
+        return $this->hasMany(Post::class);
+    }
 }

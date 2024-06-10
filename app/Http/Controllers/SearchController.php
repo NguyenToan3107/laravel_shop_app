@@ -20,7 +20,6 @@ class SearchController extends Controller
 
     public function searchProduct(Request $request)
     {
-//        $categories = Category::with('children')->whereNull('parent_id')->get();
         $model = Product::query()
             ->select(['id', 'image', 'title', 'description', 'price', 'status', 'created_at', 'updated_at']);
 //            ->whereNull('deleted_at');

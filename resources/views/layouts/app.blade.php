@@ -49,6 +49,9 @@
         });
     </script>
 
+    <link rel="stylesheet" href="{{asset('assets/css/dashboard.css')}}">
+{{--    <script src="{{asset('assets/js/dashboard.js')}}" defer></script>--}}
+
     <title>Document</title>
 
 </head>
