@@ -15,6 +15,27 @@
                 </a>
             </li>
             <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard"
+                   aria-expanded="false" aria-controls="dashboard">
+                    <i class="fa-solid fa-sliders pe-2"></i>
+                    Dashboard
+                </a>
+                <ul id="dashboard" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="/" class="sidebar-link">--Dashboard</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="/users" class="sidebar-link">--Quản lý người dùng</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">--Dashboard Analytics</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link">--Dashboard Ecommerce</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="sidebar-item">
                 <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pages"
                    aria-expanded="false" aria-controls="pages">
                     <i class="fa-brands fa-product-hunt"></i>
@@ -41,27 +62,6 @@
 {{--                    </li>--}}
                     <li class="sidebar-item">
                         <a href="/posts" class="sidebar-link">--Bài viết</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard"
-                   aria-expanded="false" aria-controls="dashboard">
-                    <i class="fa-solid fa-sliders pe-2"></i>
-                    Dashboard
-                </a>
-                <ul id="dashboard" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                    <li class="sidebar-item">
-                        <a href="/users" class="sidebar-link">--Quản lý người dùng</a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="/" class="sidebar-link">--Dashboard</a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">--Dashboard Analytics</a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link">--Dashboard Ecommerce</a>
                     </li>
                 </ul>
             </li>

@@ -3,48 +3,45 @@
 @section('content')
     <!-- ======================= Cards ================== -->
     <div class="cardBox">
-        <div class="card">
-            <div>
-                <div class="numbers">1,504</div>
-                <div class="cardName">Daily Views</div>
+        <a href="/users" class="card">
+            <div class="flex_dash">
+                <div class="numbers">{{$count_users}}</div>
+                <div class="cardName">Users</div>
             </div>
 
-            <div class="iconBx">
-                <ion-icon name="eye-outline"></ion-icon>
-            </div>
-        </div>
+        </a>
 
-        <div class="card">
+        <a href="/categories" class="card">
             <div>
-                <div class="numbers">80</div>
-                <div class="cardName">Sales</div>
+                <div class="numbers">{{$count_categories}}</div>
+                <div class="cardName">Categories</div>
             </div>
 
             <div class="iconBx">
                 <ion-icon name="cart-outline"></ion-icon>
             </div>
-        </div>
+        </a>
 
-        <div class="card">
+        <a href="/products" class="card">
             <div>
-                <div class="numbers">284</div>
-                <div class="cardName">Comments</div>
+                <div class="numbers">{{$count_products}}</div>
+                <div class="cardName">Products</div>
             </div>
 
             <div class="iconBx">
                 <ion-icon name="chatbubbles-outline"></ion-icon>
             </div>
-        </div>
+        </a>
 
-        <div class="card">
+        <a href="/posts" class="card">
             <div>
-                <div class="numbers">$7,842</div>
-                <div class="cardName">Earning</div>
+                <div class="numbers">{{$count_posts}}</div>
+                <div class="cardName">Posts</div>
             </div>
 
             <div class="iconBx">
                 <ion-icon name="cash-outline"></ion-icon>
             </div>
-        </div>
+        </a>
     </div>
 @endsection

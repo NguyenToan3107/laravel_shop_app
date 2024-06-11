@@ -20,6 +20,6 @@ class Post extends Model
         return $this->hasMany(Post::class, 'parent_id');
     }
     public function users() {
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->belongsTo(User::class, 'author_id')->select(['id', 'name']);
     }
 }

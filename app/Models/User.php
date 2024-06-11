@@ -9,7 +9,7 @@ class User extends Model
 {
     use HasFactory;
     protected $table = 'users';
-    protected $fillable = ['name', 'email', 'password', 'age', 'phoneNumber', 'address', 'role', 'image_path'];
+    protected $fillable = ['id', 'name', 'email', 'password', 'age', 'phoneNumber', 'address', 'role', 'image_path'];
     protected $hidden = ['password'];
 
     public function posts() {

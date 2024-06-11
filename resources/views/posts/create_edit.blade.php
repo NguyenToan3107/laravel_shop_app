@@ -15,9 +15,9 @@
                 <div class="form-group">
                     {{ Form::label('author_id', 'Ai là người tạo bài viêết') }}
                     <select class="row" name="author_id" id="author_id">
-                        <option value="{{$user->id}}">{{$user->name}}</option>
+                        <option value="{{$user->id}}">Current: {{$user->name}}</option>
                         @foreach ($users as $u)
-                            <option value="{{$u->id}}">{{$u->name}}</option>
+                            <option value="{{$u->id}}">--{{$u->name}}</option>
                         @endforeach
                     </select>
                 </div>

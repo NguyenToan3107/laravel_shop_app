@@ -3,6 +3,7 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
@@ -20,13 +21,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.dashboard');
-});
+Route::get('/', [DashboardController::class, 'index']);
 
 // login & register
-
-
 Route::get('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/store', [AuthController::class, 'store']);
 Route::get('/auth/login', [AuthController::class, 'login']);
@@ -44,6 +41,7 @@ Route::resource('categories', CategoryController::class);
 
 // posts
 Route::resource('posts', PostController::class);
+Route::post('/posts/soft_delete', [PostController::class, 'softDelete']);
 
 Route::get('/showCategories', [ProductController::class, 'showCategories']);
 
@@ -53,12 +51,9 @@ Route::get('/sortByCategory', [ProductController::class, 'sortByCategory']);
 
 // search
 Route::post('/search-product', [SearchController::class, 'searchProduct']);
-//Route::post('/submit-post', [SearchController::class, 'submitPost'])->name('postSubmit');
+Route::post('/search-post', [SearchController::class, 'searchPost']);
 
-
-//Route::post('/user-data', [ProductController::class, 'userData']);
 
 // trash
 Route::post('/products/trash', [ProductController::class, 'trashProduct']);
-
 
