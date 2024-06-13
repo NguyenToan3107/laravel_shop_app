@@ -34,7 +34,7 @@
                         <option value="1">Hoạt động</option>
                         <option value="2">Không hoạt động</option>
                         <option value="3">Đợi</option>
-                        <option value="4">Xóa mềm</option>
+                        <option value="4">Thùng rác</option>
                     </select>
                 </div>
                 <div class="input-group mb-3 width-300">
@@ -71,6 +71,7 @@
         </div>
     </div>
 
+{{--    soft delete--}}
     <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -134,10 +135,5 @@
 {{--@endpush--}}
 
 @push('scripts')
-
     {{ $dataTable->scripts() }}
-
-    <script src="{{asset('assets/js/products/custom_search_product.js')}}"></script>
-    <script src="{{asset('assets/js/products/delete_product.js')}}"></script>
-    <script src="{{asset('assets/js/products/trash_product.js')}}"></script>
 @endpush

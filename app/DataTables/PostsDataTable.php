@@ -40,7 +40,7 @@ class PostsDataTable extends DataTable
                 return view('posts.action', ['post' => $post]);
             })
             ->addColumn('image', function ($row) {
-                return '<img class="img-thumbnail user-image-45" src="/images/posts/'.$row->image.'" alt="' . $row->title . '">';
+                return '<img class="img-thumbnail user-image-45" src="'.$row->image . '" alt="' . $row->title . '">';
             })
             ->rawColumns(['image'])
             ->setRowId('id');

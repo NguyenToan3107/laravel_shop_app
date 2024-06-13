@@ -8,6 +8,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index']);
 
+
+//Auth::routes();
 // login & register
 Route::get('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/store', [AuthController::class, 'store']);
@@ -57,3 +60,10 @@ Route::post('/search-post', [SearchController::class, 'searchPost']);
 // trash
 Route::post('/products/trash', [ProductController::class, 'trashProduct']);
 
+//Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+//    \UniSharp\LaravelFilemanager\Lfm::routes();
+//});
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});

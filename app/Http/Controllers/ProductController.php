@@ -113,6 +113,7 @@ class ProductController extends Controller
             'status' => $request->input('status'),
             'category_id' => $request->input('category_id'),
             'updated_at' => now(),
+            'deleted_at' => null
         ]);
         return redirect('/products');
     }

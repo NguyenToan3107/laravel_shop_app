@@ -28,7 +28,7 @@
                         <option value="1">Hoạt động</option>
                         <option value="2">Không hoạt động</option>
                         <option value="3">Đợi</option>
-                        <option value="4">Xóa mềm</option>
+                        <option value="4">Thùng rác</option>
                     </select>
                 </div>
                 <div class="input-group mb-3 width-300">
@@ -125,8 +125,4 @@
 
 @push('scripts')
     {{ $dataTable->scripts() }}
-
-    <script src="{{asset('assets/js/posts/custom_search_post.js')}}"></script>
-    <script src="{{asset('assets/js/posts/delete/soft_delete_post.js')}}"></script>
-    <script src="{{asset('assets/js/posts/delete/hard_delete_post.js')}}"></script>
 @endpush

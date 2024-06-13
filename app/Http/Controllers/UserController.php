@@ -36,7 +36,7 @@ class UserController extends Controller
             'password' => 'required',
             'age' => 'required|integer|min:0|max:100',
             'address' => 'required',
-            'phoneNumber' => 'required',
+            'phoneNumber' => 'required'
 //            'image' => 'required|image|mimes:jpeg,png,jpg|max:5048',
         ]);
 
@@ -56,6 +56,8 @@ class UserController extends Controller
             'phoneNumber' => $request->input('phoneNumber'),
             'image_path' => $generatedImageName,
             'role' => strtolower($request->input('role')),
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
 
         return redirect(UserController::USERS_PATH);
@@ -94,6 +96,7 @@ class UserController extends Controller
             'phoneNumber' => $request->input('phoneNumber'),
             'image_path' => $generatedImageName,
             'role' => strtolower($request->input('role')),
+            'updated_at' => now()
         ]);
 
         return redirect(UserController::USERS_PATH);

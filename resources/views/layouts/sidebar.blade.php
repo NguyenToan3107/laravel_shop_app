@@ -65,21 +65,21 @@
                     </li>
                 </ul>
             </li>
-            <li class="sidebar-item">
-                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#trash"
-                   aria-expanded="false" aria-controls="trash">
-                    <i class="fa-solid fa-trash"></i>
-                    Thùng rác
-                </a>
-                <ul id="trash" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                    <li class="sidebar-item">
-                        <a href="/categories" class="sidebar-link">--Danh mục sản phẩm</a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a href="/products/trash" id="trash_link" class="sidebar-link">--Sản phẩm xóa</a>
-                    </li>
-                </ul>
-            </li>
+{{--            <li class="sidebar-item">--}}
+{{--                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#trash"--}}
+{{--                   aria-expanded="false" aria-controls="trash">--}}
+{{--                    <i class="fa-solid fa-trash"></i>--}}
+{{--                    Thùng rác--}}
+{{--                </a>--}}
+{{--                <ul id="trash" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">--}}
+{{--                    <li class="sidebar-item">--}}
+{{--                        <a href="/categories" class="sidebar-link">--Danh mục sản phẩm</a>--}}
+{{--                    </li>--}}
+{{--                    <li class="sidebar-item">--}}
+{{--                        <a href="/products/trash" id="trash_link" class="sidebar-link">--Sản phẩm xóa</a>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
+{{--            </li>--}}
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#auth"
                    aria-expanded="false" aria-controls="auth">
