@@ -142,4 +142,67 @@ class SearchController extends Controller
             ->rawColumns(['image'])
             ->make();
     }
+
+
+    public function searchUser(Request $request)
+    {
+        $model = Post::query()
+            ->select(['id', 'image_path', 'name', 'email', 'phoneNumber', 'status', 'address', 'age', 'created_at', 'updated_at']);
+
+//            ->whereNull('deleted_at');
+
+        if ($request->filled('name')) {
+            $model = $model->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        $model = $model->when($request->filled('author_name'), function ($query) use ($request) {
+            $userIds = DB::table('users')
+                ->where('name', 'like', '%' . $request->author_name . '%')
+                ->pluck('id');
+            return $query->whereIn('author_id', $userIds);
+        });
+
+        if ($request->filled('status')) {
+            $model = $model->where('status', $request->status);
+        } else {
+            $model = $model->where('status', '<>', 4);
+        }
+
+        if ($request->filled('started_at') && ($request->started_at != SearchController::DEFAULT_DATE)) {
+            $model = $model->whereDate('created_at', '>=', $request->started_at);
+        }
+
+        if ($request->filled('ended_at') && ($request->ended_at != SearchController::DEFAULT_DATE)) {
+            $model = $model->whereDate('created_at', '<=', $request->ended_at);
+        }
+
+        return DataTables::of($model)
+            ->editColumn('status', function ($post) {
+                $statusMessages = [
+                    1 => 'Hoạt động',
+                    2 => 'Không hoạt động',
+                    3 => 'Đợi',
+                    4 => 'Xóa mềm'
+                ];
+                return $statusMessages[$post->status];
+            })
+            ->addColumn('action', function ($post) use ($request) {
+                if ($request->filled('status')) {
+                    if ($post->status == 4) {
+                        return view('posts.action_delete', ['post' => $post]);
+                    }
+                    return view('posts.action', ['post' => $post]);
+                }else {
+                    return view('posts.action', ['post' => $post]);
+                }
+            })
+            ->editColumn('author_id',function ($post) {
+                return $post->users->name;
+            })
+            ->editColumn('image', function ($row) {
+                return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
+            })
+            ->rawColumns(['image'])
+            ->make();
+    }
 }

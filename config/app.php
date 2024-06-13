@@ -171,7 +171,7 @@ return [
 
         Yajra\DataTables\ButtonsServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
-//        UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class
+        Spatie\Permission\PermissionServiceProvider::class,
     ])->toArray(),
 
     /*

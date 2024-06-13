@@ -93,6 +93,12 @@
                     <li class="sidebar-item">
                         <a href="/auth/register" class="sidebar-link">--Đăng ký</a>
                     </li>
+                    <li class="sidebar-item">
+                        <a href="/roles" class="sidebar-link">--Vai trò</a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="/permissions" class="sidebar-link">--Quyền</a>
+                    </li>
                 </ul>
             </li>
             <li class="sidebar-header">

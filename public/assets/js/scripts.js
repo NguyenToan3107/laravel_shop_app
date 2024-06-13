@@ -547,6 +547,121 @@ if(product_search_form) {
     });
 }
 
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+// ------------------------------------ USERS --------------------------------------- //
+
+
+// search product
+const user_search_form = document.getElementById('user_search_form')
+
+if(user_search_form) {
+    user_search_form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        let title = document.getElementById('title_product').value;
+        let price = document.getElementById('price_product').value;
+        let status = document.getElementById('status_product').value;
+        let started_at = document.getElementById('start_date').value;
+        let ended_at = document.getElementById('ended_date').value;
+
+        started_at = datetimeLocalToDateString(started_at)
+        ended_at = datetimeLocalToDateString(ended_at)
+        if ($.fn.DataTable.isDataTable('#products-table')) {
+            $('#products-table').DataTable().destroy(); // Nếu có, hủy bảng DataTable hiện tại
+        }
+
+        $('#products-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '/search-product',
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
+                },
+                data: {
+                    title: title,
+                    price: price,
+                    status: status,
+                    started_at: started_at,
+                    ended_at: ended_at,
+                }
+            },
+            columns: [
+                {data: 'id', name: 'id'},
+                {data: 'image', name: 'image'},
+                {data: 'title', name: 'title'},
+                {data: 'description', name: 'description'},
+                {data: 'price', name: 'price'},
+                {data: 'status', name: 'status'},
+                // { data: 'created_at', name: 'created_at' },
+                // { data: 'updated_at', name: 'updated_at' },
+                {data: 'action', name: 'action'}
+            ]
+        });
+    });
+}
+
+
+
+
+// reset user
+const reset_btn_user = document.getElementById('reset_btn_user')
+
+if(reset_btn_user) {
+    reset_btn_user.addEventListener('click', function (event) {
+        event.preventDefault();
+        document.getElementById('name_user').value = '';
+        document.getElementById('email_user').value = '';
+        document.getElementById('phone_user').value = '';
+        document.getElementById('address_user').value = '';
+        document.getElementById('age_user').value = '';
+        document.getElementById('status_user').value = '';
+        document.getElementById('start_date').value = '';
+        document.getElementById('ended_date').value = '';
+
+        if ($.fn.DataTable.isDataTable('#users-table')) {
+            $('#users-table').DataTable().destroy(); // Nếu có, hủy bảng DataTable hiện tại
+        }
+
+        $('#users-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '/users',
+            type: 'GET',
+            columns: [
+                {data: 'id', name: 'id'},
+                {data: 'image_path', name: 'image_path'},
+                {data: 'name', name: 'name'},
+                {data: 'email', name: 'email'},
+                {data: 'phoneNumber', name: 'phoneNumber'},
+                {data: 'address', name: 'address'},
+                {data: 'roles', name: 'roles'},
+                {data: 'age', name: 'age'},
+                {data: 'status', name: 'status'},
+                {data: 'action', name: 'action'}
+            ]
+        });
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
 //////////////////////////////////// FUNCTION UTILS ////////////////////////////////////
 
 function datetimeLocalToDateString(datetimeLocal) {
@@ -574,3 +689,4 @@ if(fileInput) {
         }
     });
 }
+

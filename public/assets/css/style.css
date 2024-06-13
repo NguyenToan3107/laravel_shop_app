@@ -298,3 +298,9 @@ a.sidebar-link {
 .cardBox .card:hover .iconBx {
     color: var(--white);
 }
+
+.flex-form {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+}

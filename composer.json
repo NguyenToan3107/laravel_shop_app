@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "laravelcollective/html": "^6.4",
+        "spatie/laravel-permission": "^6.7",
         "staudenmeir/laravel-adjacency-list": "^1.0",
         "unisharp/laravel-filemanager": "^2.9",
         "yajra/laravel-datatables-buttons": "^10.0",
