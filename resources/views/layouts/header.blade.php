@@ -8,9 +8,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-{{--                    <li class="nav-item active">--}}
-{{--                        <a class="nav-link header_color_text" href="/users">Home</a>--}}
-{{--                    </li>--}}
+                    <li class="nav-item active">
+                        <a class="nav-link header_color_text" href="/">Home</a>
+                    </li>
 {{--                    <li class="nav-item">--}}
 {{--                        <a class="nav-link header_color_text" href="/products">Products</a>--}}
 {{--                    </li>--}}
@@ -22,7 +22,25 @@
             <div class="header_icon_cus p-3"><i class="fa-solid fa-magnifying-glass"></i></div>
             <div class="header_icon_cus p-3"><i class="fa-regular fa-message"></i></div>
             <div class="header_icon_cus p-3"><i class="fa-regular fa-envelope"></i></div>
-            <img src="{{ asset('images/users/default_user.jpg') }}" class="img-thumbnail user-image" alt="Avatar">
+{{--            <img src="{{ asset('images/users/default_user.jpg') }}" class="img-thumbnail user-image" alt="Avatar">--}}
+            <!-- Settings Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ Auth::user()->name }}
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{route('profile.edit')}}">Profile</a></li>
+                    <li><form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <x-dropdown-link :href="route('logout')"
+                                             onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-dropdown-link>
+                        </form></li>
+{{--                    <li><a class="dropdown-item" href="#">Something else here</a></li>--}}
+                </ul>
+            </div>
         </nav>
     </div>
 </header>

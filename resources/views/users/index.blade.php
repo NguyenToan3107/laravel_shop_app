@@ -16,6 +16,21 @@
                 }).showToast();
             });
         </script>
+
+    @elseif(session('delete'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Toastify({
+                    text: "{{ session('delete') }}",
+                    duration: 2000,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    className: "toastify-custom toastify-error"
+                }).showToast();
+            });
+        </script>
     @endif
 
     <div class="container mt-5">
@@ -87,14 +102,73 @@
 
         <br>
         <br>
-        <a href="users/create"
-           class="btn btn-primary margin_bottom_detail"
-           role="button" style="margin-left: 800px">
-            Thêm mới người dùng
-        </a>
+        @can('create user')
+            <a href="users/create"
+               class="btn btn-primary margin_bottom_detail"
+               role="button" style="margin-left: 800px">
+                Thêm mới người dùng
+            </a>
+        @endcan
         <div class="row">
             <div class="col-md-12">
                 {{ $dataTable->table()}}
+            </div>
+        </div>
+    </div>
+
+    {{--    Xoa mem--}}
+    <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Bạn có chắc muốn xóa không?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    (Hãy vào thùng rác để xóa nếu như bạn muốn chắc chắn xóa)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" id="confirmDeleteButton_trash" class="btn btn-danger">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{--  Hard delete  --}}
+    <div class="modal fade" id="trashModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Bạn có chắc muốn xóa không?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    (Xóa sẽ không thể hoàn tác)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" id="confirmDeleteButton_remove" class="btn btn-danger">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Info -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Xóa Thành công</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn đã xóa thành công!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
             </div>
         </div>
     </div>

@@ -20,6 +20,10 @@ class ProductController extends Controller
 
     public function __construct(protected ProductService $productService, protected CategoryService $categoryService)
     {
+//        $this->middleware(['permission:view product', 'role:admin', ['only' => 'index']]);
+//        $this->middleware(['permission:edit product', ['only' => 'edit', 'update']]);
+//        $this->middleware(['permission:delete product', ['only' => 'destroy']]);
+//        $this->middleware(['permission:create product', ['only' => 'create', 'store']]);
     }
 
     public function index(ProductsDataTable $dataTable) {
@@ -151,12 +155,6 @@ class ProductController extends Controller
             })
             ->rawColumns(['image'])
             ->make();
-    }
-
-    public function showCategories(Request $request)
-    {
-        $categories = Category::with('children')->where('parent_id', 0)->get();
-        return view('products.category', ['categories' => $categories]);
     }
 
     // soft product

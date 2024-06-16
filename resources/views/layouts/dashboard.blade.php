@@ -8,7 +8,6 @@
                 <div class="numbers">{{$count_users}}</div>
                 <div class="cardName">Users</div>
             </div>
-
         </a>
 
         <a href="/categories" class="card">

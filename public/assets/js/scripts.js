@@ -355,6 +355,13 @@ if(post_update_form) {
     })
 }
 
+
+
+
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////////
 // --------------------------------- PRODUCTS --------------------------------------- //
 
@@ -564,30 +571,36 @@ if(user_search_form) {
     user_search_form.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        let title = document.getElementById('title_product').value;
-        let price = document.getElementById('price_product').value;
-        let status = document.getElementById('status_product').value;
+        let name =  document.getElementById('name_user').value;
+        let email = document.getElementById('email_user').value;
+        let phone = document.getElementById('phone_user').value;
+        let address = document.getElementById('address_user').value;
+        let age = document.getElementById('age_user').value;
+        let status = document.getElementById('status_user').value;
         let started_at = document.getElementById('start_date').value;
         let ended_at = document.getElementById('ended_date').value;
 
         started_at = datetimeLocalToDateString(started_at)
         ended_at = datetimeLocalToDateString(ended_at)
-        if ($.fn.DataTable.isDataTable('#products-table')) {
-            $('#products-table').DataTable().destroy(); // Nếu có, hủy bảng DataTable hiện tại
+        if ($.fn.DataTable.isDataTable('#users-table')) {
+            $('#users-table').DataTable().destroy(); // Nếu có, hủy bảng DataTable hiện tại
         }
 
-        $('#products-table').DataTable({
+        $('#users-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
-                url: '/search-product',
+                url: '/search-user',
                 type: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
                 },
                 data: {
-                    title: title,
-                    price: price,
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    address: address,
+                    age: age,
                     status: status,
                     started_at: started_at,
                     ended_at: ended_at,
@@ -595,13 +608,14 @@ if(user_search_form) {
             },
             columns: [
                 {data: 'id', name: 'id'},
-                {data: 'image', name: 'image'},
-                {data: 'title', name: 'title'},
-                {data: 'description', name: 'description'},
-                {data: 'price', name: 'price'},
+                {data: 'image_path', name: 'image_path'},
+                {data: 'name', name: 'name'},
+                {data: 'email', name: 'email'},
+                {data: 'phoneNumber', name: 'phoneNumber'},
+                {data: 'address', name: 'address'},
+                {data: 'roles', name: 'roles'},
+                {data: 'age', name: 'age'},
                 {data: 'status', name: 'status'},
-                // { data: 'created_at', name: 'created_at' },
-                // { data: 'updated_at', name: 'updated_at' },
                 {data: 'action', name: 'action'}
             ]
         });
@@ -655,9 +669,140 @@ if(reset_btn_user) {
 
 
 
+////////// DELETE
+// soft delete
+$(document).ready(function () {
+    $(document).on('click', '.delete_button_user', function (event) {
+        event.preventDefault();
+        let user_id = $(this).val();
+        $('#deleteModal').modal('show')
+        $('#confirmDeleteButton_trash').val(user_id)
+
+        $('#confirmDeleteButton_trash').on('click', function (event) {
+            event.preventDefault();
+            let user_id = $(this).val();
+
+            if ($.fn.DataTable.isDataTable('#users-table')) {
+                $('#users-table').DataTable().destroy();
+            }
+
+            $('#users-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: `/users/soft_delete`,
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        user_id: user_id,
+                    }
+                },
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'image_path', name: 'image_path'},
+                    {data: 'name', name: 'name'},
+                    {data: 'email', name: 'email'},
+                    {data: 'phoneNumber', name: 'phoneNumber'},
+                    {data: 'address', name: 'address'},
+                    {data: 'roles', name: 'roles'},
+                    {data: 'age', name: 'age'},
+                    {data: 'status', name: 'status'},
+                    {data: 'action', name: 'action'}
+                ]
+            });
+
+            // // Hiển thị modal thông báo thành công sau khi modal xóa được ẩn
+            // $('#deleteModal').on('hidden.bs.modal', function () {
+            //     $('#successModal').modal('show');
+            // });
+
+            $('#deleteModal').modal('hide')
+            // kiểm tra nếu toast trước đó vẫn còn
+            let existingToast = document.querySelector(".toastify");
+            if (existingToast) {
+                existingToast.remove();
+            }
+            Toastify({
+                text: "Xóa thành công",
+                duration: 2000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                className: "toastify-custom toastify-error"
+            }).showToast();
+        })
+    })
+})
 
 
+// hard delete
+$(document).ready(function () {
+    $(document).on('click', '.trash_button_user', function (event) {
+        event.preventDefault();
+        let user_id = $(this).val();
+        $('#trashModal').modal('show')
+        $('#confirmDeleteButton_remove').val(user_id)
 
+        $('#confirmDeleteButton_remove').on('click', function (event) {
+            event.preventDefault();
+            let user_id = $(this).val();
+
+            if ($.fn.DataTable.isDataTable('#users-table')) {
+                $('#users-table').DataTable().destroy();
+            }
+
+            $('#users-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: `/users/` + user_id,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        id: user_id,
+                    },
+                },
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'image_path', name: 'image_path'},
+                    {data: 'name', name: 'name'},
+                    {data: 'email', name: 'email'},
+                    {data: 'phoneNumber', name: 'phoneNumber'},
+                    {data: 'address', name: 'address'},
+                    {data: 'roles', name: 'roles'},
+                    {data: 'age', name: 'age'},
+                    {data: 'status', name: 'status'},
+                    {data: 'action', name: 'action'}
+                ]
+            });
+            $('#trashModal').modal('hide')
+
+            // $('#trashModal').on('hidden.bs.modal', function () {
+            //     $('#successModal').modal('show');
+            // });
+
+            // kiểm tra nếu toast trước đó vẫn còn
+            let existingToast = document.querySelector(".toastify");
+            if (existingToast) {
+                existingToast.remove();
+            }
+            Toastify({
+                text: "Xóa thành công",
+                duration: 2000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                className: "toastify-custom toastify-error"
+            }).showToast();
+        })
+    })
+})
 
 
 

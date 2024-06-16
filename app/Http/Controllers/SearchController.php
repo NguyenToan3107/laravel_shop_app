@@ -146,7 +146,7 @@ class SearchController extends Controller
 
     public function searchUser(Request $request)
     {
-        $model = Post::query()
+        $model = User::query()
             ->select(['id', 'image_path', 'name', 'email', 'phoneNumber', 'status', 'address', 'age', 'created_at', 'updated_at']);
 
 //            ->whereNull('deleted_at');
@@ -155,12 +155,21 @@ class SearchController extends Controller
             $model = $model->where('name', 'like', '%' . $request->name . '%');
         }
 
-        $model = $model->when($request->filled('author_name'), function ($query) use ($request) {
-            $userIds = DB::table('users')
-                ->where('name', 'like', '%' . $request->author_name . '%')
-                ->pluck('id');
-            return $query->whereIn('author_id', $userIds);
-        });
+        if ($request->filled('email')) {
+            $model = $model->where('email', 'like', '%' . $request->email . '%');
+        }
+
+        if ($request->filled('phone')) {
+            $model = $model->where('phoneNumber', 'like', '%' . $request->phone . '%');
+        }
+
+        if ($request->filled('address')) {
+            $model = $model->where('address', 'like', '%' . $request->address . '%');
+        }
+
+        if ($request->filled('age')) {
+            $model = $model->where('age', 'like', '%' . $request->age . '%');
+        }
 
         if ($request->filled('status')) {
             $model = $model->where('status', $request->status);
@@ -186,23 +195,27 @@ class SearchController extends Controller
                 ];
                 return $statusMessages[$post->status];
             })
-            ->addColumn('action', function ($post) use ($request) {
+            ->addColumn('action', function ($user) use ($request) {
                 if ($request->filled('status')) {
-                    if ($post->status == 4) {
-                        return view('posts.action_delete', ['post' => $post]);
+                    if ($user->status == 4) {
+                        return view('users.action_delete', ['user' => $user]);
                     }
-                    return view('posts.action', ['post' => $post]);
+                    return view('users.action', ['user' => $user]);
                 }else {
-                    return view('posts.action', ['post' => $post]);
+                    return view('users.action', ['user' => $user]);
                 }
             })
-            ->editColumn('author_id',function ($post) {
-                return $post->users->name;
+            ->addColumn('image_path', function ($row) {
+                return '<img class="img-thumbnail user-image-45" src="'.$row->image_path.'" alt="' . $row->name . '">';
             })
-            ->editColumn('image', function ($row) {
-                return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
+            ->addColumn('roles', function ($user) {
+                $roles = $user->getRoleNames()->map(function($roleName) {
+                    return '<label class="badge bg-primary mx-1">' . $roleName . '</label>';
+                })->implode(' ');
+
+                return '<td>' . $roles . '</td>';
             })
-            ->rawColumns(['image'])
+            ->rawColumns(['image_path', 'roles', 'action'])
             ->make();
     }
 }
