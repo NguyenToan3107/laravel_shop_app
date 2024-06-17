@@ -7,11 +7,14 @@
                 <h2 class="text-center">Danh mục sản phẩm</h2>
             </div>
         </div>
-        <a href="categories/create"
-           class="btn btn-primary margin_bottom_detail"
-           role="button">
-            Tạo mới một danh mục sản phẩm
-        </a>
+        <br>
+        @can('create-category')
+            <a href="categories/create"
+               class="btn btn-primary margin_bottom_detail"
+               role="button">
+                Tạo mới một danh mục sản phẩm
+            </a>
+        @endcan
         <div class="row">
             <div class="col-md-12">
                 <table class="table table-bordered table-striped">

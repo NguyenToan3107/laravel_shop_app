@@ -33,13 +33,16 @@
                 </div>
                 <div class="input-group mb-3 width-300">
                     <span class="input-group-text" id="basic-addon1">Từ</span>
-                    <input type="datetime-local" id="start_date" name="start_date" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="start_date" name="start_date" class="form-control" placeholder=""
+                           aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3 width-300">
                     <span class="input-group-text" id="basic-addon1">Tới</span>
-                    <input type="datetime-local" id="ended_date" name="end_date" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="ended_date" name="end_date" class="form-control" placeholder=""
+                           aria-describedby="basic-addon1">
                 </div>
             </div>
+            <br>
             <br>
             <div class="flex-button">
                 <button type="submit" id="submit_post_search" class="btn btn-primary">
@@ -52,12 +55,17 @@
                 </button>
             </div>
         </form>
-        <a href="posts/create"
-           class="btn btn-primary margin_bottom_detail"
-           style="margin-left: 830px"
-        >
-            Tạo bài viết mới
-        </a>
+        <br>
+        @can('create-post')
+            <a href="posts/create"
+               class="btn btn-primary margin_bottom_detail"
+               style="margin-left: 830px"
+            >
+                Tạo bài viết mới
+            </a>
+        @endcan
+        <br>
+        <br>
         <div class="row">
             <div class="col-md-12">
                 {{ $dataTable->table()}}
@@ -65,7 +73,7 @@
         </div>
     </div>
 
-{{--    Xoa mem--}}
+    {{--    Xoa mem--}}
     <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -79,7 +87,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" id="confirmDeleteButton_trash" class="btn btn-danger">Xóa</button>
+                    @can('delete-post')
+                        <button type="button" id="confirmDeleteButton_trash" class="btn btn-danger">Xóa</button>
+                    @endcan
                 </div>
             </div>
         </div>
@@ -99,7 +109,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" id="confirmDeleteButton_remove" class="btn btn-danger">Xóa</button>
+                    @can('delete-post')
+                        <button type="button" id="confirmDeleteButton_remove" class="btn btn-danger">Xóa</button>
+                    @endcan
                 </div>
             </div>
         </div>

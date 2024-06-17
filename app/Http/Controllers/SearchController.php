@@ -20,6 +20,9 @@ class SearchController extends Controller
 
     public function __construct(protected UserService $userService, protected CategoryService $categoryService)
     {
+        $this->middleware('can:view-user')->only('searchUser');
+        $this->middleware('can:view-product')->only('searchProduct');
+        $this->middleware('can:view-post')->only('searchPost');
     }
 
     public function searchProduct(Request $request)
@@ -148,8 +151,6 @@ class SearchController extends Controller
     {
         $model = User::query()
             ->select(['id', 'image_path', 'name', 'email', 'phoneNumber', 'status', 'address', 'age', 'created_at', 'updated_at']);
-
-//            ->whereNull('deleted_at');
 
         if ($request->filled('name')) {
             $model = $model->where('name', 'like', '%' . $request->name . '%');

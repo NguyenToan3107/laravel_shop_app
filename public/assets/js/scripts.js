@@ -29,6 +29,45 @@ $(document).ready(function () {
                     },
                     data: {
                         post_id: post_id,
+                    },
+                    error: function(xhr, status, error) {
+                        let errorMessage = xhr.status + ': ' + xhr.statusText
+                        console.error('AJAX Error: ' + errorMessage);
+
+                        $('#deleteModal').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Đã xảy ra lỗi khi xóa bài viết",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: true,
+                            className: "toastify-custom toastify-error"
+                        }).showToast();
+
+                        reset_post_datatable();
+                    },
+                    success: function () {
+                        $('#deleteModal').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Xóa thành công",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            className: "toastify-custom toastify-success"
+                        }).showToast();
+
+                        reset_post_datatable();
                     }
                 },
                 columns: [
@@ -41,26 +80,13 @@ $(document).ready(function () {
                     // { data: 'created_at', name: 'created_at' },
                     // { data: 'updated_at', name: 'updated_at' },
                     {data: 'action', name: 'action'}
-                ]
+                ],
             });
-            $('#deleteModal').modal('hide')
-            // kiểm tra nếu toast trước đó vẫn còn
-            let existingToast = document.querySelector(".toastify");
-            if (existingToast) {
-                existingToast.remove();
-            }
-            Toastify({
-                text: "Xóa thành công",
-                duration: 2000,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                className: "toastify-custom"
-            }).showToast();
         })
     })
 })
+
+
 
 // Hard delete
 $(document).ready(function () {
@@ -90,6 +116,45 @@ $(document).ready(function () {
                     data: {
                         id: post_id,
                     },
+                    error: function(xhr, status, error) {
+                        let errorMessage = xhr.status + ': ' + xhr.statusText
+                        console.error('AJAX Error: ' + errorMessage);
+
+                        $('#trashModal').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Đã xảy ra lỗi khi xóa bài viết",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: true,
+                            className: "toastify-custom toastify-error"
+                        }).showToast();
+
+                        reset_post_datatable();
+                    },
+                    success: function () {
+                        $('#trashModal').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Xóa thành công",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            className: "toastify-custom toastify-success"
+                        }).showToast();
+
+                        reset_post_datatable();
+                    }
                 },
                 columns: [
                     {data: 'id', name: 'id'},
@@ -103,22 +168,6 @@ $(document).ready(function () {
                     {data: 'action', name: 'action'}
                 ]
             });
-            $('#trashModal').modal('hide')
-
-            let existingToast = document.querySelector(".toastify");
-            if (existingToast) {
-                existingToast.remove();
-            }
-            // kiểm tra nếu toast trước đó vẫn còn
-            Toastify({
-                text: "Xóa thành công",
-                duration: 2000,
-                close: true,
-                gravity: "top", // `top` or `bottom`
-                position: "right", // `left`, `center` or `right`
-                stopOnFocus: true, // Prevents dismissing of toast on hover
-                className: "toastify-custom"
-            }).showToast();
         })
     })
 })
@@ -137,27 +186,31 @@ if(reset_btn_post) {
         document.getElementById('start_date').value = '';
         document.getElementById('ended_date').value = '';
 
-        if ($.fn.DataTable.isDataTable('#posts-table')) {
-            $('#posts-table').DataTable().destroy(); // Nếu có, hủy bảng DataTable hiện tại
-        }
+        reset_post_datatable();
+    });
+}
 
-        $('#posts-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '/posts',
-            type: 'GET',
-            columns: [
-                {data: 'id', name: 'id'},
-                {data: 'image', name: 'image'},
-                {data: 'title', name: 'title'},
-                {data: 'description', name: 'description'},
-                {data: 'author_id', name: 'author_id'},
-                {data: 'status', name: 'status'},
-                // { data: 'created_at', name: 'created_at' },
-                // { data: 'updated_at', name: 'updated_at' },
-                {data: 'action', name: 'action'}
-            ]
-        });
+const reset_post_datatable = function () {
+    if ($.fn.DataTable.isDataTable('#posts-table')) {
+        $('#posts-table').DataTable().destroy(); // Nếu có, hủy bảng DataTable hiện tại
+    }
+
+    $('#posts-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '/posts',
+        type: 'GET',
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'image', name: 'image'},
+            {data: 'title', name: 'title'},
+            {data: 'description', name: 'description'},
+            {data: 'author_id', name: 'author_id'},
+            {data: 'status', name: 'status'},
+            // { data: 'created_at', name: 'created_at' },
+            // { data: 'updated_at', name: 'updated_at' },
+            {data: 'action', name: 'action'}
+        ]
     });
 }
 
@@ -539,6 +592,7 @@ if(product_search_form) {
                     ended_at: ended_at,
                 }
             },
+            scrollX: true,
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'image', name: 'image'},
@@ -606,6 +660,7 @@ if(user_search_form) {
                     ended_at: ended_at,
                 }
             },
+            scrollX: true,
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'image_path', name: 'image_path'},
@@ -649,6 +704,7 @@ if(reset_btn_user) {
             serverSide: true,
             ajax: '/users',
             type: 'GET',
+            scrollX: true,
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'image_path', name: 'image_path'},
@@ -699,6 +755,7 @@ $(document).ready(function () {
                         user_id: user_id,
                     }
                 },
+                scrollX: true,
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'image_path', name: 'image_path'},
@@ -767,6 +824,7 @@ $(document).ready(function () {
                         id: user_id,
                     },
                 },
+                scrollX: true,
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'image_path', name: 'image_path'},

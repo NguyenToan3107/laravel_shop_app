@@ -18,12 +18,12 @@ class ProductController extends Controller
 {
     const PRODUCTS_PATH = '/products';
 
-    public function __construct(protected ProductService $productService, protected CategoryService $categoryService)
+    public function __construct()
     {
-//        $this->middleware(['permission:view product', 'role:admin', ['only' => 'index']]);
-//        $this->middleware(['permission:edit product', ['only' => 'edit', 'update']]);
-//        $this->middleware(['permission:delete product', ['only' => 'destroy']]);
-//        $this->middleware(['permission:create product', ['only' => 'create', 'store']]);
+        $this->middleware('permission:create-product')->only('store', 'create');
+        $this->middleware('permission:edit-product')->only('update', 'edit');
+        $this->middleware('permission:delete-product')->only('destroy', 'softDelete', 'trashProduct');
+        $this->middleware('permission:view-product')->only('index');
     }
 
     public function index(ProductsDataTable $dataTable) {

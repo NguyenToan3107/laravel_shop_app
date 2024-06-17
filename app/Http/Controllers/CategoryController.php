@@ -10,9 +10,14 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     const CATEGORIES_PATH = '/categories';
-    public function __construct(protected CategoryService $categoryService)
-    {
+
+    public function __construct() {
+        $this->middleware('permission:create-category')->only('store', 'create');
+        $this->middleware('permission:edit-category')->only('update', 'edit');
+        $this->middleware('permission:delete-category')->only('destroy');
+        $this->middleware('permission:view-category')->only('index');
     }
+
     public function index() {
         $categories = Category::with('children')->whereNull('parent_id')->get();
         return view('categories.index', ['categories' => $categories]);

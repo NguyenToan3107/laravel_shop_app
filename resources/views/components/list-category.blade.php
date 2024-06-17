@@ -12,12 +12,18 @@
     <td>{{$category->description}}</td>
     <td>
         <div class="d-flex align-items-center">
-            <a href="/categories/{{$category->id}}/edit" class="btn btn-primary btn-sm mr-2" style="margin-right: 6px">Sửa</a>
-            <form action="/categories/{{ $category->id }}" method="post" class="mb-0">
-                @csrf
-                @method('delete')
-                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-            </form>
+            @can('edit-category')
+                <a href="/categories/{{$category->id}}/edit" class="btn btn-primary btn-sm mr-2"
+                   style="margin-right: 6px">Sửa</a>
+            @endcan
+
+            @can('delete-category')
+                <form action="/categories/{{ $category->id }}" method="post" class="mb-0">
+                    @csrf
+                    @method('delete')
+                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                </form>
+            @endcan
         </div>
     </td>
 

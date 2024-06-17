@@ -17,21 +17,13 @@ class UserController extends Controller
 {
     const USERS_PATH = '/users';
 
-    public function __construct(protected UserService $userService)
+    public function __construct()
     {
+        $this->middleware('permission:create-user')->only('store', 'create');
+        $this->middleware('permission:edit-user')->only('update', 'edit');
+        $this->middleware('permission:delete-user')->only('destroy', 'softDelete');
+        $this->middleware('permission:view-user')->only('index');
     }
-//    public function index() {
-////        $users = $this->userService->getAll();
-//            $users = User::all();
-////        $string = 'Lợi ích của việc học';
-////        $string = str_replace(Util::VietnameseCharacters, Util::AsciiCharacters, $string);
-////        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)));
-////
-//        return view('users.index', [
-//            'users' => $users
-//        ]);
-//    }
-
     public function index(UsersDataTable $dataTable)
     {
         return $dataTable->render('users.index');

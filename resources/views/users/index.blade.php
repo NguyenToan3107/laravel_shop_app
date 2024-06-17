@@ -102,7 +102,7 @@
 
         <br>
         <br>
-        @can('create user')
+        @can('create-user')
             <a href="users/create"
                class="btn btn-primary margin_bottom_detail"
                role="button" style="margin-left: 800px">

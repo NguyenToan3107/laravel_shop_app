@@ -9,12 +9,12 @@
                 Công cụ và thành phần hỗ trợ
             </li>
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
+                <a href="{{route('profile.edit')}}" class="sidebar-link">
                     <i class="fa-solid fa-list pe-2"></i>
                     Hồ sơ
                 </a>
             </li>
-            @can('view dashboard')
+            @can('view-dashboard')
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard"
                        aria-expanded="false" aria-controls="dashboard">
@@ -35,7 +35,7 @@
                 </li>
             @endcan
 
-            @if(Auth::user()->can('view product'))
+            @if(Auth::user()->can('view-product'))
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#pages"
                        aria-expanded="false" aria-controls="pages">
@@ -53,7 +53,7 @@
                 </li>
             @endif
 
-            @if(Auth::user()->can('view post'))
+            @if(Auth::user()->can('view-post'))
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#posts"
                        aria-expanded="false" aria-controls="posts">
@@ -68,7 +68,7 @@
                 </li>
             @endif
 
-            @can('view user')
+            @can('view-user')
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#manage"
                        aria-expanded="false" aria-controls="auth">
@@ -79,12 +79,12 @@
                         <li class="sidebar-item">
                             <a href="/users" class="sidebar-link">--Người dùng</a>
                         </li>
-                        @can('view role')
+                        @can('view-role')
                             <li class="sidebar-item">
                                 <a href="/roles" class="sidebar-link">--Vai trò</a>
                             </li>
                         @endcan
-                        @can('view permission')
+                        @can('view-permission')
                             <li class="sidebar-item">
                                 <a href="/permissions" class="sidebar-link">--Quyền</a>
                             </li>

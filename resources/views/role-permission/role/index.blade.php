@@ -60,15 +60,20 @@
                                     <td>{{$role->name}}</td>
                                     <td>
                                         <div class="flex-form">
-                                            <a href="{{url('roles/'.$role->id.'/give-permissions')}}"
-                                               class="btn btn-warning">Thêm quyền vào vài trò</a>
-                                            <a href="{{url('roles/'.$role->id.'/edit')}}"
-                                               class="btn btn-success">Sửa</a>
-                                            <form action="/roles/{{ $role->id }}" method="post" class="mb-0">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-danger mx-2">Xóa</button>
-                                            </form>
+                                            @can('edit-role')
+                                                <a href="{{url('roles/'.$role->id.'/give-permissions')}}"
+                                                   class="btn btn-warning">Thêm quyền vào vài trò</a>
+                                                <a href="{{url('roles/'.$role->id.'/edit')}}"
+                                                   class="btn btn-success">Sửa</a>
+                                            @endcan
+
+                                            @can('delete-role')
+                                                <form action="/roles/{{ $role->id }}" method="post" class="mb-0">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="btn btn-danger mx-2">Xóa</button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

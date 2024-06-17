@@ -58,12 +58,16 @@
                 </button>
             </div>
         </form>
-        <a href="products/create"
-           class="btn btn-primary margin_bottom_detail"
-           style="margin-left: 830px"
-        >
-            Tạo sản phẩm mới
-        </a>
+        <br>
+        @can('create-product')
+            <a href="products/create"
+               class="btn btn-primary margin_bottom_detail"
+               style="margin-left: 830px"
+            >
+                Tạo sản phẩm mới
+            </a>
+        @endcan
+        <br>
         <div class="row">
             <div class="col-md-12">
                 {{ $dataTable->table()}}

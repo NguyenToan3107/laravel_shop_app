@@ -8,12 +8,12 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
-//    public function index() {
-//        $permissions = Permission::all();
-//        return view('role-permission.permission.index', [
-//            'permissions' => $permissions
-//        ]);
-//    }
+    public function __construct() {
+        $this->middleware('permission:create-permission')->only('store', 'create');
+        $this->middleware('permission:edit-permission')->only('update', 'edit');
+        $this->middleware('permission:delete-permission')->only('destroy');
+        $this->middleware('permission:view-permission')->only('index');
+    }
     public function index(PermissionsDataTable $dataTable) {
         return $dataTable->render('role-permission.permission.index');
     }

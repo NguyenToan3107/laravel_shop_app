@@ -22,7 +22,9 @@
                     <select class="row form-control" name="author_id" id="author_id">
                         <option value="{{$user->id}}">Current: {{$user->name}}</option>
                         @foreach ($users as $u)
-                            <option value="{{$u->id}}">--{{$u->name}}</option>
+                            @can('create post')
+                                <option value="{{$u->id}}">--{{$u->name}}</option>
+                            @endcan
                         @endforeach
                     </select>
                 </div>
@@ -31,7 +33,9 @@
                     {{ Form::label('author_id', 'Ai là người tạo bài viêết') }}
                     <select class="row form-control" name="author_id" id="author_id">
                         @foreach ($users as $user)
-                            <option value="{{$user->id}}">{{$user->name}}</option>
+                            @can('create post')
+                                <option value="{{$user->id}}">--{{$user->name}}</option>
+                            @endcan
                         @endforeach
                     </select>
                 </div>
@@ -96,7 +100,8 @@
             </div>
 
             {{ Form::close() }}
-            <button class="btn btn-secondary" style="margin-left: 10px"><a style="color: white" href="/posts">Quay lại</a></button>
+            <button class="btn btn-secondary" style="margin-left: 10px"><a style="color: white" href="/posts">Quay
+                    lại</a></button>
         </div>
     </div>
 @endsection

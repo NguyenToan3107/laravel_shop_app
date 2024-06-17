@@ -49,38 +49,47 @@
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="account-general">
                             <div class="card-body media align-items-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt
-                                     class="d-block ui-w-80">
+                                <img class="img-thumbnail user-image-detail-100" src="{{$user->image_path}}" alt="{{$user->name}}">
+                                <br>
+                                <br>
                                 <div class="media-body ml-4">
                                     <label class="btn btn-outline-primary">
                                         Upload new photo
                                         <input type="file" class="account-settings-fileinput">
                                     </label> &nbsp;
                                     <button type="button" class="btn btn-default md-btn-flat">Reset</button>
-                                    <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K</div>
+                                    <div class="text-light small mt-1">Cho phép JPG, GIF hoặc PNG. Tối đa 800K</div>
                                 </div>
                             </div>
                             <hr class="border-light m-0">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label class="form-label">Username</label>
-                                    <input type="text" class="form-control mb-1" value="nmaxwell">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Name</label>
-                                    <input type="text" class="form-control" value="Nelle Maxwell">
+                                    <label class="form-label">Tên</label>
+                                    <input type="text" class="form-control mb-1" value="{{$user->name}}">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">E-mail</label>
                                     <input type="text" class="form-control mb-1" value="{{$user->email}}">
                                     <div class="alert alert-warning mt-3">
-                                        Your email is not confirmed. Please check your inbox.<br>
-                                        <a href="javascript:void(0)">Resend confirmation</a>
+                                        Email của bạn chưa được xác nhận. Hãy kiểm tra hộp thư đến của bạn.<br>
+                                        <a href="javascript:void(0)">Gửi lại xác nhận</a>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Company</label>
-                                    <input type="text" class="form-control" value="Company Ltd.">
+                                    <label class="form-label">Địa chỉ</label>
+                                    <input type="text" class="form-control" value="{{$user->address}}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Số điện thoại</label>
+                                    <input type="text" class="form-control" value="{{$user->phoneNumber}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="status" class="form-label">Trạng thái</label>
+                                    <select name="status" id="status" class="form-control">
+                                        <option value="1">Hoạt động</option>
+                                        <option value="2">Không hoạt động</option>
+                                        <option value="3">Đợi</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

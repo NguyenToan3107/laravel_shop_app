@@ -38,15 +38,6 @@ class UsersDataTable extends DataTable
             ->addColumn('image_path', function ($row) {
                 return '<img class="img-thumbnail user-image-45" src="'.$row->image_path.'" alt="' . $row->name . '">';
             })
-//            ->addColumn('roles', function ($user) {
-//                return '                            <td>
-//                                @if(!empty($user->getRoleNames()))
-//                                    @foreach($user->getRoleNames() as $roleName)
-//                                        <label class="badge bg-primary mx-1" for="">{{$roleName}}</label>
-//                                    @endforeach
-//                                @endif
-//                            </td>';
-//            })
             ->addColumn('roles', function ($user) {
                 $roles = $user->getRoleNames()->map(function($roleName) {
                     return '<label class="badge bg-primary mx-1">' . $roleName . '</label>';

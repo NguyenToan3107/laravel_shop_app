@@ -11,8 +11,14 @@ use Yajra\DataTables\DataTables;
 
 class PostController extends Controller
 {
-
     const POSTS_PATH = '/posts';
+
+    public function __construct() {
+        $this->middleware('permission:create-post')->only('store', 'create');
+        $this->middleware('permission:edit-post')->only('update', 'edit');
+        $this->middleware('permission:delete-post')->only('destroy', 'softDelete');
+        $this->middleware('permission:view-post')->only('index');
+    }
 
     public function index(PostsDataTable $dataTable_post) {
         return $dataTable_post->render('posts.index');
@@ -22,8 +28,15 @@ class PostController extends Controller
             ->select(['id', 'name'])
             ->orderBy('name')
             ->get();
+
+        $permissionName = 'create-post';
+
+        $usersWithPermission = $users->filter(function ($user) use ($permissionName) {
+            return $user->hasPermissionTo($permissionName);
+        });
+
         return view('posts.create_edit', [
-            'users' => $users
+            'users' => $usersWithPermission
         ]);
     }
     public function store(Request $request)
