@@ -37,7 +37,7 @@ class PostsDataTable extends DataTable
                 return $post->users->name;
             })
             ->addColumn('action', function ($post) {
-                return view('posts.action', ['post' => $post]);
+                return view('admin.posts.action', ['post' => $post]);
             })
             ->addColumn('image', function ($row) {
                 return '<img class="img-thumbnail user-image-45" src="'.$row->image . '" alt="' . $row->title . '">';

@@ -32,8 +32,7 @@ class UsersDataTable extends DataTable
                 }
             })
             ->addColumn('action', function ($user) {
-
-                return view('users.action', ['user' => $user]);
+                return view('admin.users.action', ['user' => $user]);
             })
             ->addColumn('image_path', function ($row) {
                 return '<img class="img-thumbnail user-image-45" src="'.$row->image_path.'" alt="' . $row->name . '">';

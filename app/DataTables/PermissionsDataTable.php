@@ -24,7 +24,7 @@ class PermissionsDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function (Permission $permission) {
-                return view('role-permission.permission.action', [
+                return view('admin.role-permission.permission.action', [
                     'permission' => $permission,
                 ]);
             })

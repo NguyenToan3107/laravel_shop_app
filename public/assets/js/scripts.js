@@ -22,7 +22,7 @@ $(document).ready(function () {
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: `/posts/soft_delete`,
+                    url: `/admin/posts/soft_delete`,
                     type: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -108,7 +108,7 @@ $(document).ready(function () {
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: `/posts/` + post_id,
+                    url: `/admin/posts/` + post_id,
                     type: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -198,7 +198,7 @@ const reset_post_datatable = function () {
     $('#posts-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: '/posts',
+        ajax: '/admin/posts',
         type: 'GET',
         columns: [
             {data: 'id', name: 'id'},
@@ -238,7 +238,7 @@ if(post_search_form) {
             processing: true,
             serverSide: true,
             ajax: {
-                url: '/search-post',
+                url: '/admin/search-post',
                 type: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
@@ -287,7 +287,7 @@ if(post_create_form) {
 
         $.ajax({
             type: "POST",
-            url: '/posts',
+            url: '/admin/posts',
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
             },
@@ -358,7 +358,7 @@ if(post_update_form) {
 
         $.ajax({
             type: "POST",
-            url: `/posts/` + post_id,
+            url: `/admin/posts/` + post_id,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
             },
@@ -413,8 +413,6 @@ if(post_update_form) {
 
 
 
-
-
 ////////////////////////////////////////////////////////////////////////////////////////
 // --------------------------------- PRODUCTS --------------------------------------- //
 
@@ -439,7 +437,7 @@ $(document).ready(function () {
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: `/soft_delete`,
+                    url: `/admin/soft_delete`,
                     type: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -488,7 +486,7 @@ $(document).ready(function () {
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: `/products/` + product_id,
+                    url: `/admin/products/` + product_id,
                     type: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -538,7 +536,7 @@ if(reset_btn_product) {
         $('#products-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/products',
+            ajax: '/admin/products',
             type: 'GET',
             columns: [
                 {data: 'id', name: 'id'},
@@ -579,7 +577,7 @@ if(product_search_form) {
             processing: true,
             serverSide: true,
             ajax: {
-                url: '/search-product',
+                url: '/admin/search-product',
                 type: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
@@ -644,7 +642,7 @@ if(user_search_form) {
             processing: true,
             serverSide: true,
             ajax: {
-                url: '/search-user',
+                url: '/admin/search-user',
                 type: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
@@ -702,7 +700,7 @@ if(reset_btn_user) {
         $('#users-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/users',
+            ajax: '/admin/users',
             type: 'GET',
             scrollX: true,
             columns: [
@@ -720,8 +718,6 @@ if(reset_btn_user) {
         });
     })
 }
-
-
 
 
 
@@ -746,7 +742,7 @@ $(document).ready(function () {
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: `/users/soft_delete`,
+                    url: `/admin/users/soft_delete`,
                     type: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -815,7 +811,7 @@ $(document).ready(function () {
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: `/users/` + user_id,
+                    url: `/admin/users/` + user_id,
                     type: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

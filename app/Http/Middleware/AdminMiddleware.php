@@ -16,13 +16,12 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check()) {
-            $user = Auth::user();
-            if($user->hasRole('admin')){
+        if (Auth::check()) {
+            if(Auth::user()->hasRole('manager') && Auth::user()->hasRole('admin')) {
                 return $next($request);
             }
-            abort(403);
         }
-        abort(401);
+
+        return redirect('/'); // Hoặc trang lỗi truy cập
     }
 }

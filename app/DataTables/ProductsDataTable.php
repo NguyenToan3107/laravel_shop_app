@@ -38,7 +38,7 @@ class ProductsDataTable extends DataTable
                 return number_format($product->price * 1000, 0, ',', ',');
             })
             ->addColumn('action', function ($product) {
-                return view('products.action', ['product' => $product]);
+                return view('admin.products.action', ['product' => $product]);
             })
             ->addColumn('image', function ($row) {
                 return '<img class="img-thumbnail user-image-45" src="/images/products/'.$row->image.'" alt="' . $row->title . '">';
