@@ -25,7 +25,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
 
-    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/admin/css/style.css')}}">
 
 
     <!-- Include jQuery -->
@@ -98,6 +98,6 @@
 @include('admin.layouts.footer')
 
 @stack('scripts')
-<script src="{{asset('assets/js/scripts.js')}}"></script>
+<script src="{{asset('assets/admin/js/scripts.js')}}"></script>
 </body>
 </html>
