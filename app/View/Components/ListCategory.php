@@ -22,6 +22,6 @@ class ListCategory extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.list-category');
+        return view('admin.components.list-category');
     }
 }

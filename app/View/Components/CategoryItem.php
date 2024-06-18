@@ -22,6 +22,6 @@ class CategoryItem extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.category-item');
+        return view('admin.components.category-item');
     }
 }

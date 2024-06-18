@@ -67,19 +67,29 @@
 
             <br>
             <div class="form-group" style="display: flex; flex-direction: row; gap: 150px; align-items: center">
-                <div>
-                    {{ Form::label('image', 'Ảnh') }}
-                    {{ Form::file('image', ['class' => 'form-control', 'id' => 'image']) }}
+                <div class="input-group">
+                    <span class="input-group-btn">
+                     <a id="lfm" data-input="thumbnail" data-preview="imageDisplay_image" class="btn btn-primary">
+                       <i class="fa fa-picture-o"></i> Chọn
+                     </a>
+                   </span>
+                    <input id="thumbnail" class="form-control" type="text" name="filepath">
                 </div>
                 @if(isset($product) && $product->image)
-                    <img src="{{ asset('images/products/' . $product->image) }}" id="imageDisplay"
-                         class="img-thumbnail user-image-detail-80" alt="Avatar">
+                    <div id="imageDisplay_image" style="margin-top:15px;max-height:100px;margin-right: 20px">
+                        <img src="{{ asset($product->image) }}" id="imageDisplay"
+                             class="img-thumbnail user-image-detail-80" alt="Avatar">
+                    </div>
                 @else
-                    <img src="{{ asset('images/products/empty-photo.jpg') }}" id="imageDisplay"
-                         class="img-thumbnail user-image-detail-80" alt="Avatar">
+                    <div id="imageDisplay_image" style="margin-top:15px;margin-right: 20px">
+                        <img src="{{ asset('storage/photos/posts/default_post.png') }}" id="imageDisplay"
+                             class="img-thumbnail user-image-detail-80" alt="Avatar">
+                    </div>
                 @endif
             </div>
-            <br>
+
+            <div id="holder" style="margin-top:15px;max-height:100px;"></div>
+
             <br>
             <div class="text-center">
                 {{ Form::button(isset($product) ? 'Cập nhật sản phẩm' : 'Tạo mới sản phẩm', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
@@ -91,3 +101,15 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+    <script>
+        $(document).ready(function () {
+            var route_prefix = "/laravel-filemanager";
+            $('#lfm').filemanager('image', {prefix: route_prefix}, function (url, path) {
+                console.log(url)
+            });
+        })
+    </script>
+@endpush

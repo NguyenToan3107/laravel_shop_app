@@ -41,7 +41,7 @@ class ProductsDataTable extends DataTable
                 return view('admin.products.action', ['product' => $product]);
             })
             ->addColumn('image', function ($row) {
-                return '<img class="img-thumbnail user-image-45" src="/images/products/'.$row->image.'" alt="' . $row->title . '">';
+                return '<img class="img-thumbnail user-image-45" src="'.$row->image.'" alt="' . $row->title . '">';
             })
             ->rawColumns(['image'])
             ->setRowId('id');

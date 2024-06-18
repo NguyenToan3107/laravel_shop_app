@@ -52,12 +52,19 @@ class ProductController extends Controller
             'title' => 'required|unique:products',
         ]);
 
-        if(isset(request()->image)) {
-            $generatedImageName = str_replace(' ', '',
-                ('image' . time() . '-'.request()->title. '.' .request()->image->getClientOriginalExtension()));
-            request()->image->move(public_path('images/products'), $generatedImageName);
-        } else {
-            $generatedImageName = 'empty-photo.jpg';
+//        if(isset(request()->image)) {
+//            $generatedImageName = str_replace(' ', '',
+//                ('image' . time() . '-'.request()->title. '.' .request()->image->getClientOriginalExtension()));
+//            request()->image->move(public_path('images/products'), $generatedImageName);
+//        } else {
+//            $generatedImageName = 'empty-photo.jpg';
+//        }
+
+        if($request->filled('filepath')) {
+            $image_path = $request->input('filepath');
+            $image_path = explode('http://localhost:8000', $image_path)[1];
+        }else {
+            $image_path = '/storage/photos/products/empty-photo.jpg';
         }
 
         DB::table('products')->insert([
@@ -65,7 +72,7 @@ class ProductController extends Controller
             'price' => $request->input('price'),
             'percent_sale' => $request->input('percent_sale'),
             'description' => $description,
-            'image' => $generatedImageName,
+            'image' => $image_path,
             'category_id' => $request->input('category_id'),
             'status' => 1,
             'created_at' => now(),
@@ -95,19 +102,26 @@ class ProductController extends Controller
 
         $product = Product::find($id);
 
-        if(isset(request()->image)) {
-            $generatedImageName = str_replace(' ', '',
-                ('image' . time() . '-'.request()->title. '.' .request()->image->getClientOriginalExtension()));
-            request()->image->move(public_path('images/products'), $generatedImageName);
-        } else {
-            $generatedImageName = $product->image;
+//        if(isset(request()->image)) {
+//            $generatedImageName = str_replace(' ', '',
+//                ('image' . time() . '-'.request()->title. '.' .request()->image->getClientOriginalExtension()));
+//            request()->image->move(public_path('images/products'), $generatedImageName);
+//        } else {
+//            $generatedImageName = $product->image;
+//        }
+
+        if($request->filled('filepath')) {
+            $image_path = $request->input('filepath');
+            $image_path = explode('http://localhost:8000', $image_path)[1];
+        }else {
+            $image_path = $product->image;
         }
 
         $product->where('id', $id)->update([
             'title' => $request->input('title'),
             'price' => $request->input('price'),
             'description' => $description,
-            'image' => $generatedImageName,
+            'image' => $image_path,
             'status' => $request->input('status'),
             'category_id' => $request->input('category_id'),
             'updated_at' => now(),
@@ -145,7 +159,7 @@ class ProductController extends Controller
                 return view('admin.products.action_delete', ['product' => $product]);
             })
             ->editColumn('image', function ($row) {
-                return '<img class="img-thumbnail user-image-45" src="/images/products/' . $row->image . '" alt="' . $row->title . '">';
+                return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
             })
             ->rawColumns(['image'])
             ->make();
@@ -183,7 +197,7 @@ class ProductController extends Controller
                 return view('admin.products.action', ['product' => $product]);
             })
             ->editColumn('image', function ($row) {
-                return '<img class="img-thumbnail user-image-45" src="/images/products/' . $row->image . '" alt="' . $row->title . '">';
+                return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
             })
             ->rawColumns(['image'])
             ->make();
@@ -215,7 +229,7 @@ class ProductController extends Controller
                 return view('admin.products.action_delete', ['product' => $product]);
             })
             ->editColumn('image', function ($row) {
-                return '<img class="img-thumbnail user-image-45" src="/images/products/' . $row->image . '" alt="' . $row->title . '">';
+                return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
             })
             ->rawColumns(['image'])
             ->make();

@@ -22,6 +22,6 @@ class ListCategoryIndex extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.list-category-index');
+        return view('admin.components.list-category-index');
     }
 }
