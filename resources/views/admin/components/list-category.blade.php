@@ -2,6 +2,7 @@
 
 <tr>
     <td>{{$category->id}}</td>
+    <td><img class="img-thumbnail user-image-45" src="{{$category->image}}" alt="{{$category->title}}"></td>
     <td>
         @if ($level > 0)
             ¦

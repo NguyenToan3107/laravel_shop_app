@@ -1,205 +1,217 @@
-<div class="showcase-wrapper has-scrollbar">
-
-    <div class="showcase-container">
-
-        <div class="showcase">
-            <a href="#" class="showcase-img-box">
-                <img src="{{asset('assets/frontend/images/products/clothes-1.jpg')}}"
-                     alt="relaxed short full sleeve t-shirt" width="70"
-                     class="showcase-img">
-            </a>
-
-            <div class="showcase-content">
-
-                <a href="#">
-                    <h4 class="showcase-title">Relaxed Short full Sleeve T-Shirt</h4>
-                </a>
-
-                <a href="#" class="showcase-category">Clothes</a>
-
-                <div class="price-box">
-                    <p class="price">$45.00</p>
-                    <del>$12.00</del>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="showcase">
-
-            <a href="#" class="showcase-img-box">
-                <img src="{{asset('assets/frontend/images/products/clothes-2.jpg')}}"
-                     alt="girls pink embro design top" class="showcase-img" width="70">
-            </a>
-
-            <div class="showcase-content">
-
-                <a href="#">
-                    <h4 class="showcase-title">Girls pnk Embro design Top</h4>
-                </a>
-
-                <a href="#" class="showcase-category">Clothes</a>
-
-                <div class="price-box">
-                    <p class="price">$61.00</p>
-                    <del>$9.00</del>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="showcase">
-
-            <a href="#" class="showcase-img-box">
-                <img src="{{asset('assets/frontend/images/products/clothes-3.jpg')}}"
-                     alt="black floral wrap midi skirt" class="showcase-img"
-                     width="70">
-            </a>
-
-            <div class="showcase-content">
-
-                <a href="#">
-                    <h4 class="showcase-title">Black Floral Wrap Midi Skirt</h4>
-                </a>
-
-                <a href="#" class="showcase-category">Clothes</a>
-
-                <div class="price-box">
-                    <p class="price">$76.00</p>
-                    <del>$25.00</del>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="showcase">
-
-            <a href="#" class="showcase-img-box">
-                <img src="{{asset('assets/frontend/images/products/shirt-1.jpg')}}"
-                     alt="pure garment dyed cotton shirt" class="showcase-img"
-                     width="70">
-            </a>
-
-            <div class="showcase-content">
-
-                <a href="#">
-                    <h4 class="showcase-title">Pure Garment Dyed Cotton Shirt</h4>
-                </a>
-
-                <a href="#" class="showcase-category">Mens Fashion</a>
-
-                <div class="price-box">
-                    <p class="price">$68.00</p>
-                    <del>$31.00</del>
-                </div>
-
-            </div>
-
-        </div>
-
+<div class="products">
+    <div class="product-detail_related">
+        <div></div>
+        <p>Mới ra mắt</p>
     </div>
-
-    <div class="showcase-container">
-
-        <div class="showcase">
-
-            <a href="#" class="showcase-img-box">
-                <img src="{{asset('assets/frontend/images/products/jacket-5.jpg')}}"
-                     alt="men yarn fleece full-zip jacket" class="showcase-img"
-                     width="70">
-            </a>
-
-            <div class="showcase-content">
-
-                <a href="#">
-                    <h4 class="showcase-title">MEN Yarn Fleece Full-Zip Jacket</h4>
-                </a>
-
-                <a href="#" class="showcase-category">Winter wear</a>
-
-                <div class="price-box">
-                    <p class="price">$61.00</p>
-                    <del>$11.00</del>
-                </div>
-
+    <div style="margin-top: 15px; display: flex; justify-content: space-between">
+        <div>
+            <h4>Flash Sales</h4>
+            <div class=""></div>
+        </div>
+        <div style="display: flex; flex-direction: row; gap: 20px">
+            <div class="category_arrow"><i class="fa-solid fa-arrow-left"></i></div>
+            <div class="category_arrow"><i class="fa-solid fa-arrow-right"></i></div>
+        </div>
+    </div>
+    <div class="product_list" style="margin-top: 50px">
+        <div class="product_item">
+            <div class="product_item--sale">
+                <p>-40%</p>
+            </div>
+            <div class="product_item--heart">
+                <i class="fa-regular fa-heart"></i>
             </div>
 
-        </div>
-
-        <div class="showcase">
-
-            <a href="#" class="showcase-img-box">
-                <img src="{{asset('assets/frontend/images/products/jacket-1.jpg')}}"
-                     alt="mens winter leathers jackets" class="showcase-img"
-                     width="70">
+            <a href="/product_detail" class="product_item--preview">
+                <ion-icon name="eye-outline"></ion-icon>
             </a>
 
-            <div class="showcase-content">
-
-                <a href="#">
-                    <h4 class="showcase-title">Mens Winter Leathers Jackets</h4>
-                </a>
-
-                <a href="#" class="showcase-category">Winter wear</a>
-
-                <div class="price-box">
-                    <p class="price">$32.00</p>
-                    <del>$20.00</del>
+            <div class="product_cart">
+                <div class="product_img">
+                    <img class="product_img--cart" src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
                 </div>
-
+                <button class="product_cart--button">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    Thêm vào giỏ hàng
+                </button>
+            </div>
+            <div class="product_content">
+                <br>
+                <p class="product_price--name">Gucci Gacbaga bag</p>
+                <div class="product_price">
+                    <p class="product_price--new">$960</p>
+                    <p class="product_price--old">$1000</p>
+                </div>
+                <div class="product_star">
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    (70)
+                </div>
+            </div>
+        </div>
+        <div class="product_item">
+            <div class="product_item--sale">
+                <p>-40%</p>
+            </div>
+            <div class="product_item--heart">
+                <i class="fa-regular fa-heart"></i>
             </div>
 
-        </div>
-
-        <div class="showcase">
-
-            <a href="#" class="showcase-img-box">
-                <img src="{{asset('assets/frontend/images/products/jacket-3.jpg')}}"
-                     alt="mens winter leathers jackets" class="showcase-img"
-                     width="70">
+            <a href="/product_detail" class="product_item--preview">
+                <ion-icon name="eye-outline"></ion-icon>
             </a>
 
-            <div class="showcase-content">
-
-                <a href="#">
-                    <h4 class="showcase-title">Mens Winter Leathers Jackets</h4>
-                </a>
-
-                <a href="#" class="showcase-category">Jackets</a>
-
-                <div class="price-box">
-                    <p class="price">$50.00</p>
-                    <del>$25.00</del>
+            <div class="product_cart">
+                <div class="product_img">
+                    <img class="product_img--cart" src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
                 </div>
-
+                <button class="product_cart--button">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    Thêm vào giỏ hàng
+                </button>
+            </div>
+            <div class="product_content">
+                <br>
+                <p class="product_price--name">Gucci Gacbaga bag</p>
+                <div class="product_price">
+                    <p class="product_price--new">$960</p>
+                    <p class="product_price--old">$1000</p>
+                </div>
+                <div class="product_star">
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    (70)
+                </div>
+            </div>
+        </div>
+        <div class="product_item">
+            <div class="product_item--sale">
+                <p>-40%</p>
+            </div>
+            <div class="product_item--heart">
+                <i class="fa-regular fa-heart"></i>
             </div>
 
-        </div>
-
-        <div class="showcase">
-
-            <a href="#" class="showcase-img-box">
-                <img src="{{asset('assets/frontend/images/products/shorts-1.jpg')}}"
-                     alt="better basics french terry sweatshorts" class="showcase-img"
-                     width="70">
+            <a href="/product_detail" class="product_item--preview">
+                <ion-icon name="eye-outline"></ion-icon>
             </a>
 
-            <div class="showcase-content">
+            <div class="product_cart">
+                <div class="product_img">
+                    <img class="product_img--cart" src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+                </div>
+                <button class="product_cart--button">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    Thêm vào giỏ hàng
+                </button>
+            </div>
+            <div class="product_content">
+                <br>
+                <p class="product_price--name">Gucci Gacbaga bag</p>
+                <div class="product_price">
+                    <p class="product_price--new">$960</p>
+                    <p class="product_price--old">$1000</p>
+                </div>
+                <div class="product_star">
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    (70)
+                </div>
+            </div>
+        </div>
+        <div class="product_item">
+            <div class="product_item--sale">
+                <p>-40%</p>
+            </div>
+            <div class="product_item--heart">
+                <i class="fa-regular fa-heart"></i>
+            </div>
 
-                <a href="#">
-                    <h4 class="showcase-title">Better Basics French Terry Sweatshorts</h4>
-                </a>
+            <a href="/product_detail" class="product_item--preview">
+                <ion-icon name="eye-outline"></ion-icon>
+            </a>
 
-                <a href="#" class="showcase-category">Shorts</a>
+            <div class="product_cart">
+                <div class="product_img">
+                    <img class="product_img--cart" src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+                </div>
+                <button class="product_cart--button">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    Thêm vào giỏ hàng
+                </button>
+            </div>
+            <div class="product_content">
+                <br>
+                <p class="product_price--name">Gucci Gacbaga bag</p>
+                <div class="product_price">
+                    <p class="product_price--new">$960</p>
+                    <p class="product_price--old">$1000</p>
+                </div>
+                <div class="product_star">
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    (70)
+                </div>
+            </div>
+        </div>
+        <div class="product_item">
+            <div class="product_item--sale">
+                <p>-40%</p>
+            </div>
+            <div class="product_item--heart">
+                <i class="fa-regular fa-heart"></i>
+            </div>
 
-                <div class="price-box">
-                    <p class="price">$20.00</p>
-                    <del>$10.00</del>
+            <a href="/product_detail" class="product_item--preview">
+                <ion-icon name="eye-outline"></ion-icon>
+            </a>
+
+            <div class="product_cart">
+                <div class="product_img">
+                    <img class="product_img--cart" src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+                </div>
+                <button class="product_cart--button">
+                    <ion-icon name="cart-outline"></ion-icon>
+                    Thêm vào giỏ hàng
+                </button>
+            </div>
+            <div class="product_content">
+                <br>
+                <p class="product_price--name">Gucci Gacbaga bag</p>
+                <div class="product_price">
+                    <p class="product_price--new">$960</p>
+                    <p class="product_price--old">$1000</p>
+                </div>
+                <div class="product_star">
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                    (70)
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div style="margin-top: 50px; display: flex; justify-content: center">
+    <button class="btn btn-danger">Xem thêm sản phẩm</button>
+</div>
+
+<div style="margin-top: 50px"></div>
+
+<div class="horizontal-bar">
+</div>
+

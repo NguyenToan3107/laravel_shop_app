@@ -23,102 +23,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-<div class="overlay" data-overlay></div>
 
-<!--
-  - MODAL
--->
+{{-- TOP HEADER --}}
+<div class="header_top">
+    <p>Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%! <span style="margin-left: 10px">ShopNow</span></p>
 
-<div class="modal" data-modal>
-
-    <div class="modal-close-overlay" data-modal-overlay></div>
-
-    <div class="modal-content">
-
-        <button class="modal-close-btn" data-modal-close>
-            <ion-icon name="close-outline"></ion-icon>
-        </button>
-
-        <div class="newsletter-img">
-            <img src="{{asset('assets/frontend/images/newsletter.png')}}" alt="subscribe newsletter" width="400"
-                 height="400">
-        </div>
-
-        <div class="newsletter">
-
-            <form action="#">
-
-                <div class="newsletter-header">
-
-                    <h3 class="newsletter-title">Subscribe Newsletter.</h3>
-
-                    <p class="newsletter-desc">
-                        Subscribe the <b>Anon</b> to get latest products and discount update.
-                    </p>
-
-                </div>
-
-                <input type="email" name="email" class="email-field" placeholder="Email Address" required>
-
-                <button type="submit" class="btn-newsletter">Subscribe</button>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!--
-  - NOTIFICATION TOAST
--->
-
-<div class="notification-toast" data-toast>
-
-    <button class="toast-close-btn" data-toast-close>
-        <ion-icon name="close-outline"></ion-icon>
-    </button>
-
-    <div class="toast-banner">
-        <img src="{{asset('assets/frontend/images/products/jewellery-1.jpg')}}" alt="Rose Gold Earrings" width="80"
-             height="70">
-    </div>
-
-    <div class="toast-detail">
-
-        <p class="toast-message">
-            Someone in new just bought
-        </p>
-
-        <p class="toast-title">
-            Rose Gold Earrings
-        </p>
-
-        <p class="toast-meta">
-            <time datetime="PT2M">2 Minutes</time>
-            ago
-        </p>
-
-    </div>
-
+    <select class="select_language" aria-label="Small select example">
+        <option value="1">English</option>
+        <option value="2">Việt Nam</option>
+        <option value="3">Nhật Bản</option>
+    </select>
 </div>
 
 {{-- HEADER --}}
 @include('frontend.layouts.header.header')
 
-{{-- MAIN --}}
-@yield('content')
+<div class="main">
+    @yield('content')
+</div>
 
-{{-- FOOTER--}}
 @include('frontend.layouts.footer.footer')
 
 
 <script src="{{asset('assets/frontend/js/script.js')}}"></script>
-
 <!--
   - ionicon link
 -->
@@ -128,3 +66,4 @@
 </body>
 
 </html>
+

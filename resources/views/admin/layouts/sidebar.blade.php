@@ -23,7 +23,7 @@
                     </a>
                     <ul id="dashboard" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="/dashboard" class="sidebar-link">--Dashboard</a>
+                            <a href="/admin/dashboard" class="sidebar-link">--Dashboard</a>
                         </li>
                         <li class="sidebar-item">
                             <a href="#" class="sidebar-link">--Dashboard Analytics</a>

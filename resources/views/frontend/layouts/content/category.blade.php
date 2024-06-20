@@ -1,171 +1,47 @@
 <div class="category">
-
-    <div class="container">
-
-        <div class="category-item-container has-scrollbar">
-
-            <div class="category-item">
-
-                <div class="category-img-box">
-                    <img src="{{asset('assets/frontend/images/icons/dress.svg')}}" alt="dress & frock" width="30">
-                </div>
-
-                <div class="category-content-box">
-
-                    <div class="category-content-flex">
-                        <h3 class="category-item-title">Dress & frock</h3>
-
-                        <p class="category-item-amount">(53)</p>
-                    </div>
-
-                    <a href="#" class="category-btn">Show all</a>
-
-                </div>
-
-            </div>
-
-            <div class="category-item">
-
-                <div class="category-img-box">
-                    <img src="{{asset('assets/frontend/images/icons/coat.svg')}}" alt="winter wear" width="30">
-                </div>
-
-                <div class="category-content-box">
-
-                    <div class="category-content-flex">
-                        <h3 class="category-item-title">Winter wear</h3>
-
-                        <p class="category-item-amount">(58)</p>
-                    </div>
-
-                    <a href="#" class="category-btn">Show all</a>
-
-                </div>
-
-            </div>
-
-            <div class="category-item">
-
-                <div class="category-img-box">
-                    <img src="{{asset('assets/frontend/images/icons/glasses.svg')}}" alt="glasses & lens" width="30">
-                </div>
-
-                <div class="category-content-box">
-
-                    <div class="category-content-flex">
-                        <h3 class="category-item-title">Glasses & lens</h3>
-
-                        <p class="category-item-amount">(68)</p>
-                    </div>
-
-                    <a href="#" class="category-btn">Show all</a>
-
-                </div>
-
-            </div>
-
-            <div class="category-item">
-
-                <div class="category-img-box">
-                    <img src="{{asset('assets/frontend/images/icons/shorts.svg')}}" alt="shorts & jeans" width="30">
-                </div>
-
-                <div class="category-content-box">
-
-                    <div class="category-content-flex">
-                        <h3 class="category-item-title">Shorts & jeans</h3>
-
-                        <p class="category-item-amount">(84)</p>
-                    </div>
-
-                    <a href="#" class="category-btn">Show all</a>
-
-                </div>
-
-            </div>
-
-            <div class="category-item">
-
-                <div class="category-img-box">
-                    <img src="{{asset('assets/frontend/images/icons/tee.svg')}}" alt="t-shirts" width="30">
-                </div>
-
-                <div class="category-content-box">
-
-                    <div class="category-content-flex">
-                        <h3 class="category-item-title">T-shirts</h3>
-
-                        <p class="category-item-amount">(35)</p>
-                    </div>
-
-                    <a href="#" class="category-btn">Show all</a>
-
-                </div>
-
-            </div>
-
-            <div class="category-item">
-
-                <div class="category-img-box">
-                    <img src="{{asset('assets/frontend/images/icons/jacket.svg')}}" alt="jacket" width="30">
-                </div>
-
-                <div class="category-content-box">
-
-                    <div class="category-content-flex">
-                        <h3 class="category-item-title">Jacket</h3>
-
-                        <p class="category-item-amount">(16)</p>
-                    </div>
-
-                    <a href="#" class="category-btn">Show all</a>
-
-                </div>
-
-            </div>
-
-            <div class="category-item">
-
-                <div class="category-img-box">
-                    <img src="{{asset('assets/frontend/images/icons/watch.svg')}}" alt="watch" width="30">
-                </div>
-
-                <div class="category-content-box">
-
-                    <div class="category-content-flex">
-                        <h3 class="category-item-title">Watch</h3>
-
-                        <p class="category-item-amount">(27)</p>
-                    </div>
-
-                    <a href="#" class="category-btn">Show all</a>
-
-                </div>
-
-            </div>
-
-            <div class="category-item">
-
-                <div class="category-img-box">
-                    <img src="{{asset('assets/frontend/images/icons/hat.svg')}}" alt="hat & caps" width="30">
-                </div>
-
-                <div class="category-content-box">
-
-                    <div class="category-content-flex">
-                        <h3 class="category-item-title">Hat & caps</h3>
-
-                        <p class="category-item-amount">(39)</p>
-                    </div>
-
-                    <a href="#" class="category-btn">Show all</a>
-
-                </div>
-
-            </div>
-
+    <div class="product-detail_related">
+        <div></div>
+        <p>Danh mục</p>
+    </div>
+    <div style="margin-top: 15px; display: flex; justify-content: space-between">
+        <h4>Danh sách danh mục sản phẩm</h4>
+        <div style="display: flex; flex-direction: row; gap: 20px">
+            <div class="category_arrow"><i class="fa-solid fa-arrow-left"></i></div>
+            <div class="category_arrow"><i class="fa-solid fa-arrow-right"></i></div>
         </div>
-
     </div>
 
+    <div class="category_list">
+        <div class="category_item">
+            <img class="category_item--img" src="{{asset('assets/frontend/images/categories/phone.png')}}" alt="">
+            <p>Điện thoại</p>
+        </div>
+        <div class="category_item">
+            <img class="category_item--img" src="{{asset('assets/frontend/images/categories/computer.png')}}" alt="">
+            <p>Máy tính</p>
+        </div>
+        <div class="category_item">
+            <img class="category_item--img" src="{{asset('assets/frontend/images/categories/smartwatch.png')}}" alt="">
+            <p>Smart Watch</p>
+        </div>
+        <div class="category_item">
+            <img class="category_item--img" src="{{asset('assets/frontend/images/categories/camera.png')}}" alt="">
+            <p>Camera</p>
+        </div>
+        <div class="category_item">
+            <img class="category_item--img" src="{{asset('assets/frontend/images/categories/headphone.png')}}" alt="">
+            <p>Tai nghe</p>
+        </div>
+        <div class="category_item">
+            <img class="category_item--img" src="{{asset('assets/frontend/images/categories/gaming.png')}}" alt="">
+            <p>Gaming</p>
+        </div>
+    </div>
+
+</div>
+
+
+<div style="margin-top: 50px"></div>
+
+<div class="horizontal-bar">
 </div>

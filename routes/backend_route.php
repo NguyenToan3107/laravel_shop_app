@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProductController;
@@ -21,6 +22,9 @@ const CATEGORY_ROUTE = '/categories/{category}';
 require __DIR__ . '/auth.php';
 
 Route::prefix('/admin')->group(function () {
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->middleware(['auth', 'verified'])->name('dashboard');
 
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

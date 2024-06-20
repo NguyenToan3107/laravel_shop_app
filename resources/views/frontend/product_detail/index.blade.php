@@ -1,0 +1,103 @@
+@extends('frontend.layouts.app')
+
+@section('content')
+    <div class="detail_nav">
+        <a href="/">Trang chủ</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a href="/products">Sản phẩm</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a href="#">Chi tiết</a>
+    </div>
+    <div style="margin-top: 100px"></div>
+    <div class="product-detail">
+        <div class="product-detail_subimg">
+            <div class="product-detail_subimg--detail">
+                <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+            </div>
+            <div class="product-detail_subimg--detail">
+                <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+            </div>
+            <div class="product-detail_subimg--detail">
+                <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+            </div>
+            <div class="product-detail_subimg--detail">
+                <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+            </div>
+        </div>
+        <div class="product-detail_img">
+            <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+        </div>
+        <div class="product-detail_info">
+            <h3>Havic HV G-92 Gamepad</h3>
+            <div class="product_star">
+                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                (150 Reviews)
+            </div>
+            <p>$192.00</p>
+            <p>PlayStation 5 Controller Skin High quality vinyl with air channel adhesive for
+                easy bubble free install & mess free removal Pressure sensitive.</p>
+
+            <form>
+                <label>Colours: </label>
+                <input type="radio" id="css" name="fav_language" value="CSS">
+                <input type="radio" id="css" name="fav_language" value="CSS">
+
+                <div style="display: flex; flex-direction: row; align-content: center; margin-top: 10px; gap: 10px">
+                    <p style="margin-top: 10px">Size: </p>
+                    <select class="form-select" style="width: 80px; height: 40px" aria-label="Default select example">
+                        <option value="1">XS</option>
+                        <option value="2">S</option>
+                        <option value="3">M</option>
+                        <option value="4">L</option>
+                        <option value="5">XL</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; flex-direction: row; align-content: center; margin-top: 10px; gap: 10px; height: 40px">
+                    <div class="input-group mb-3" style="width: 150px;">
+                        <span class="input-group-text"><i class="fa-solid fa-minus"></i></span>
+                        <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)"
+                               style="width: 60px" value="0">
+                        <span class="input-group-text"><i class="fa-solid fa-plus"></i></span>
+
+                    </div>
+                    <button type="submit" class="btn btn-danger">Buy Now</button>
+                    <button type="submit" class="btn btn-secondary"><i class="fa-regular fa-heart"></i></button>
+                </div>
+            </form>
+
+            <br>
+            <br>
+
+            <div class="product-detail_delivery">
+                <div class="product-detail_info--deliver" >
+                    <img src="{{asset('assets/frontend/images/car.png')}}" alt="">
+                    <div>
+                        <h6>Free Delivery</h6>
+                        <p style="font-size: 0.8rem">Enter your postal code for Delivery Availability</p>
+                    </div>
+                </div>
+
+                <div class="product-detail_info--deliver" >
+                    <img src="{{asset('assets/frontend/images/return.png')}}" alt="">
+                    <div>
+                        <h6>Return Delivery</h6>
+                        <p style="font-size: 0.8rem">Free 30 Days Delivery Returns. Details</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div style="margin-top: 140px"></div>
+    <div class="product-detail_related">
+        <div></div>
+        <p>Sản phẩm liên quan</p>
+    </div>
+
+    @include('frontend.layouts.content.product.list_product')
+@endsection

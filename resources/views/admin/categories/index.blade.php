@@ -21,6 +21,7 @@
                     <thead class="thead-dark">
                     <tr>
                         <th>ID</th>
+                        <th>Ảnh</th>
                         <th>Tiêu đề</th>
                         <th>Mô tả</th>
                     </tr>
@@ -36,3 +37,6 @@
     </div>
 @endsection
 
+{{--@push('scripts')--}}
+{{--    {{ $dataTable->scripts() }}--}}
+{{--@endpush--}}

@@ -1,6 +1,6 @@
 <div class="sidebar-category">
     <div class="sidebar-top">
-        <h2 class="sidebar-title">Category</h2>
+        <h2 class="sidebar-title">Danh mục</h2>
 
         <button class="sidebar-close-btn" data-mobile-menu-close-btn>
             <ion-icon name="close-outline"></ion-icon>
