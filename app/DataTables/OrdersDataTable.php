@@ -40,6 +40,9 @@ class OrdersDataTable extends DataTable
             ->addColumn('updated_at', function (Order $order) {
                 return $order->updated_at->format('d/m/Y');
             })
+            ->editColumn('price', function (Order $order) {
+                return number_format($order->price, 0);
+            })
             ->addColumn('action', function ($order) {
                 return view('admin.orders.action', ['order' => $order]);
             })
@@ -66,6 +69,7 @@ class OrdersDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->scrollX(true)
+                    ->searching(false)
                     //->dom('Bfrtip')
                     ->autoWidth(false)
                     ->orderBy(0, 'asc')
@@ -87,9 +91,9 @@ class OrdersDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('fullname')->title('Tên người đặt'),
+            Column::make('fullname')->title('Người đặt'),
             Column::make('author_id')->title('Email'),
-            Column::make('phone')->title('Số điện thoại'),
+            Column::make('phone')->title('SĐT'),
             Column::make('address')->title('Địa chỉ'),
             Column::make('price')->title('Giá'),
             Column::make('status')->title('Trạng thái'),

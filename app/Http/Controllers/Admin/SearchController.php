@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\User;
@@ -21,6 +22,7 @@ class SearchController extends Controller
         $this->middleware('can:view-user')->only('searchUser');
         $this->middleware('can:view-product')->only('searchProduct');
         $this->middleware('can:view-post')->only('searchPost');
+        $this->middleware('can:view-order')->only('searchOrder');
     }
 
     public function searchProduct(Request $request)
@@ -215,6 +217,66 @@ class SearchController extends Controller
                 return '<td>' . $roles . '</td>';
             })
             ->rawColumns(['image_path', 'roles', 'action'])
+            ->make();
+    }
+
+    public function searchOrder(Request $request)
+    {
+        $model = Order::query()
+            ->select(['id', 'price', 'status', 'updated_at', 'fullname', 'phone', 'address', 'author_id']);
+
+//            ->whereNull('deleted_at');
+
+        if ($request->filled('fullname')) {
+            $model = $model->where('fullname', 'like', '%' . $request->fullname . '%');
+        }
+
+        if ($request->filled('email')) {
+            $model = $model->where('email', 'like', '%' . $request->email . '%');
+        }
+
+        if ($request->filled('phone')) {
+            $model = $model->where('phone', 'like', '%' . $request->phone . '%');
+        }
+
+        if ($request->filled('status')) {
+            $model = $model->where('status', $request->status);
+        } else {
+            $model = $model->where('status', '<>', 6);
+        }
+
+        if ($request->filled('started_at') && ($request->started_at != SearchController::DEFAULT_DATE)) {
+            $model = $model->whereDate('created_at', '>=', $request->started_at);
+        }
+
+        if ($request->filled('ended_at') && ($request->ended_at != SearchController::DEFAULT_DATE)) {
+            $model = $model->whereDate('created_at', '<=', $request->ended_at);
+        }
+
+        return DataTables::of($model)
+            ->editColumn('status', function (Order $order) {
+                return view('admin.orders.status', ['order' => $order]);
+            })
+            ->editColumn('fullname', function (Order $order) {
+                return $order->fullname;
+            })
+            ->editColumn('author_id', function (Order $order) {
+                return $order->user->email;
+            })
+            ->editColumn('phone', function (Order $order) {
+                return $order->phone;
+            })
+            ->editColumn('address', function (Order $order) {
+                return $order->address;
+            })
+            ->addColumn('updated_at', function (Order $order) {
+                return $order->updated_at->format('d/m/Y');
+            })
+            ->addColumn('action', function ($order) {
+                return view('admin.orders.action', ['order' => $order]);
+            })
+            ->rawColumns(['updated_at', 'status'])
+            ->setRowId('id')
             ->make();
     }
 }

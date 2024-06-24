@@ -42,10 +42,10 @@ Route::prefix('/admin')->group(function () {
 
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-//        Route::post('/search-post', [SearchController::class, 'searchPost']);
+        Route::post('/search-order', [SearchController::class, 'searchOrder']);
 
         Route::get(ORDER_ROUTE . '/edit', [OrderController::class, 'edit'])->name('orders.edit');
-        Route::put(ORDER_ROUTE, [OrderController::class, 'update'])->name('orders.update');
+        Route::put('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
 
         // hard delete
         Route::delete(ORDER_ROUTE, [OrderController::class, 'destroy'])->name('orders.destroy');

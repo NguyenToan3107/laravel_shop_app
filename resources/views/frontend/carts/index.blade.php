@@ -10,46 +10,45 @@
 
     <div style="margin-top: 100px"></div>
 
-
-
     <div class="cart">
         <section class="cart_section">
-            <table class="table table-hover cart_item_prouduct">
+            <table class="table table-hover cart_item_prouduct" id="cart-content">
                 <thead>
-                    <tr>
-                        <td>Remove</td>
-                        <td>Image</td>
-                        <td>Product</td>
-                        <td>Price</td>
-                        <td>Quantity</td>
-                        <td>Subtotal</td>
-                    </tr>
+                <tr>
+                    <th>Xóa</th>
+                    <th>Ảnh</th>
+                    <th>Tên</th>
+                    <th>Giá</th>
+                    <th>Khuyến mãi</th>
+                    <th>Số lượng</th>
+                    <th>Tổng tiền</th>
+                </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td><a href="#" style="color: black"><i class="fa-solid fa-xmark"></i></a></td>
-                    <td><img style="width: 40px; height: 40px" src="{{asset('assets/frontend/images/products/bag.png')}}" alt=""></td>
-                    <td>Cartoon Astronaut T-Shirt</td>
-                    <td>$118.19</td>
-                    <td><input class="form-control" style="width: 80px" type="number" value="1"></td>
-                    <td>$118.19</td>
-                </tr>
-                <tr>
-                    <td><a href="#" style="color: black"><i class="fa-solid fa-xmark"></i></a></td>
-                    <td><img style="width: 40px; height: 40px" src="{{asset('assets/frontend/images/products/bag.png')}}" alt=""></td>
-                    <td>Cartoon Astronaut T-Shirt</td>
-                    <td>$118.19</td>
-                    <td><input class="form-control" style="width: 80px" type="number" value="1"></td>
-                    <td>$118.19</td>
-                </tr>
-                <tr>
-                    <td><a href="#" style="color: black"><i class="fa-solid fa-xmark"></i></a></td>
-                    <td><img style="width: 40px; height: 40px" src="{{asset('assets/frontend/images/products/bag.png')}}" alt=""></td>
-                    <td>Cartoon Astronaut T-Shirt</td>
-                    <td>$118.19</td>
-                    <td><input class="form-control" style="width: 80px" type="number" value="1"></td>
-                    <td>$118.19</td>
-                </tr>
+                @if(isset($carts))
+                    @foreach($carts as $cart)
+                        <tr>
+                            <td><button class="cart_item_product--remove" value="{{$cart->product_id}}">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button></td>
+                            <td><img style="width: 40px; height: 40px"
+                                     src="{{$cart->image}}" alt=""></td>
+                            <td>{{$cart->title}}</td>
+                            <td>{{number_format($cart->price * 1000, 0)}}</td>
+                            <td>{{number_format(($cart->percent_sale / 100) * $cart->price * 1000, 0)}}</td>
+                            <td><input class="form-control cart_item_product--change" data-id="{{$cart->product_id}}" style="width: 80px" type="number" value="{{$cart->quantity}}"></td>
+                            <?php
+                                $total_price = $cart->quantity * (1 - ($cart->percent_sale / 100)) * $cart->price
+                                ?>
+                            <td>{{number_format($total_price * 1000, 0)}}</td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td>Không có sản phẩm nào trong giỏ hàng</td>
+                    </tr>
+                @endif
+
                 </tbody>
             </table>
         </section>
@@ -69,21 +68,22 @@
                 <h3>Cart Totals</h3>
                 <table class="table">
                     <tr>
-                        <td>Cart Subtotal</td>
-                        <td>$ 335</td>
+                        <td>Tổng phụ</td>
+                        <td>{{number_format($price * 1000, 0)}}</td>
                     </tr>
                     <tr>
-                        <td>Shipping</td>
-                        <td>Free</td>
+                        <td>Phí vận chuyển</td>
+                        <td>30,000</td>
                     </tr>
                     <tr>
-                        <td><strong>Total</strong></td>
-                        <td><strong>$ 335</strong></td>
+                        <td><strong>Tổng tiền</strong></td>
+                        <td><strong>{{number_format($price * 1000 - 30000, 0)}}</strong></td>
                     </tr>
                 </table>
                 <br>
                 <button class="btn btn-danger" style="margin-left: 100px">
-                    <a href="/checkout" style="text-decoration: none; color: white; margin-top: 4px">Tiến hành thanh toán</a>
+                    <a href="/checkout" style="text-decoration: none; color: white; margin-top: 4px">Tiến hành thanh
+                        toán</a>
                 </button>
             </div>
         </section>

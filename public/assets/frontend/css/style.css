@@ -752,6 +752,15 @@ header {
     border: 1px solid #B3B3B3;
 }
 
+.cart_item_product--remove {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 /* FOOTER */
 footer {
@@ -893,6 +902,30 @@ footer {
     color: #DB4444;
     font-size: 1.75rem;
     margin-top: 6px;
+}
+
+/* Toast */
+.toastify-custom {
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    padding: 10px 20px;
+    color: #FFFFFF;
+
+}
+.toastify-custom .toastify__close {
+    font-size: 20px;
+    opacity: 0.8;
+}
+.toastify-custom:hover .toastify__close {
+    opacity: 1;
+}
+.toastify-success {
+    background: green !important;
+}
+.toastify-error {
+    background: red !important;
 }
 
 

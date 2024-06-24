@@ -12,74 +12,57 @@
 
     <div style="margin-top: 100px"></div>
 
-    <h3 class="checkout_title">Billing Details</h3>
+    <h3 class="checkout_title">Chi tiết hóa đơn</h3>
     <div style="margin-top: 50px"></div>
     <div class="checkout">
-        <form class="checkout_form">
+        <form class="checkout_form" action="/orders" method="post">
             <div class="checkout_info">
                 <div class="mb-3">
-                    <label for="" class="form-label">First Name*</label>
-                    <input type="text" class="form-control" id="" aria-describedby="emailHelp">
+                    <label for="" class="form-label">Họ và tên*</label>
+                    <input type="text" name="fullname" class="form-control" id="" required>
                 </div>
                 <div class="mb-3">
-                    <label for="" class="form-label">Company Name</label>
-                    <input type="text" class="form-control" id="">
+                    <label for="" class="form-label">Số điện thoại*</label>
+                    <input type="text" name="phone" class="form-control" id=""  required>
                 </div>
                 <div class="mb-3">
-                    <label for="" class="form-label">Street Address*</label>
-                    <input type="text" class="form-control" id="">
+                    <label for="" class="form-label">Địa chỉ*</label>
+                    <input type="text" name="address" class="form-control" id=""  required>
                 </div>
-                <div class="mb-3">
-                    <label for="" class="form-label">Apartment, floor, etc. (optional)</label>
-                    <input type="text" class="form-control" id="">
-                </div>
-                <div class="mb-3">
-                    <label for="" class="form-label">Town/City*</label>
-                    <input type="text" class="form-control" id="">
-                </div>
-                <div class="mb-3">
-                    <label for="" class="form-label">Phone Number*</label>
-                    <input type="text" class="form-control" id="">
-                </div>
-                <div class="mb-3">
-                    <label for="" class="form-label">Email Address*</label>
-                    <input type="text" class="form-control" id="">
-                </div>
+
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Save this information for faster check-out next
-                        time</label>
+                    <label class="form-check-label" for="exampleCheck1">Lưu lại thông tin</label>
                 </div>
             </div>
             <div class="checkout_code">
+                @foreach($carts as $cart)
+                    <div class="checkout_code-product">
+                        <div>
+                            <img src="{{$cart->image}}" alt="{{$cart->title}}">
+                            <p>{{$cart->title}}</p>
+                        </div>
+                            <?php
+                            $total_price = $cart->quantity * (1 - ($cart->percent_sale / 100)) * $cart->price
+                            ?>
+                        <p class="checkout_code--product--price">{{number_format($total_price * 1000, 0)}}</p>
+                    </div>
+                @endforeach
 
-                <div class="checkout_code-product">
-                    <div>
-                        <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-                        <p>LCD Monitor</p>
-                    </div>
-                    <p class="checkout_code--product--price">$650</p>
-                </div>
-                <div class="checkout_code-product">
-                    <div>
-                        <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-                        <p>LCD Monitor</p>
-                    </div>
-                    <p class="checkout_code--product--price">$650</p>
-                </div>
+
 
                 <table class="table">
                     <tr>
-                        <td>Cart Subtotal</td>
-                        <td>$ 335</td>
+                        <td>Tổng phụ</td>
+                        <td>{{number_format( $total * 1000, 0)}} đ</td>
                     </tr>
                     <tr>
                         <td>Shipping</td>
-                        <td>Free</td>
+                        <td>30,000</td>
                     </tr>
                     <tr>
-                        <td><strong>Total</strong></td>
-                        <td><strong>$ 335</strong></td>
+                        <td><strong>Tổng tiền</strong></td>
+                        <td><strong>{{number_format( $total * 1000 - 30000, 0)}} đ</strong></td>
                     </tr>
                 </table>
 
@@ -106,13 +89,12 @@
                 <br>
                 <div style="display: flex; gap: 10px; flex-direction: row">
                     <input type="text" class="form-control" placeholder="Enter Your Coupon">
-                    <button class="btn btn-danger">Apply</button>
+                    <button class="btn btn-danger">Áp mã</button>
                 </div>
                 <br>
-                <button type="submit" class="btn btn-danger">Place Order</button>
+                <button type="submit" class="btn btn-danger">Đặt hàng</button>
             </div>
         </form>
     </div>
-
 @endsection
 

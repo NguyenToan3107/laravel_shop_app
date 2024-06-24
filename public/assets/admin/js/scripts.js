@@ -414,6 +414,110 @@ if(post_update_form) {
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
+// --------------------------------- ORDERS --------------------------------------- //
+
+////////////// SEARCH
+
+// search post
+const order_search_form = document.getElementById('order_search_form')
+
+if(order_search_form) {
+    order_search_form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        let fullname = document.getElementById('full_name_order').value;
+        let email = document.getElementById('email_order').value;
+        let phone = document.getElementById('phone_order').value;
+        let status = document.getElementById('status_order').value;
+        let started_at = document.getElementById('start_date').value;
+        let ended_at = document.getElementById('ended_date').value;
+
+        started_at = datetimeLocalToDateString(started_at)
+        ended_at = datetimeLocalToDateString(ended_at)
+
+        if ($.fn.DataTable.isDataTable('#orders-table')) {
+            $('#orders-table').DataTable().destroy(); // Nếu có, hủy bảng DataTable hiện tại
+        }
+
+        $('#orders-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '/admin/search-order',
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
+                },
+                data: {
+                    fullname: fullname,
+                    email: email,
+                    phone: phone,
+                    status: status,
+                    started_at: started_at,
+                    ended_at: ended_at,
+                }
+            },
+            columns: [
+                {data: 'id', name: 'id'},
+                {data: 'fullname', name: 'fullname'},
+                {data: 'author_id', name: 'author_id'},
+                {data: 'phone', name: 'phone'},
+                {data: 'address', name: 'address'},
+                {data: 'price', name: 'price'},
+                {data: 'status', name: 'status'},
+                { data: 'updated_at', name: 'updated_at' },
+                {data: 'action', name: 'action'}
+            ]
+        });
+    });
+}
+
+// reset post
+const reset_btn_order = document.getElementById('reset_btn_order')
+
+if(reset_btn_order) {
+    reset_btn_order.addEventListener('click', function (event) {
+        event.preventDefault();
+        document.getElementById('full_name_order').value = '';
+        document.getElementById('email_order').value = '';
+        document.getElementById('phone_order').value = '';
+        document.getElementById('status_order').value = '';
+        document.getElementById('start_date').value = '';
+        document.getElementById('ended_date').value = '';
+
+        reset_order_datatable();
+    });
+}
+
+const reset_order_datatable = function () {
+    if ($.fn.DataTable.isDataTable('#orders-table')) {
+        $('#orders-table').DataTable().destroy(); // Nếu có, hủy bảng DataTable hiện tại
+    }
+
+    $('#orders-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '/admin/orders',
+        type: 'GET',
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'fullname', name: 'fullname'},
+            {data: 'author_id', name: 'author_id'},
+            {data: 'phone', name: 'phone'},
+            {data: 'address', name: 'address'},
+            {data: 'price', name: 'price'},
+            {data: 'status', name: 'status'},
+            { data: 'updated_at', name: 'updated_at' },
+            {data: 'action', name: 'action'}
+        ]
+    });
+}
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////
 // --------------------------------- PRODUCTS --------------------------------------- //
 
 ////////// DELETE
@@ -676,8 +780,6 @@ if(user_search_form) {
 }
 
 
-
-
 // reset user
 const reset_btn_user = document.getElementById('reset_btn_user')
 
@@ -718,7 +820,6 @@ if(reset_btn_user) {
         });
     })
 }
-
 
 
 ////////// DELETE
@@ -857,6 +958,9 @@ $(document).ready(function () {
         })
     })
 })
+
+
+
 
 
 

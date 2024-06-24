@@ -23,14 +23,24 @@
         </div>
 
         <div class="order_payment">
-            <p>Tổng phụ: {{$order->price}} đ</p>
-            <p>Khuyến mãi: {{$order->percent_sale * $order->price}} đ</p>
-            <p>Phí vận chuyển: 30000 đ</p>
-            <p style="font-weight: bold">Tổng tiền: {{$order->price - ($order->percent_sale * $order->price)}} đ</p>
+            <?php
+                $sub_total = number_format($order->price * 1000, 0);
+                $discount = number_format(($order->percent_sale / 100) * $order->price * 1000, 0);
+                $total =number_format(($order->price - (($order->percent_sale / 100) * $order->price) - 30) * 1000, 0);
+            ?>
+            <p>Tổng phụ: {{$sub_total}} đ</p>
+            <p>Khuyến mãi: {{$discount}} đ</p>
+            <p>Phí vận chuyển: 30,000 đ</p>
+            <p style="font-weight: bold">Tổng tiền: {{$total}} đ</p>
         </div>
 
         @can('view-order')
-        <button class="btn btn-secondary"><a style="text-decoration: none; color: black" href="/admin/orders">Quay lại</a></button>
+        <button class="btn btn-secondary">
+            <a style="text-decoration: none; color: white; font-weight: 500" href="/admin/orders">
+                <i class="fa-regular fa-circle-left"></i>
+                Quay lại
+            </a>
+        </button>
         @endcan
     </div>
 @endsection

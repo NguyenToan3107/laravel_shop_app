@@ -2,6 +2,37 @@
 
 @section('content')
 
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Toastify({
+                    text: "{{ session('success') }}",
+                    duration: 2000,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    className: "toastify-custom toastify-success"
+                }).showToast();
+            });
+        </script>
+
+    @elseif(session('delete'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Toastify({
+                    text: "{{ session('delete') }}",
+                    duration: 2000,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    className: "toastify-custom toastify-error"
+                }).showToast();
+            });
+        </script>
+    @endif
+
     <div class="container mt-5">
         <div class="row mb-4">
             <div class="col-md-12">
@@ -24,12 +55,12 @@
                 </div>
                 <div class="input-group mb-3 width-300">
                     <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-user"></i></span>
-                    <input type="text" class="form-control" id="price_order" name="price" value="{{request('price')}}"
-                           placeholder="Tìm theo giá" aria-describedby="basic-addon1">
+                    <input type="text" class="form-control" id="phone_order" name="phone"
+                           placeholder="Tìm theo số điện thoại" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3 width-300">
                     <span class="input-group-text" id="basic-addon1"><i class="fa-brands fa-superpowers"></i></span>
-                    <select class="form-control" id="status_status" name="status" aria-label="Large select example">
+                    <select class="form-control" id="status_order" name="status" aria-label="Large select example">
                         <option value="">--Tất cả trạng thái --</option>
                         <option value="1">Chờ xử lý</option>
                         <option value="2">Đã xác nhận</option>
@@ -54,7 +85,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                     Tìm kiếm
                 </button>
-                <button class="btn btn-secondary" id="reset_btn">
+                <button class="btn btn-secondary" id="reset_btn_order">
                     <i class="fa-solid fa-xmark"></i>
                     Tải lại
                 </button>
