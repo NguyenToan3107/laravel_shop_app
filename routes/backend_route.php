@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProductController;
@@ -17,6 +18,7 @@ const PERMISSION_ROUTE = '/permissions/{permission}';
 const USER_ROUTE = '/users/{user}';
 const PRODUCT_ROUTE = '/products/{product}';
 const CATEGORY_ROUTE = '/categories/{category}';
+const ORDER_ROUTE = '/orders/{order}';
 
 
 require __DIR__ . '/auth.php';
@@ -31,6 +33,27 @@ Route::prefix('/admin')->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
+
+    /////////////////////////// ORDER
+
+    Route::middleware('auth')->group(function () {
+        Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+        Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
+
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+//        Route::post('/search-post', [SearchController::class, 'searchPost']);
+
+        Route::get(ORDER_ROUTE . '/edit', [OrderController::class, 'edit'])->name('orders.edit');
+        Route::put(ORDER_ROUTE, [OrderController::class, 'update'])->name('orders.update');
+
+        // hard delete
+        Route::delete(ORDER_ROUTE, [OrderController::class, 'destroy'])->name('orders.destroy');
+        // soft delete
+//        Route::post('/posts/soft_delete', [PostController::class, 'softDelete']);
+    });
+
+    ///////////////////////////
 
     /////////////////////////// POST
 

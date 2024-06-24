@@ -13,8 +13,8 @@
 
 
     <div class="cart">
-        <section>
-            <table class="table table-hover">
+        <section class="cart_section">
+            <table class="table table-hover cart_item_prouduct">
                 <thead>
                     <tr>
                         <td>Remove</td>

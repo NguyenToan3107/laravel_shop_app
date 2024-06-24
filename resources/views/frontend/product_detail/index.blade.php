@@ -10,22 +10,24 @@
     </div>
     <div style="margin-top: 100px"></div>
     <div class="product-detail">
-        <div class="product-detail_subimg">
-            <div class="product-detail_subimg--detail">
+        <div class="product-detail--image">
+            <div class="product-detail_subimg">
+                <div class="product-detail_subimg--detail">
+                    <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+                </div>
+                <div class="product-detail_subimg--detail">
+                    <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+                </div>
+                <div class="product-detail_subimg--detail">
+                    <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+                </div>
+                <div class="product-detail_subimg--detail">
+                    <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+                </div>
+            </div>
+            <div class="product-detail_img">
                 <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
             </div>
-            <div class="product-detail_subimg--detail">
-                <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-            </div>
-            <div class="product-detail_subimg--detail">
-                <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-            </div>
-            <div class="product-detail_subimg--detail">
-                <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-            </div>
-        </div>
-        <div class="product-detail_img">
-            <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
         </div>
         <div class="product-detail_info">
             <h3>Havic HV G-92 Gamepad</h3>
@@ -37,7 +39,7 @@
                 <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                 (150 Reviews)
             </div>
-            <p>$192.00</p>
+            <p class="product_star--price">$192.00</p>
             <p>PlayStation 5 Controller Skin High quality vinyl with air channel adhesive for
                 easy bubble free install & mess free removal Pressure sensitive.</p>
 
@@ -57,15 +59,14 @@
                     </select>
                 </div>
 
-                <div style="display: flex; flex-direction: row; align-content: center; margin-top: 10px; gap: 10px; height: 40px">
-                    <div class="input-group mb-3" style="width: 150px;">
-                        <span class="input-group-text"><i class="fa-solid fa-minus"></i></span>
-                        <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)"
-                               style="width: 60px" value="0">
-                        <span class="input-group-text"><i class="fa-solid fa-plus"></i></span>
-
+                <div class="product_detail--quantity">
+                    <div class="product_detail--quantity--num">
+                        <p>Số lượng: </p>
+                        <span class="input-group-text icon-hidden"><i class="fa-solid fa-minus"></i></span>
+                        <input type="number" class="form-control" value="0" style="width: 80px;">
+                        <span class="input-group-text icon-hidden"><i class="fa-solid fa-plus"></i></span>
                     </div>
-                    <button type="submit" class="btn btn-danger">Buy Now</button>
+                    <button type="submit" class="btn btn-danger">Thêm vào giỏ hàng</button>
                     <button type="submit" class="btn btn-secondary"><i class="fa-regular fa-heart"></i></button>
                 </div>
             </form>

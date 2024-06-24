@@ -93,6 +93,21 @@
                 </li>
             @endcan
 
+            @can('view-order')
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#order"
+                       aria-expanded="false" aria-controls="auth">
+                        <i class="fa-regular fa-user pe-2"></i>
+                        Quản lý đơn đặt hàng
+                    </a>
+                    <ul id="order" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="/admin/orders" class="sidebar-link">--Đơn đăt hàng</a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
+
             <br>
             <br>
             <li class="sidebar-item">

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ContactController;
@@ -35,6 +34,9 @@ Route::get('/product_detail', [ProductDetailController::class, 'index']);
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile', [ProfileController::class, 'index']);
 });
-
+//
+//Route::group(['middleware' => ['auth']], function () {
+//    Route::resource('orders', OrderController::class);
+//});
 
 

@@ -418,3 +418,32 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
     padding     : 0.85rem 1.5rem;
     border-color: rgba(24, 28, 33, 0.03) !important;
 }
+
+
+/* ORDER */
+.order_payment {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    float: right;
+}
+
+.order_info {
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    margin: 50px 0;
+}
+
+.order_info--user {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.order_info--user--image {
+    width: 100px;
+    height: 100px;
+    border: 1px solid white;
+    border-radius: 20px;
+}

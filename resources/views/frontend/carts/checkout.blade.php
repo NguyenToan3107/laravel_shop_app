@@ -12,7 +12,7 @@
 
     <div style="margin-top: 100px"></div>
 
-    <h3 style="margin-left: 160px">Billing Details</h3>
+    <h3 class="checkout_title">Billing Details</h3>
     <div style="margin-top: 50px"></div>
     <div class="checkout">
         <form class="checkout_form">
