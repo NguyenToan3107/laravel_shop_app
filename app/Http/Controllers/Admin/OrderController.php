@@ -51,11 +51,7 @@ class OrderController extends Controller
         $order = Order::with(['orderDetails.products', 'orderDetails.user'])->findOrFail($id);
         $user = User::find($order->author_id);
         $users = User::all();
-//        return view('admin.orders.edit', [
-//            'order' => $order,
-//            'users' => $users,
-//            'user' => $user,
-//        ]);
+
         return $dataTable
                 ->with(['order' => $order, 'user' => $user])
                 ->render('admin.orders.edit', ['order' => $order, 'user' => $user, 'users' => $users]);
@@ -72,9 +68,10 @@ class OrderController extends Controller
         $total_price = 0;
         $order->orderDetails->each(function ($orderDetail) use (&$total_price, $user) {
             if($orderDetail->products->count() > 0){
-                if($orderDetail->user->id === $user->id){
-                    $total_price += $orderDetail->products->price * $orderDetail->quantity;
-                }
+//                if($orderDetail->user->id === $user->id){
+//                    $total_price += $orderDetail->products->price * $orderDetail->quantity;
+//                }
+                $total_price += $orderDetail->products->price * $orderDetail->quantity;
             }
         });
 

@@ -2,6 +2,37 @@
 
 @section('content')
 
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Toastify({
+                    text: "{{ session('success') }}",
+                    duration: 2000,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    className: "toastify-custom toastify-success"
+                }).showToast();
+            });
+        </script>
+
+    @elseif(session('delete'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Toastify({
+                    text: "{{ session('delete') }}",
+                    duration: 2000,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    className: "toastify-custom toastify-error"
+                }).showToast();
+            });
+        </script>
+    @endif
+
     <div class="detail_nav">
         <a href="/">Trang chủ</a>
         <i class="fa-solid fa-chevron-right"></i>

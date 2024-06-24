@@ -72,7 +72,7 @@ class OrderDetailsDataTable extends DataTable
     {
         return $model->newQuery()
             ->where('order_id', $this->order->id)
-            ->where('author_id', $this->user->id)
+//            ->where('author_id', $this->user->id)
             ->with(['products', 'user']);
     }
     /**

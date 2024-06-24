@@ -7,18 +7,22 @@
             <form action="/admin/orders/{{$order->id}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('put')
-                <div class="form-group">
-                    {{ Form::label('author_id', 'Người đặt') }}
-                    <select class="row form-control" name="author_id" id="author_id">
-                        <option value="{{$user->id}}">Hiện tại: {{$user->name}}</option>
-                        @foreach ($users as $u)
-                            @can('create-order')
-                                <option value="{{$u->id}}">Tên: {{$u->name}}</option>
-                            @endcan
-                        @endforeach
-                    </select>
-                </div>
-                <br>
+
+                @if(isset($user))
+                    <div class="form-group">
+                        {{ Form::label('author_id', 'Người đặt') }}
+                        <select class="row form-control" name="author_id" id="author_id">
+                            <option value="{{$user->id}}">Hiện tại: {{$user->name}}</option>
+                            @foreach ($users as $u)
+                                @can('create-order')
+                                    <option value="{{$u->id}}">Tên: {{$u->name}}</option>
+                                @endcan
+                            @endforeach
+                        </select>
+                    </div>
+                    <br>
+                @endif
+
                 <div class="form-group">
                     <label for="id">Mã đơn</label>
                     <input disabled type="text" class="form-control" id="id" name="id" value="{{$order->id}}" required>

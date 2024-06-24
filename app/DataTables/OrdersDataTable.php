@@ -29,7 +29,7 @@ class OrdersDataTable extends DataTable
                 return $order->fullname;
             })
             ->editColumn('author_id', function (Order $order) {
-                return $order->user->email;
+                return $order->user ? $order->user->email : 'No No';
             })
             ->editColumn('phone', function (Order $order) {
                 return $order->phone;

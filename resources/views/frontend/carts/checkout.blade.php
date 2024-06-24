@@ -16,6 +16,7 @@
     <div style="margin-top: 50px"></div>
     <div class="checkout">
         <form class="checkout_form" action="/orders" method="post">
+            @csrf
             <div class="checkout_info">
                 <div class="mb-3">
                     <label for="" class="form-label">Họ và tên*</label>

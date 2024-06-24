@@ -6,9 +6,16 @@
         <h2>Chi tiết nội dung đơn hàng</h2>
         <div class="order_info">
             <div class="order_info--user">
-                <img class="order_info--user--image" src="{{$user->image_path}}" alt="{{$user->name}}">
-                <p class="order_info--user--name">Tên: {{$user->name}}</p>
-                <p class="order_info--user--email">Email: {{$user->email}}</p>
+                @if(isset($user))
+                    <img class="order_info--user--image" src="{{$user->image_path}}" alt="{{$user->name}}">
+                    <p class="order_info--user--name">Tên: {{$user->name}}</p>
+                    <p class="order_info--user--email">Email: {{$user->email}}</p>
+                @else
+                    <img class="order_info--user--image" src="{{asset('images/users/default_user.jpg')}}" alt="Ẩn danh">
+                    <p class="order_info--user--name">Tên: Ẩn danh</p>
+                    <p class="order_info--user--email">Email: Ẩn danh</p>
+                @endif
+
             </div>
             <div class="order_info--order">
                 <p>Tên đặt hàng: {{$order->fullname}}</p>
