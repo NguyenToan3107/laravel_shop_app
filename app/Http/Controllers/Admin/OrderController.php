@@ -73,7 +73,7 @@ class OrderController extends Controller
 //                if($orderDetail->user->id === $user->id){
 //                    $total_price += $orderDetail->products->price * $orderDetail->quantity;
 //                }
-                $total_price += $orderDetail->products->price * $orderDetail->quantity;
+                $total_price += $orderDetail->products->price * (1 - ($orderDetail->products->percent_sale / 100)) * $orderDetail->quantity;
             }
         });
 

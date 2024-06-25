@@ -17,7 +17,7 @@ class OrderController extends Controller
         $total = 0;
         if ($carts) {
             foreach ($carts as $cart) {
-                $total += $cart->price * $cart->quantity;
+                $total += $cart->price * $cart->quantity * (1 - ($cart->percent_sale / 100));
             }
         } else {
             $carts = []; // Nếu không có sản phẩm, gán $carts là một mảng rỗng để tránh lỗi khi truy cập vào biến trong view
@@ -33,7 +33,7 @@ class OrderController extends Controller
         $total = 0;
         if ($carts) {
             foreach ($carts as $cart) {
-                $total += $cart->price * $cart->quantity;
+                $total += $cart->price * (1 - ($cart->percent_sale / 100)) * $cart->quantity;
             }
         } else {
             $carts = []; // Nếu không có sản phẩm, gán $carts là một mảng rỗng để tránh lỗi khi truy cập vào biến trong view

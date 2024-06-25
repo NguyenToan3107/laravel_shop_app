@@ -22,7 +22,15 @@ class CategoriesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'categories.action')
+            ->addColumn('action', function (Category $category) {
+                return view('admin.categories.action', [
+                    'category' => $category,
+                ]);
+            })
+            ->addColumn('image', function ($row) {
+                return '<img class="img-thumbnail user-image-45" src="'.$row->image.'" alt="' . $row->title . '">';
+            })
+            ->rawColumns(['image'])
             ->setRowId('id');
     }
 
@@ -31,7 +39,10 @@ class CategoriesDataTable extends DataTable
      */
     public function query(Category $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->with('children')
+            ->whereNull('parent_id')
+            ->select(['id', 'parent_id', 'title', 'description', 'image']);
     }
 
     /**
@@ -62,12 +73,8 @@ class CategoriesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('id'),
+            Column::make('image'),
             Column::make('title'),
             Column::make('description'),
 //            Column::make('updated_at'),

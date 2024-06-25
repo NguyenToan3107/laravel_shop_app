@@ -14,7 +14,7 @@ class Product extends Model
         'content', 'image', 'image_extension', 'image_banner', 'image_icon', 'url', 'url_type', 'author_id', 'target', 'price', 'params',
         'params_plus', 'total_item', 'total_view', 'total_order', 'order', 'providers_id', 'position', 'display_type', 'sticky', 'is_display',
         'seo_title', 'seo_description', 'seo_robots', 'status', 'account_fake', 'started_at', 'ended_at', 'published_at', 'created_at',
-        'updated_at', 'deleted_at'];
+        'updated_at', 'deleted_at', 'category_id'];
 
     public $timestamps = true;
 
@@ -26,4 +26,9 @@ class Product extends Model
     public function children() {
         return $this->hasMany(Product::class, 'parent_id', 'id');
     }
+
+    public function product_images() {
+        return $this->hasMany(Product_Image::class, 'product_id', 'id');
+    }
+
 }

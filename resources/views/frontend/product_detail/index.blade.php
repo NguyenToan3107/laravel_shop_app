@@ -12,25 +12,19 @@
     <div class="product-detail">
         <div class="product-detail--image">
             <div class="product-detail_subimg">
-                <div class="product-detail_subimg--detail">
-                    <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-                </div>
-                <div class="product-detail_subimg--detail">
-                    <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-                </div>
-                <div class="product-detail_subimg--detail">
-                    <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-                </div>
-                <div class="product-detail_subimg--detail">
-                    <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-                </div>
+                @foreach($product_images as $product_image)
+                    <div class="product-detail_subimg--detail">
+                        <img src="{{$product_image->image_url}}" alt="">
+                    </div>
+                @endforeach
+
             </div>
             <div class="product-detail_img">
-                <img src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+                <img src="{{$product->image}}" alt="{{$product->title}}">
             </div>
         </div>
         <div class="product-detail_info">
-            <h3>Havic HV G-92 Gamepad</h3>
+            <h3>{{$product->title}}</h3>
             <div class="product_star">
                 <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                 <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
@@ -39,9 +33,8 @@
                 <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                 (150 Reviews)
             </div>
-            <p class="product_star--price">$192.00</p>
-            <p>PlayStation 5 Controller Skin High quality vinyl with air channel adhesive for
-                easy bubble free install & mess free removal Pressure sensitive.</p>
+            <p class="product_star--price">{{number_format($product->price * 1000, 0)}} đ</p>
+            <p>{{$product->description}}</p>
 
             <form>
                 <label>Colours: </label>

@@ -55,6 +55,9 @@ if (addToCartButtons) {
 
 //////////////////////////////// REMOVE FROM CART
 $(document).ready(function () {
+    $(document).ajaxSend(function () {
+        $("#overlay").fadeIn(300);
+    })
     // Sử dụng .on() để gắn sự kiện cho các phần tử có lớp .cart_item_product--remove
     $(document).on('click', '.cart_item_product--remove', function (e) {
         e.preventDefault();
@@ -82,6 +85,10 @@ $(document).ready(function () {
                     error: function () {
                         console.log("Error loading cart content");
                     }
+                }).done(function () {
+                    setTimeout(function () {
+                        $('#overlay').fadeOut(300)
+                    }, 500)
                 });
             },
             error: function () {
@@ -91,40 +98,59 @@ $(document).ready(function () {
     });
 });
 
+///////////////////////////////// UPDATE CART ITEM
 $(document).ready(function () {
-   $(document).on('change', '.cart_item_product--change', function (event) {
-       event.preventDefault();
-       let quantity = $(this).val();
-       let product_id = $(this).data('id')
+    $(document).ajaxSend(function () {
+        $("#overlay").fadeIn(300);
+    });
+    $(document).on('change', '.cart_item_product--change', function (event) {
+        event.preventDefault();
+        let quantity = $(this).val();
+        let product_id = $(this).data('id')
 
-       $.ajax({
-           type: 'POST',
-           url: '/update-to-cart/' + product_id,
-           headers: {
-               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-           },
-           data: {
-               quantity: quantity
-           },
-           success: function (data) {
-               $.ajax({
-                   type: 'GET',
-                   url: '/cart',
-                   headers: {
-                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                   },
-                   success: function (data) {
-                       $('#cart').load(location.href + ' #cart');
-                   }
-               })
-           },
-           error: function () {
-               console.log('error')
-           }
-       })
-
-   })
+        $.ajax({
+            type: 'POST',
+            url: '/update-to-cart/' + product_id,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                quantity: quantity
+            },
+            success: function (data) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/cart',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (data) {
+                        $('#cart').load(location.href + ' #cart');
+                    }
+                }).done(function () {
+                    setTimeout(function () {
+                        $("#overlay").fadeOut(300);
+                    }, 500)
+                })
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+    })
 });
+
+
+////////////////////////////// PRUDUCT DETAIL ////////////////////
+
+// $(document).ready(function () {
+//     $(document).on('click', '.product_cart--item', function (event) {
+//         event.preventDefault();
+//         let product_id = $(this).val();
+//         console.log(product_id);
+//     })
+// })
+
 
 //////////////////////////////// RESPONSIVE //////////////////////
 

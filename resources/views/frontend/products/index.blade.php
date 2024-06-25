@@ -32,6 +32,8 @@
         </script>
     @endif
 
+    @include('frontend.layouts.content.category')
+
     <div class="products">
         <div class="products_top">
             <p>Wishlist (4)</p>
@@ -52,13 +54,17 @@
                     <span class="product_item--preview">
                         <ion-icon name="eye-outline"></ion-icon>
                     </span>
-
-                    <div class="product_cart">
-                        <div class="product_img">
-                            <img class="product_img--cart" src="{{$product->image}}" alt="">
+                    <a class="product_cart--item" href="/product_detail/{{$product->id}}" value="{{$product->id}}">
+                        <div class="product_cart">
+                            <div class="product_img">
+                                <img class="product_img--cart" src="{{$product->image}}" alt="">
+                            </div>
+                            <button class="product_cart--button" value="{{$product->id}}">
+                                <ion-icon name="cart-outline"></ion-icon>
+                                Thêm vào giỏ hàng
+                            </button>
                         </div>
-                        <button class="product_cart--button" value="{{$product->id}}"><ion-icon name="cart-outline"></ion-icon> Thêm vào giỏ hàng</button>
-                    </div>
+                    </a>
                     <div class="product_content">
                         <br>
                         <a href="/product_detail" class="product_price--name">{{$product->title}}</a>
@@ -75,19 +81,11 @@
                             (70)
                         </div>
                     </div>
-            </div>
+                </div>
             @endforeach
         </div>
     </div>
-    <div class="pagination_product">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Sau</a></li>
-            </ul>
-        </nav>
+    <div style="margin-top: 50px; display: flex; justify-content: center">
+        <button class="btn btn-danger">Xem thêm sản phẩm</button>
     </div>
 @endsection

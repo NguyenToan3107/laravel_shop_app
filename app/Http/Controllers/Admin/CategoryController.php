@@ -28,10 +28,8 @@ class CategoryController extends Controller
 
 //    public function index(CategoriesDataTable $dataTable) {
 //
-//        $categories = Category::with('children')->whereNull('parent_id')->get();
-//        return $dataTable->render('admin.categories.index', [
-//            'categories' => $categories
-//        ]);
+////        $categories = Category::with('children')->whereNull('parent_id')->get();
+//        return $dataTable->render('admin.categories.index');
 //    }
 
     public function create()
@@ -95,17 +93,18 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
+        $category = Category::find($id);
         $description = $request->input('description');
-        $description = substr($description, 3, strlen($description) - 7);
+//        $description = substr($description, 3, strlen($description) - 7);
 
         if($request->filled('filepath')) {
             $image_path = $request->input('filepath');
             $image_path = explode('http://localhost:8000', $image_path)[1];
         }else {
-            $image_path = '/storage/photos/products/empty-photo.jpg';
+            $image_path = $category->image;
         }
 
-        DB::table('categories')->where('id', $id)->update([
+        $category->update([
             'title' => $request->get('title'),
             'description' => $description,
             'parent_id' => $request->get('parent_id'),

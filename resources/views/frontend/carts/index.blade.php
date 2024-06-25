@@ -43,6 +43,11 @@
 
     <div class="cart" id="cart">
         <section class="cart_section">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div>
             <table class="table table-hover cart_item_prouduct" id="cart-content">
                 <thead>
                 <tr>
@@ -66,7 +71,7 @@
                                      src="{{$cart->image}}" alt=""></td>
                             <td>{{$cart->title}}</td>
                             <td>{{number_format($cart->price * 1000, 0)}}</td>
-                            <td>{{number_format(($cart->percent_sale / 100) * $cart->price * 1000, 0)}}</td>
+                            <td>{{$cart->percent_sale}}%</td>
                             <td><input class="form-control cart_item_product--change" data-id="{{$cart->product_id}}" style="width: 80px" type="number" value="{{$cart->quantity}}"></td>
                             <?php
                                 $total_price = $cart->quantity * (1 - ($cart->percent_sale / 100)) * $cart->price
@@ -79,7 +84,6 @@
                         <td>Không có sản phẩm nào trong giỏ hàng</td>
                     </tr>
                 @endif
-
                 </tbody>
             </table>
         </section>

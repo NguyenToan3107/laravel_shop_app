@@ -6,6 +6,7 @@ use App\DataTables\ProductsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Product_Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -51,15 +52,6 @@ class ProductController extends Controller
 //            'product_image' => 'required|image|mimes:jpeg,png,jpg|max:5048',
             'title' => 'required|unique:products',
         ]);
-
-//        if(isset(request()->image)) {
-//            $generatedImageName = str_replace(' ', '',
-//                ('image' . time() . '-'.request()->title. '.' .request()->image->getClientOriginalExtension()));
-//            request()->image->move(public_path('images/products'), $generatedImageName);
-//        } else {
-//            $generatedImageName = 'empty-photo.jpg';
-//        }
-
         if($request->filled('filepath')) {
             $image_path = $request->input('filepath');
             $image_path = explode('http://localhost:8000', $image_path)[1];
@@ -67,17 +59,38 @@ class ProductController extends Controller
             $image_path = '/storage/photos/products/empty-photo.jpg';
         }
 
-        DB::table('products')->insert([
+
+        if($request->filled('filepath_1')) {
+            $image_path_1 = $request->input('filepath_1');
+            $image_path_1 = explode('http://localhost:8000', $image_path_1)[1];
+        }
+        if($request->filled('filepath_2')) {
+            $image_path_2 = $request->input('filepath_2');
+            $image_path_2 = explode('http://localhost:8000', $image_path_2)[1];
+        }
+        if($request->filled('filepath_3')) {
+            $image_path_3 = $request->input('filepath_3');
+            $image_path_3 = explode('http://localhost:8000', $image_path_3)[1];
+        }
+
+        $product = Product::create([
             'title' => $request->input('title'),
             'price' => $request->input('price'),
-            'percent_sale' => $request->input('percent_sale'),
+            'percent_sale' => $request->percent_sale,
             'description' => $description,
             'image' => $image_path,
-            'category_id' => $request->input('category_id'),
+            'category_id' => $request->category_id,
             'status' => 1,
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
+
+        $image_paths = [$image_path_1, $image_path_2, $image_path_3];
+
+        foreach ($image_paths as $image_path) {
+            Product_Image::create([
+                'product_id' => $product->id,
+                'image_url' => $image_path,
+            ]);
+        }
 
         return redirect(ProductController::PRODUCTS_PATH);
     }
@@ -88,10 +101,12 @@ class ProductController extends Controller
         $category = Category::find($product->category_id);
         $categories = Category::with('children')->whereNull('parent_id')->get();
 
+        $product_image = Product_Image::where('product_id', $product->id)->get();
         return view('admin.products.create_edit_product',
             ['product' => $product,
                 'categories' => $categories,
-                'c' => $category
+                'c' => $category,
+                'product_image' => $product_image
             ]);
     }
 
@@ -102,14 +117,6 @@ class ProductController extends Controller
 
         $product = Product::find($id);
 
-//        if(isset(request()->image)) {
-//            $generatedImageName = str_replace(' ', '',
-//                ('image' . time() . '-'.request()->title. '.' .request()->image->getClientOriginalExtension()));
-//            request()->image->move(public_path('images/products'), $generatedImageName);
-//        } else {
-//            $generatedImageName = $product->image;
-//        }
-
         if($request->filled('filepath')) {
             $image_path = $request->input('filepath');
             $image_path = explode('http://localhost:8000', $image_path)[1];
@@ -117,16 +124,50 @@ class ProductController extends Controller
             $image_path = $product->image;
         }
 
-        $product->where('id', $id)->update([
+        // sub image
+        if($request->filled('filepath_1')) {
+            $image_path_1 = $request->input('filepath_1');
+            $image_path_1 = explode('http://localhost:8000', $image_path_1)[1];
+        }else {
+            $image_path_1 = $product->image;
+        }
+        if($request->filled('filepath_2')) {
+            $image_path_2 = $request->input('filepath_2');
+            $image_path_2 = explode('http://localhost:8000', $image_path_2)[1];
+        }else {
+            $image_path_2 = $product->image;
+        }
+        if($request->filled('filepath_3')) {
+            $image_path_3 = $request->input('filepath_3');
+            $image_path_3 = explode('http://localhost:8000', $image_path_3)[1];
+        }else {
+            $image_path_3 = $product->image;
+        }
+
+        $product->update([
             'title' => $request->input('title'),
             'price' => $request->input('price'),
+            'percent_sale' => $request->percent_sale,
             'description' => $description,
             'image' => $image_path,
+            'category_id' => $request->category_id,
             'status' => $request->input('status'),
-            'category_id' => $request->input('category_id'),
-            'updated_at' => now(),
             'deleted_at' => null
         ]);
+
+        $image_paths = [$image_path_1, $image_path_2, $image_path_3];
+
+
+        $product_images = Product_Image::where('product_id', $product->id)->get();
+
+        foreach ($product_images as $product_image) {
+            $product_image->update([
+                'image_url' => $image_paths[0],
+            ]);
+            array_shift($image_paths);
+        }
+
+
         return redirect('/admin/products');
     }
 

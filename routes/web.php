@@ -38,7 +38,7 @@ Route::post('/orders', [OrderController::class, 'store']);
 
 
 Route::get('/contact', [ContactController::class, 'index']);
-Route::get('/product_detail', [ProductDetailController::class, 'index']);
+Route::get('/product_detail/{id}', [ProductDetailController::class, 'index']);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile', [ProfileController::class, 'index']);

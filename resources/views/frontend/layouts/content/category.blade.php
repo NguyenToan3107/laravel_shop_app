@@ -12,36 +12,13 @@
     </div>
 
     <div class="category_list">
-        <div class="category_item">
-            <img class="category_item--img" src="{{asset('assets/frontend/images/categories/phone.png')}}" alt="">
-            <p>Điện thoại</p>
-        </div>
-        <div class="category_item">
-            <img class="category_item--img" src="{{asset('assets/frontend/images/categories/computer.png')}}" alt="">
-            <p>Máy tính</p>
-        </div>
-        <div class="category_item">
-            <img class="category_item--img" src="{{asset('assets/frontend/images/categories/smartwatch.png')}}" alt="">
-            <p>Smart Watch</p>
-        </div>
-        <div class="category_item">
-            <img class="category_item--img" src="{{asset('assets/frontend/images/categories/camera.png')}}" alt="">
-            <p>Camera</p>
-        </div>
-        <div class="category_item">
-            <img class="category_item--img" src="{{asset('assets/frontend/images/categories/headphone.png')}}" alt="">
-            <p>Tai nghe</p>
-        </div>
-        <div class="category_item">
-            <img class="category_item--img" src="{{asset('assets/frontend/images/categories/gaming.png')}}" alt="">
-            <p>Gaming</p>
-        </div>
+        @foreach($categories as $category)
+            <a href="" class="category_item" value="{{$category->id}}">
+                <img class="category_item--img" src="{{$category->image}}" alt="">
+                <p>{{$category->title}}</p>
+            </a>
+        @endforeach
     </div>
 
 </div>
 
-
-<div style="margin-top: 50px"></div>
-
-<div class="horizontal-bar">
-</div>

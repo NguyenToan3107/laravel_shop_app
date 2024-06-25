@@ -56,7 +56,7 @@ class OrderDetailsDataTable extends DataTable
                 return $orderDetail->quantity;
             })
             ->editColumn('total', function (OrderDetail $orderDetail) {
-                return number_format((($orderDetail->quantity  - ($orderDetail->products->percent_sale / 100)) * $orderDetail->products->price) * 1000, 0) ;
+                return number_format((1 - ($orderDetail->products->percent_sale / 100)) * $orderDetail->quantity * $orderDetail->products->price * 1000, 0);
             })
             ->addColumn('image', function ($orderDetail) {
                 return '<img class="img-thumbnail user-image-45" src="'.$orderDetail->products->image.'" alt="' . $orderDetail->products->title . '">';
