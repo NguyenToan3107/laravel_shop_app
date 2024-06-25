@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class OrderController extends Controller
 {
@@ -88,5 +90,93 @@ class OrderController extends Controller
         ]);
 
         return redirect('/admin/orders')->with('success', 'Cập nhật đơn hàng thành công!');
+    }
+
+
+    public function destroy($id, Request $request)
+    {
+        if($request->filled('id')) {
+            DB::table('order')->where('id', $id)->delete();
+        }
+        $model = Order::query()
+            ->select(['id', 'price', 'status', 'updated_at', 'fullname', 'phone', 'address', 'author_id', 'percent_sale'])
+            ->where('deleted_at','<>', 'null')
+            ->where('status', 6);
+
+        return DataTables::of($model)
+            ->order(function ($query) {
+                $query->orderBy('status', 'asc');
+            })
+            ->editColumn('status', function (Order $order) {
+                return view('admin.orders.status', ['order' => $order]);
+            })
+            ->editColumn('fullname', function (Order $order) {
+                return $order->fullname;
+            })
+            ->editColumn('phone', function (Order $order) {
+                return $order->phone;
+            })
+            ->editColumn('percent_sale', function (Order $order) {
+                return $order->percent_sale ? $order->percent_sale : '0';
+            })
+            ->editColumn('address', function (Order $order) {
+                return $order->address;
+            })
+            ->addColumn('updated_at', function (Order $order) {
+                return $order->updated_at->format('d/m/Y');
+            })
+            ->addColumn('action', function ($order) {
+                return view('admin.orders.action_delete', ['order' => $order]);
+            })
+            ->rawColumns(['updated_at', 'status'])
+            ->setRowId('id')
+            ->make();
+    }
+
+    // soft post
+    public function softDelete(Request $request)
+    {
+        $model = Order::query()
+            ->select(['id', 'price', 'status', 'updated_at', 'fullname', 'phone', 'address', 'author_id', 'percent_sale'])
+            ->whereNull('deleted_at')
+            ->where('status', '<>', 6);
+        if ($request->filled('order_id')) {
+            Order::find($request->order_id)->update([
+                'deleted_at' => now(),
+                'status' => 6
+            ]);
+        }
+        return DataTables::of($model)
+            ->order(function ($query) {
+                $query->orderBy('status', 'asc');
+            })
+            ->editColumn('status', function (Order $order) {
+                return view('admin.orders.status', ['order' => $order]);
+            })
+            ->editColumn('fullname', function (Order $order) {
+                return $order->fullname;
+            })
+//            ->editColumn('author_id', function (Order $order) {
+//                return $order->user->email;
+//            })
+            ->editColumn('phone', function (Order $order) {
+                return $order->phone;
+            })
+            ->editColumn('percent_sale', function (Order $order) {
+                return $order->percent_sale ? $order->percent_sale : '0';
+            })
+            ->editColumn('address', function (Order $order) {
+                return $order->address;
+            })
+            ->addColumn('updated_at', function (Order $order) {
+                return $order->updated_at->format('d/m/Y');
+            })
+            ->addColumn('action', function ($order) {
+                return view('admin.orders.action', ['order' => $order]);
+            })
+            ->rawColumns(['updated_at', 'status'])
+            ->setRowId('id')
+            ->make();
+
     }
 }

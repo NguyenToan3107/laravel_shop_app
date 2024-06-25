@@ -515,6 +515,187 @@ const reset_order_datatable = function () {
 
 
 ///////////////////// DELETE ORDER
+// soft delete
+$(document).ready(function () {
+    $(document).on('click', '.trash_button_order', function (event) {
+        event.preventDefault();
+        let order_id = $(this).val();
+        $('#deleteModal').modal('show')
+        $('#confirmDeleteButton_trash').val(order_id)
+
+        $('#confirmDeleteButton_trash').on('click', function (event) {
+            event.preventDefault();
+            let order_id = $(this).val();
+
+            if ($.fn.DataTable.isDataTable('#orders-table')) {
+                $('#orders-table').DataTable().destroy();
+            }
+
+            $('#orders-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: `/admin/orders/soft_delete`,
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        order_id: order_id,
+                    },
+                    error: function(xhr, status, error) {
+                        let errorMessage = xhr.status + ': ' + xhr.statusText
+                        console.error('AJAX Error: ' + errorMessage);
+
+                        $('#deleteModal').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Đã xảy ra lỗi khi xóa đơn hàng",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: true,
+                            className: "toastify-custom toastify-error"
+                        }).showToast();
+
+                        reset_order_datatable();
+                    },
+                    success: function () {
+                        $('#deleteModal').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Xóa đơn hàng thành công",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            className: "toastify-custom toastify-success"
+                        }).showToast();
+
+                        reset_order_datatable();
+                    }
+                },
+                order: [6, 'asc'],
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'fullname', name: 'fullname'},
+                    // {data: 'author_id', name: 'author_id'},
+                    {data: 'phone', name: 'phone'},
+                    {data: 'address', name: 'address'},
+                    {data: 'percent_sale', name: 'percent_sale'},
+                    {data: 'price', name: 'price'},
+                    {data: 'status', name: 'status'},
+                    { data: 'updated_at', name: 'updated_at' },
+                    {data: 'action', name: 'action'}
+                ]
+            });
+            $('#deleteModal').modal('hide')
+        })
+    })
+})
+
+// hard delete
+$(document).ready(function () {
+    $(document).on('click', '.delete_button_order', function (event) {
+        event.preventDefault();
+        let order_id = $(this).val();
+        $('#trashModal').modal('show')
+        $('#confirmDeleteButton_remove').val(order_id)
+
+        $('#confirmDeleteButton_remove').on('click', function (event) {
+            event.preventDefault();
+            let order_id = $(this).val();
+
+            if ($.fn.DataTable.isDataTable('#orders-table')) {
+                $('#orders-table').DataTable().destroy();
+            }
+
+            $('#orders-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: `/admin/orders/` + order_id,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        id: order_id,
+                    },
+                    error: function(xhr, status, error) {
+                        let errorMessage = xhr.status + ': ' + xhr.statusText
+                        console.error('AJAX Error: ' + errorMessage);
+
+                        $('#trashModal').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Đã xảy ra lỗi khi xóa đơn hàng",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: true,
+                            className: "toastify-custom toastify-error"
+                        }).showToast();
+
+                        reset_order_datatable();
+                    },
+                    success: function () {
+                        $('#trashModal').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Xóa đơn hàng thành công",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            className: "toastify-custom toastify-success"
+                        }).showToast();
+
+                        reset_order_datatable();
+                    }
+                },
+                order: [6, 'asc'],
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'fullname', name: 'fullname'},
+                    // {data: 'author_id', name: 'author_id'},
+                    {data: 'phone', name: 'phone'},
+                    {data: 'address', name: 'address'},
+                    {data: 'percent_sale', name: 'percent_sale'},
+                    {data: 'price', name: 'price'},
+                    {data: 'status', name: 'status'},
+                    { data: 'updated_at', name: 'updated_at' },
+                    {data: 'action', name: 'action'}
+                ]
+            });
+        })
+    })
+})
+
+
+
+
+
+
+
+
+
 
 
 

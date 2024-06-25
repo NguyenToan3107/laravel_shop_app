@@ -69,23 +69,23 @@ class OrdersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('orders-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->scrollX(true)
-                    ->searching(false)
-                    //->dom('Bfrtip')
-                    ->autoWidth(false)
-                    ->orderBy(6, 'asc')
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('orders-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->scrollX(true)
+            ->searching(false)
+            //->dom('Bfrtip')
+            ->autoWidth(false)
+            ->orderBy(6, 'asc')
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**

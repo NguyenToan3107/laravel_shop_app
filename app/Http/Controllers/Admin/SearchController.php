@@ -269,6 +269,9 @@ class SearchController extends Controller
             ->editColumn('phone', function (Order $order) {
                 return $order->phone;
             })
+            ->editColumn('price', function (Order $order) {
+                return number_format($order->price * (1 - ($order->percent_sale / 100)) * 1000 - 30000, 0);
+            })
             ->editColumn('percent_sale', function (Order $order) {
                 return $order->percent_sale ? $order->percent_sale : '0';
             })
@@ -279,7 +282,11 @@ class SearchController extends Controller
                 return $order->updated_at->format('d/m/Y');
             })
             ->addColumn('action', function ($order) {
-                return view('admin.orders.action', ['order' => $order]);
+                if($order->status != 6) {
+                    return view('admin.orders.action', ['order' => $order]);
+                }else {
+                    return view('admin.orders.action_delete', ['order' => $order]);
+                }
             })
             ->rawColumns(['updated_at', 'status'])
             ->setRowId('id')

@@ -50,7 +50,7 @@ Route::prefix('/admin')->group(function () {
         // hard delete
         Route::delete(ORDER_ROUTE, [OrderController::class, 'destroy'])->name('orders.destroy');
         // soft delete
-//        Route::post('/posts/soft_delete', [PostController::class, 'softDelete']);
+        Route::post('/orders/soft_delete', [OrderController::class, 'softDelete'])->name('orders.softDelete');
     });
 
     ///////////////////////////
