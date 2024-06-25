@@ -37,11 +37,14 @@ class OrdersDataTable extends DataTable
             ->editColumn('address', function (Order $order) {
                 return $order->address;
             })
+            ->editColumn('percent_sale', function (Order $order) {
+                return isset($order->percent_sale) ? $order->percent_sale : '0';
+            })
             ->addColumn('updated_at', function (Order $order) {
                 return $order->updated_at->format('d/m/Y');
             })
             ->editColumn('price', function (Order $order) {
-                return number_format($order->price, 0);
+                return number_format($order->price * (1 - ($order->percent_sale / 100)) * 1000 - 30000, 0);
             })
             ->addColumn('action', function ($order) {
                 return view('admin.orders.action', ['order' => $order]);
@@ -56,7 +59,8 @@ class OrdersDataTable extends DataTable
     public function query(Order $model): QueryBuilder
     {
         return $model->newQuery()
-            ->select(['id', 'price', 'status', 'updated_at', 'fullname', 'phone', 'address', 'author_id']);
+            ->select(['id', 'price', 'status', 'updated_at', 'fullname', 'phone', 'address', 'author_id', 'percent_sale'])
+            ->where('status', '<>', 6);
     }
 
     /**
@@ -72,7 +76,7 @@ class OrdersDataTable extends DataTable
                     ->searching(false)
                     //->dom('Bfrtip')
                     ->autoWidth(false)
-                    ->orderBy(0, 'asc')
+                    ->orderBy(6, 'asc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -92,9 +96,10 @@ class OrdersDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('fullname')->title('Người đặt'),
-            Column::make('author_id')->title('Email'),
+//            Column::make('author_id')->title('Email'),
             Column::make('phone')->title('SĐT'),
             Column::make('address')->title('Địa chỉ'),
+            Column::make('percent_sale')->title('Khuyến mãi'),
             Column::make('price')->title('Giá'),
             Column::make('status')->title('Trạng thái'),
             Column::make('updated_at')->title('Ngày đặt'),

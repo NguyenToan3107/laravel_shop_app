@@ -43,6 +43,7 @@
     {{-- Toast --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+
 </head>
 
 <body>
@@ -67,6 +68,7 @@
 
 @include('frontend.layouts.footer.footer')
 
+@stack('scripts')
 
 <script src="{{asset('assets/frontend/js/script.js')}}"></script>
 <!--
@@ -74,6 +76,7 @@
 -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
 
 </body>
 

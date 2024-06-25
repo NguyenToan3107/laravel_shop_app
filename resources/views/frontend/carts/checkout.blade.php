@@ -24,17 +24,20 @@
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Số điện thoại*</label>
-                    <input type="text" name="phone" class="form-control" id=""  required>
+                    <input type="text" name="phone" class="form-control" id="" required>
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Địa chỉ*</label>
-                    <input type="text" name="address" class="form-control" id=""  required>
+                    <input type="text" name="address" class="form-control" id="" required>
                 </div>
 
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Lưu lại thông tin</label>
                 </div>
+
+                <div id="map" style="height: 300px; width: 500px;"></div>
+
             </div>
             <div class="checkout_code">
                 @foreach($carts as $cart)
@@ -49,9 +52,6 @@
                         <p class="checkout_code--product--price">{{number_format($total_price * 1000, 0)}}</p>
                     </div>
                 @endforeach
-
-
-
                 <table class="table">
                     <tr>
                         <td>Tổng phụ</td>
@@ -97,5 +97,33 @@
             </div>
         </form>
     </div>
+
 @endsection
 
+@push('scripts')
+        <!-- Replace YOUR_API_KEY here by your key above -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwaLDG4ZPsKoA-eKtq0Qr0ztmwoj2uhAA&callback=initMap" async defer></script>
+        <script>
+            function initMap() {
+                var map = new google.maps.Map(document.getElementById("map"), {
+                    center: { lat: 21.0168864, lng: 105.7855574 },
+                    zoom: 15
+                });
+            }
+        </script>
+
+
+{{--    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"--}}
+{{--          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>--}}
+{{--    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"--}}
+{{--            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>--}}
+{{--    <script>--}}
+{{--        document.addEventListener('DOMContentLoaded', function () {--}}
+{{--            var map = L.map('map').setView([51.505, -0.09], 13);--}}
+{{--            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {--}}
+{{--                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'--}}
+{{--            }).addTo(map);--}}
+{{--        });--}}
+{{--    </script>--}}
+
+@endpush

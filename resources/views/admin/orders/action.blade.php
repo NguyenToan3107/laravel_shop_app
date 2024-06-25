@@ -9,6 +9,6 @@
     @endcan
     @can('delete-order')
         <button style="margin-left: 3px" value="{{$order->id}}" data-id="{{$order->id}}"
-                class="btn btn-danger btn-sm delete_button_order">Hủy</button>
+                class="btn btn-danger btn-sm trash_button_order">Xóa</button>
     @endcan
 </div>

@@ -223,7 +223,7 @@ class SearchController extends Controller
     public function searchOrder(Request $request)
     {
         $model = Order::query()
-            ->select(['id', 'price', 'status', 'updated_at', 'fullname', 'phone', 'address', 'author_id']);
+            ->select(['id', 'price', 'status', 'updated_at', 'fullname', 'phone', 'address', 'author_id', 'percent_sale']);
 
 //            ->whereNull('deleted_at');
 
@@ -254,17 +254,23 @@ class SearchController extends Controller
         }
 
         return DataTables::of($model)
+            ->order(function ($query) {
+                $query->orderBy('status', 'asc');
+            })
             ->editColumn('status', function (Order $order) {
                 return view('admin.orders.status', ['order' => $order]);
             })
             ->editColumn('fullname', function (Order $order) {
                 return $order->fullname;
             })
-            ->editColumn('author_id', function (Order $order) {
-                return $order->user->email;
-            })
+//            ->editColumn('author_id', function (Order $order) {
+//                return $order->user->email;
+//            })
             ->editColumn('phone', function (Order $order) {
                 return $order->phone;
+            })
+            ->editColumn('percent_sale', function (Order $order) {
+                return $order->percent_sale ? $order->percent_sale : '0';
             })
             ->editColumn('address', function (Order $order) {
                 return $order->address;

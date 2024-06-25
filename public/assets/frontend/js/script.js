@@ -54,105 +54,77 @@ if (addToCartButtons) {
 
 
 //////////////////////////////// REMOVE FROM CART
-const cart_item_product_remove = document.querySelectorAll('.cart_item_product--remove')
-if (cart_item_product_remove) {
-    cart_item_product_remove.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            let product_id = button.value;
+$(document).ready(function () {
+    // Sử dụng .on() để gắn sự kiện cho các phần tử có lớp .cart_item_product--remove
+    $(document).on('click', '.cart_item_product--remove', function (e) {
+        e.preventDefault();
+        let product_id = $(this).val();
 
-            console.log(product_id);
-
-            $.ajax({
-                type: "GET",
-                url: '/remove-from-cart/' + product_id,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
-                },
-                success: function (data) {
-                    let existingToast = document.querySelector(".toastify");
-                    if (existingToast) {
-                        existingToast.remove();
+        $.ajax({
+            type: "GET",
+            url: '/remove-from-cart/' + product_id,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (data) {
+                console.log('Product removed successfully');
+                // Sau khi xóa thành công, cập nhật lại nội dung giỏ hàng
+                $.ajax({
+                    type: "GET",
+                    url: '/cart',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (data) {
+                        // Thay thế nội dung #cart-content bằng HTML mới từ endpoint /cart
+                        $('#cart').load(location.href + ' #cart');
+                    },
+                    error: function () {
+                        console.log("Error loading cart content");
                     }
-                    // kiểm tra nếu toast trước đó vẫn còn
-                    Toastify({
-                        text: "Xóa sản phẩm khỏi giỏ hàng thành công",
-                        duration: 2000,
-                        close: true,
-                        gravity: "top", // `top` or `bottom`
-                        position: "right", // `left`, `center` or `right`
-                        stopOnFocus: true, // Prevents dismissing of toast on hover
-                        className: "toastify-custom toastify-success"
-                    }).showToast();
+                });
+            },
+            error: function () {
+                console.log("Error removing product from cart");
+            }
+        });
+    });
+});
 
-                    // reload_cart()
-                    window.location.reload();
-                },
-                error: function () {
-                    let existingToast = document.querySelector(".toastify");
-                    if (existingToast) {
-                        existingToast.remove();
-                    }
-                    Toastify({
-                        text: "Xóa thất bại",
-                        duration: 2000,
-                        close: true,
-                        gravity: "top",
-                        position: "right",
-                        stopOnFocus: true,
-                        className: "toastify-custom toastify-error"
-                    }).showToast();
-                }
-            })
-        })
-    })
-}
+$(document).ready(function () {
+   $(document).on('change', '.cart_item_product--change', function (event) {
+       event.preventDefault();
+       let quantity = $(this).val();
+       let product_id = $(this).data('id')
 
-const cart_item_product_change = document.querySelectorAll('.cart_item_product--change')
+       $.ajax({
+           type: 'POST',
+           url: '/update-to-cart/' + product_id,
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           },
+           data: {
+               quantity: quantity
+           },
+           success: function (data) {
+               $.ajax({
+                   type: 'GET',
+                   url: '/cart',
+                   headers: {
+                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                   },
+                   success: function (data) {
+                       $('#cart').load(location.href + ' #cart');
+                   }
+               })
+           },
+           error: function () {
+               console.log('error')
+           }
+       })
 
-if (cart_item_product_change) {
-    cart_item_product_change.forEach(button => {
-        button.addEventListener('change', e => {
-            e.preventDefault()
-            let quantity = button.value;
-            let product_id = button.dataset.id;
-
-            $.ajax({
-                type: "POST",
-                url: '/update-to-cart/' + product_id,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {
-                    quantity: quantity
-                },
-                success: function (data) {
-                    reload_cart()
-                },
-                error: function () {
-                    console.log('error')
-                }
-            })
-        })
-    })
-}
-
-const reload_cart = function () {
-    $.ajax({
-        type: "GET",
-        url: '/cart',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
-        },
-        success: function (data) {
-            console.log('success')
-            window.location.reload()
-        },
-        error: function () {
-            console.log('error')
-        }
-    })
-}
+   })
+});
 
 //////////////////////////////// RESPONSIVE //////////////////////
 

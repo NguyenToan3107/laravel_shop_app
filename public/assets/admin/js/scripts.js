@@ -409,10 +409,6 @@ if(post_update_form) {
 }
 
 
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////
 // --------------------------------- ORDERS --------------------------------------- //
 
@@ -460,9 +456,10 @@ if(order_search_form) {
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'fullname', name: 'fullname'},
-                {data: 'author_id', name: 'author_id'},
+                // {data: 'author_id', name: 'author_id'},
                 {data: 'phone', name: 'phone'},
                 {data: 'address', name: 'address'},
+                {data: 'percent_sale', name: 'percent_sale'},
                 {data: 'price', name: 'price'},
                 {data: 'status', name: 'status'},
                 { data: 'updated_at', name: 'updated_at' },
@@ -499,12 +496,14 @@ const reset_order_datatable = function () {
         serverSide: true,
         ajax: '/admin/orders',
         type: 'GET',
+        order: [6, 'asc'],
         columns: [
             {data: 'id', name: 'id'},
             {data: 'fullname', name: 'fullname'},
-            {data: 'author_id', name: 'author_id'},
+            // {data: 'author_id', name: 'author_id'},
             {data: 'phone', name: 'phone'},
             {data: 'address', name: 'address'},
+            {data: 'percent_sale', name: 'percent_sale'},
             {data: 'price', name: 'price'},
             {data: 'status', name: 'status'},
             { data: 'updated_at', name: 'updated_at' },
@@ -513,6 +512,9 @@ const reset_order_datatable = function () {
     });
 }
 
+
+
+///////////////////// DELETE ORDER
 
 
 

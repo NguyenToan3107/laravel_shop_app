@@ -355,18 +355,14 @@ header {
 /* CHECKOUT */
 
 .checkout {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 200px;
 }
 
 .checkout_form {
     display: flex;
     flex-direction: row;
-    gap: 200px;
-    justify-content: space-between;
-    align-content: center;
+    /*gap: 200px;*/
+    justify-content: space-around;
+    align-content: space-between;
     margin: 0 auto;
 
 }

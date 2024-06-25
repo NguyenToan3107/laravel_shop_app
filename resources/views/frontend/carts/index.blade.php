@@ -41,7 +41,7 @@
 
     <div style="margin-top: 100px"></div>
 
-    <div class="cart">
+    <div class="cart" id="cart">
         <section class="cart_section">
             <table class="table table-hover cart_item_prouduct" id="cart-content">
                 <thead>
