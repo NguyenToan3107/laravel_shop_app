@@ -28,7 +28,12 @@ class Product extends Model
     }
 
     public function product_images() {
-        return $this->hasMany(Product_Image::class, 'product_id', 'id');
+        return $this->hasMany(Product_Image::class, 'product_id', 'id')
+            ->select('id', 'product_id', 'image_url');
     }
 
+    public function product_attributes() {
+        return $this->hasMany(Product_Attribute::class, 'product_id', 'id')
+            ->select('product_id', 'id', 'capacity', 'price', 'percent_sale', 'price_old', 'color');
+    }
 }

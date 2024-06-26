@@ -176,6 +176,13 @@ class ProductController extends Controller
         if($request->filled('id')) {
             Product::find($id)->delete();
         }
+
+        $product_images = Product_Image::where('product_id', $id)->get();
+
+        foreach ($product_images as $product_image) {
+            $product_image->delete();
+        }
+
         $model = Product::query()
             ->select(['id', 'image', 'title', 'description', 'price', 'status', 'created_at', 'updated_at'])
             ->where('deleted_at','<>', 'null')

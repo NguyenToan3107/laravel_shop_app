@@ -38,7 +38,10 @@ Route::post('/orders', [OrderController::class, 'store']);
 
 
 Route::get('/contact', [ContactController::class, 'index']);
+
 Route::get('/product_detail/{id}', [ProductDetailController::class, 'index']);
+Route::post('/choose-capacity', [ProductDetailController::class, 'chooseCapacity']);
+Route::post('/choose-color', [ProductDetailController::class, 'chooseColor']);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile', [ProfileController::class, 'index']);

@@ -1,6 +1,11 @@
 @extends('frontend.layouts.app')
 
 @section('content')
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
     <div class="detail_nav">
         <a href="/">Trang chủ</a>
         <i class="fa-solid fa-chevron-right"></i>
@@ -33,25 +38,48 @@
                 <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                 (150 Reviews)
             </div>
-            <p class="product_star--price">{{number_format($product->price * 1000, 0)}} đ</p>
+{{--            <div class="product_star--price">--}}
+{{--                <p class="product_star--price--new">{{number_format($product->price * (1 - ($product->percent_sale / 100)) * 1000, 0)}} đ</p>--}}
+{{--                <p class="product_star--price--old">{{number_format($product->price * 1000, 0)}} đ</p>--}}
+{{--            </div>--}}
             <p>{{$product->description}}</p>
 
-            <form>
-                <label>Colours: </label>
-                <input type="radio" id="css" name="fav_language" value="CSS">
-                <input type="radio" id="css" name="fav_language" value="CSS">
-
-                <div style="display: flex; flex-direction: row; align-content: center; margin-top: 10px; gap: 10px">
-                    <p style="margin-top: 10px">Size: </p>
-                    <select class="form-select" style="width: 80px; height: 40px" aria-label="Default select example">
-                        <option value="1">XS</option>
-                        <option value="2">S</option>
-                        <option value="3">M</option>
-                        <option value="4">L</option>
-                        <option value="5">XL</option>
-                    </select>
+            <form id="form_choose_option">
+                <div class="product-detail--capacity">
+                    @foreach($capacities as $capacity)
+                        @if($loop->first)
+                            @if($capacity == 1000)
+                                <p class="active" data-id="{{$product->id}}"
+                                   data-capacity="{{$capacity}}">{{$capacity / 1000}} TB</p>
+                            @else
+                                <p class="active" data-id="{{$product->id}}" data-capacity="{{$capacity}}">{{$capacity}} GB</p>
+                            @endif
+                        @else
+                            @if($capacity == 1000)
+                                <p data-id="{{$product->id}}" data-capacity="{{$capacity}}">{{$capacity / 1000}} TB</p>
+                            @else
+                                <p data-id="{{$product->id}}" data-capacity="{{$capacity}}">{{$capacity}} GB</p>
+                            @endif
+                        @endif
+                    @endforeach
                 </div>
 
+                <div class="product-detail--color">
+                    @foreach($colors as $color)
+                        @if($loop->first)
+                            <p class="active" data-id="{{$product->id}}" data-color="{{$color}}">{{$color}}</p>
+                        @else
+                            <p data-id="{{$product->id}}" data-color="{{$color}}">{{$color}}</p>
+                        @endif
+                    @endforeach
+                </div>
+                <br>
+                <div class="product_star--price" id="product_star--price">
+                    <p class="product_star--price--new">{{number_format($product_attribute_first->price * 1000, 0)}} đ</p>
+                    <p class="product_star--price--old">{{number_format($product_attribute_first->price_old * 1000, 0)}} đ</p>
+                    <p class="product_star--discount">-({{$product_attribute_first->percent_sale}})%</p>
+                </div>
+                <br>
                 <div class="product_detail--quantity">
                     <div class="product_detail--quantity--num">
                         <p>Số lượng: </p>
@@ -59,7 +87,7 @@
                         <input type="number" class="form-control" value="0" style="width: 80px;">
                         <span class="input-group-text icon-hidden"><i class="fa-solid fa-plus"></i></span>
                     </div>
-                    <button type="submit" class="btn btn-danger">Thêm vào giỏ hàng</button>
+                    <button type="submit" class="btn btn-danger" value="{{$product->id}}">Thêm vào giỏ hàng</button>
                     <button type="submit" class="btn btn-secondary"><i class="fa-regular fa-heart"></i></button>
                 </div>
             </form>
@@ -68,7 +96,7 @@
             <br>
 
             <div class="product-detail_delivery">
-                <div class="product-detail_info--deliver" >
+                <div class="product-detail_info--deliver">
                     <img src="{{asset('assets/frontend/images/car.png')}}" alt="">
                     <div>
                         <h6>Free Delivery</h6>
@@ -76,7 +104,7 @@
                     </div>
                 </div>
 
-                <div class="product-detail_info--deliver" >
+                <div class="product-detail_info--deliver">
                     <img src="{{asset('assets/frontend/images/return.png')}}" alt="">
                     <div>
                         <h6>Return Delivery</h6>
