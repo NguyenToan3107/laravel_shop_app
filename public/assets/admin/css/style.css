@@ -254,6 +254,9 @@ a.sidebar-link {
     background: red !important;
 }
 
+.toastify-info {
+    background: #0DCAF0 !important;
+}
 
 /* ======================= Dashboard ====================== */
 /* ======================= Cards ====================== */
@@ -478,4 +481,13 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
     padding: 20px;
     border-radius: 5px;
     width: 100%;
+}
+
+/*PRODUCT ATTRIBUTE SET*/
+
+.product_attribute_set_create {
+}
+
+.product_attribute_set_create--lable {
+    margin: 30px 0;
 }

@@ -6,11 +6,13 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProductAttributeController;
+use App\Http\Controllers\Admin\ProductAttributeSetController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\UserController;
+use App\Models\Product_Attribute_Set;
 use Illuminate\Support\Facades\Route;
 
 const POST_ROUTE = '/posts/{post}';
@@ -83,17 +85,18 @@ Route::prefix('/admin')->group(function () {
 
     ////////////////////////// PRODUCT ATTRIBUTE SET
     Route::middleware('auth')->group(function () {
-        Route::post('/product_attribute_sets', [ProductAttributeController::class, 'store'])->name('product_attribute_sets.store');
-        Route::get('/product_attribute_sets/create', [ProductAttributeController::class, 'create'])->name('product_attribute_sets.create');
+        Route::post('/product_attribute_sets', [ProductAttributeSetController::class, 'store'])->name('product_attribute_sets.store');
+        Route::get('/product_attribute_sets/create', [ProductAttributeSetController::class, 'create'])->name('product_attribute_sets.create');
 
-        Route::get('/product_attribute_sets', [ProductAttributeController::class, 'index'])->name('product_attribute_sets.index');
-        Route::get('/product_attribute_sets/{id}', [ProductAttributeController::class, 'show'])->name('product_attribute_sets.show');
+        Route::get('/product_attribute_sets', [ProductAttributeSetController::class, 'index'])->name('product_attribute_sets.index');
+        Route::get('/product_attribute_sets/{id}', [ProductAttributeSetController::class, 'show'])->name('product_attribute_sets.show');
 
-        Route::get(PRODUCT_ATTRIBUTE_SET_ROUTE . '/edit', [ProductAttributeController::class, 'edit'])->name('product_attribute_sets.edit');
-        Route::put('/product_attribute_sets/{id}', [ProductAttributeController::class, 'update'])->name('product_attribute_sets.update');
+        Route::get(PRODUCT_ATTRIBUTE_SET_ROUTE . '/edit', [ProductAttributeSetController::class, 'edit'])->name('product_attribute_sets.edit');
+        Route::post('/product_attribute_sets/{id}', [ProductAttributeSetController::class, 'update'])->name('product_attribute_sets.update');
 
         // hard delete
-        Route::delete(PRODUCT_ATTRIBUTE_SET_ROUTE, [ProductAttributeController::class, 'destroy'])->name('product_attribute_sets.destroy');
+        Route::delete(PRODUCT_ATTRIBUTE_SET_ROUTE, [ProductAttributeSetController::class, 'destroy'])->name('product_attribute_sets.destroy');
+        Route::delete('/product_attribute_sets/{id_attribute_set}/product_attribute/{id_attribute}', [ProductAttributeSetController::class, 'deleteAttribute'])->name('product_attribute_sets.delete-attribute');
     });
 
     ///////////////////////////

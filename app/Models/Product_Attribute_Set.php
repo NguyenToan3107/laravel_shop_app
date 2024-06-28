@@ -17,7 +17,11 @@ class Product_Attribute_Set extends Model
     }
 
     public function attributes() {
-        return $this->hasMany(Product_Attribute::class, 'product_attribute_set_id', 'id');
+        return $this->belongsToMany(
+            Product_Attribute::class,
+            'product_attribute_set_attribute',
+            'attribute_set_id',
+            'attribute_id'
+        );
     }
-
 }

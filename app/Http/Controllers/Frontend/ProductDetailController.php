@@ -25,11 +25,11 @@ class ProductDetailController extends Controller
 
             foreach ($product->skus as $sku) {
                 foreach ($sku->attributeValues as $attributeValue) {
-                    if ($attributeValue->attribute->name === 'capacity') {
+                    if ($attributeValue->attribute->name === 'dung lượng') {
                         $capacities->push($attributeValue);
                     }
 
-                    if ($attributeValue->attribute->name === 'color') {
+                    if ($attributeValue->attribute->name === 'màu sắc') {
                         $colors->push($attributeValue);
                     }
                 }
@@ -43,8 +43,8 @@ class ProductDetailController extends Controller
             $capacity_value = $request->query('capacity');
 
             // Lấy id của thuộc tính Capacity và Color từ bảng ProductAttribute
-            $capacity = Product_Attribute::where('name', 'capacity')->first()->id;
-            $color = Product_Attribute::where('name', 'color')->first()->id;
+            $capacity = Product_Attribute::where('name', 'dung lượng')->first()->id;
+            $color = Product_Attribute::where('name', 'màu sắc')->first()->id;
 
             // Lấy id của giá trị Attribute Value cho Capacity và Color
             $valueCapacity = Product_Attribute_Value::where('attribute_id', $capacity)
