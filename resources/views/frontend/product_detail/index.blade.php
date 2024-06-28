@@ -48,17 +48,17 @@
                 <div class="product-detail--capacity">
                     @foreach($capacities as $capacity)
                         @if($loop->first)
-                            @if($capacity == 1000)
+                            @if($capacity->value == 1000)
                                 <p class="active" data-id="{{$product->id}}"
-                                   data-capacity="{{$capacity}}">{{$capacity / 1000}} TB</p>
+                                   data-capacity="{{$capacity->value}}">{{$capacity->value / 1000}} TB</p>
                             @else
-                                <p class="active" data-id="{{$product->id}}" data-capacity="{{$capacity}}">{{$capacity}} GB</p>
+                                <p class="active" data-id="{{$product->id}}" data-capacity="{{$capacity->value}}">{{$capacity->value}} GB</p>
                             @endif
                         @else
-                            @if($capacity == 1000)
-                                <p data-id="{{$product->id}}" data-capacity="{{$capacity}}">{{$capacity / 1000}} TB</p>
+                            @if($capacity->value == 1000)
+                                <p data-id="{{$product->id}}" data-capacity="{{$capacity->value}}">{{$capacity->value / 1000}} TB</p>
                             @else
-                                <p data-id="{{$product->id}}" data-capacity="{{$capacity}}">{{$capacity}} GB</p>
+                                <p data-id="{{$product->id}}" data-capacity="{{$capacity->value}}">{{$capacity->value}} GB</p>
                             @endif
                         @endif
                     @endforeach
@@ -67,17 +67,17 @@
                 <div class="product-detail--color">
                     @foreach($colors as $color)
                         @if($loop->first)
-                            <p class="active" data-id="{{$product->id}}" data-color="{{$color}}">{{$color}}</p>
+                            <p class="active" data-id="{{$product->id}}" data-color="{{$color->value}}">{{$color->value}}</p>
                         @else
-                            <p data-id="{{$product->id}}" data-color="{{$color}}">{{$color}}</p>
+                            <p data-id="{{$product->id}}" data-color="{{$color->value}}">{{$color->value}}</p>
                         @endif
                     @endforeach
                 </div>
                 <br>
                 <div class="product_star--price" id="product_star--price">
-                    <p class="product_star--price--new">{{number_format($product_attribute_first->price * 1000, 0)}} đ</p>
-                    <p class="product_star--price--old">{{number_format($product_attribute_first->price_old * 1000, 0)}} đ</p>
-                    <p class="product_star--discount">-({{$product_attribute_first->percent_sale}})%</p>
+                    <p class="product_star--price--new">{{number_format($sku_first->price * 1000, 0)}} đ</p>
+                    <p class="product_star--price--old">{{number_format($sku_first->price_old * 1000, 0)}} đ</p>
+                    <p class="product_star--discount">-({{$sku_first->percent_sale}})%</p>
                 </div>
                 <br>
                 <div class="product_detail--quantity">

@@ -173,6 +173,7 @@ $(document).ready(function () {
         let product_id = $(this).data('id')
         let color = $('.product-detail--color p.active').data('color');
 
+        console.log(capacity + ' ' + product_id + ' ' + color);
         $.ajax({
             type: 'GET',
             url: '/product_detail/' + product_id,
@@ -192,15 +193,16 @@ $(document).ready(function () {
                 setTimeout(function () {
                     $('#overlay').fadeOut(100)
                 }, 200);
-                Toastify({
-                    text: "Màu này không còn!",
-                    duration: 2000,
-                    close: true,
-                    gravity: "top",
-                    position: "right",
-                    stopOnFocus: true,
-                    className: "toastify-custom toastify-error"
-                }).showToast();
+                // Toastify({
+                //     text: "Màu này không còn!",
+                //     duration: 2000,
+                //     close: true,
+                //     gravity: "top",
+                //     position: "right",
+                //     stopOnFocus: true,
+                //     className: "toastify-custom toastify-error"
+                // }).showToast();
+                console.log(error)
             }
         }).done(function () {
             setTimeout(function () {

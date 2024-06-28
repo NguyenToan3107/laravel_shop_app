@@ -6,6 +6,7 @@ use App\DataTables\ProductsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Product_Attribute_Set;
 use App\Models\Product_Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -39,9 +40,11 @@ class ProductController extends Controller
 
     public function create()
     {
+        $product_attribute_sets = Product_Attribute_Set::select('id', 'name')->get();
         $categories = Category::with('children')->whereNull('parent_id')->get();
         $products = Product::all();
-        return view('admin.products.create_edit_product', ['categories' => $categories, 'products' => $products]);
+        return view('admin.products.create_edit_product',
+            ['categories' => $categories, 'products' => $products, 'product_attribute_sets' => $product_attribute_sets]);
     }
 
     public function store(Request $request)
@@ -63,14 +66,20 @@ class ProductController extends Controller
         if($request->filled('filepath_1')) {
             $image_path_1 = $request->input('filepath_1');
             $image_path_1 = explode('http://localhost:8000', $image_path_1)[1];
+        }else {
+            $image_path_1 = '/storage/photos/products/empty-photo.jpg';
         }
         if($request->filled('filepath_2')) {
             $image_path_2 = $request->input('filepath_2');
             $image_path_2 = explode('http://localhost:8000', $image_path_2)[1];
+        }else {
+            $image_path_2 = '/storage/photos/products/empty-photo.jpg';
         }
         if($request->filled('filepath_3')) {
             $image_path_3 = $request->input('filepath_3');
             $image_path_3 = explode('http://localhost:8000', $image_path_3)[1];
+        }else {
+            $image_path_3 = '/storage/photos/products/empty-photo.jpg';
         }
 
         $product = Product::create([
@@ -81,6 +90,7 @@ class ProductController extends Controller
             'image' => $image_path,
             'category_id' => $request->category_id,
             'status' => 1,
+            'product_attribute_set_id' => $request->input('product_attribute_set_id'),
         ]);
 
         $image_paths = [$image_path_1, $image_path_2, $image_path_3];
@@ -97,16 +107,31 @@ class ProductController extends Controller
 
     public function edit($id)
     {
+        $product_attribute_sets = Product_Attribute_Set::select('id', 'name')->get();
         $product = Product::find($id);
+
+        $product_attribute_set = $product->product_attribute_set;
+
         $category = Category::find($product->category_id);
         $categories = Category::with('children')->whereNull('parent_id')->get();
 
         $product_image = Product_Image::where('product_id', $product->id)->get();
+
+        $product_image_1 = $product_image[0];
+        $product_image_2 = $product_image[1];
+        $product_image_3 = $product_image[2];
+
+
         return view('admin.products.create_edit_product',
             ['product' => $product,
                 'categories' => $categories,
                 'c' => $category,
-                'product_image' => $product_image
+//                'product_image' => $product_image,
+                'product_image_1' => $product_image_1,
+                'product_image_2' => $product_image_2,
+                'product_image_3' => $product_image_3,
+                'product_attribute_sets' => $product_attribute_sets,
+                'product_attribute_set' => $product_attribute_set,
             ]);
     }
 
@@ -152,7 +177,8 @@ class ProductController extends Controller
             'image' => $image_path,
             'category_id' => $request->category_id,
             'status' => $request->input('status'),
-            'deleted_at' => null
+            'deleted_at' => null,
+            'product_attribute_set_id' => $request->input('product_attribute_set_id'),
         ]);
 
         $image_paths = [$image_path_1, $image_path_2, $image_path_3];

@@ -92,7 +92,9 @@
     <div class="main">
         @include('admin.layouts.header')
         <div style="margin-bottom: 80px"></div>
-        @yield('content')
+        <div class="background_border">
+            @yield('content')
+        </div>
     </div>
 </div>
 @include('admin.layouts.footer')

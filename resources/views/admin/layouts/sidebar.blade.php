@@ -53,6 +53,34 @@
                 </li>
             @endif
 
+            @if(Auth::user()->can('view-product'))
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#product_attribute_set"
+                       aria-expanded="false" aria-controls="pages">
+                        <i class="fa-regular fa-file"></i>
+                        Quản lí bộ thuộc tính
+                    </a>
+                    <ul id="product_attribute_set" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="/admin/product_attribute_sets" class="sidebar-link">--Danh mục bộ thuộc tính</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#product_attribute"
+                       aria-expanded="false" aria-controls="pages">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        Quản lí thuộc tính
+                    </a>
+                    <ul id="product_attribute" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="/admin/product_attributes" class="sidebar-link">--Danh mục thuộc tính</a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
+
             @if(Auth::user()->can('view-post'))
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#posts"
@@ -97,7 +125,7 @@
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#order"
                        aria-expanded="false" aria-controls="auth">
-                        <i class="fa-regular fa-user pe-2"></i>
+                        <i class="fa-solid fa-cart-shopping"></i>
                         Quản lý đơn đặt hàng
                     </a>
                     <ul id="order" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">

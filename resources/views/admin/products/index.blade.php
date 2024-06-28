@@ -62,7 +62,7 @@
         @can('create-product')
             <a href="/admin/products/create"
                class="btn btn-primary margin_bottom_detail"
-               style="margin-left: 830px"
+               style="margin-left: 800px"
             >
                 Tạo sản phẩm mới
             </a>

@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <div class="container mt-5 d-flex justify-content-center margin_bottom_detail border_detail">
+    <div class="container mt-5 d-flex justify-content-center margin_bottom_detail create_product_form">
         <div class="border_create w-100">
             <h2 class="text-center mb-4">{{ isset($product) ? 'Cập nhật sản phẩm' : 'Tạo mới sản phẩm' }}</h2>
 
@@ -14,7 +14,7 @@
             @if(isset($product))
                 <div class="form-group">
                     {{ Form::label('category_id', 'Chọn danh mục sản phẩm') }}
-                    <select class="form-control row" name="category_id" id="category_id">
+                    <select class="form-control row" style="margin-left: 0" name="category_id" id="category_id">
                         @if(isset($c))
                             <option value="{{$c->id}}">{{$c->title}}</option>
                         @endif
@@ -26,7 +26,7 @@
             @else
                 <div class="form-group">
                     {{ Form::label('category_id', 'Chọn danh mục sản phẩm') }}
-                    <select class="form-control row" name="category_id" id="category_id">
+                    <select class="form-control row" style="margin-left: 0" name="category_id" id="category_id">
                         @foreach ($categories as $category)
                             <x-category-item :category="$category" :level="0"/>
                         @endforeach
@@ -91,84 +91,119 @@
             <div id="holder" style="margin-top:15px;max-height:100px;"></div>
 
             <br>
-            <div style="margin: 0 40px">
-                <label>Chọn ảnh phụ</label>
-                {{-- Sub Image 1 --}}
-                <div class="form-group" style="display: flex; flex-direction: row; gap: 150px; align-items: center">
-                    <div class="input-group">
-                    <span class="input-group-btn">
-                     <a id="lfm_1" data-input="thumbnail_1" data-preview="imageDisplay_image_1" class="btn btn-primary">
-                       <i class="fa fa-picture-o"></i> Chọn
-                     </a>
-                   </span>
-                        <input id="thumbnail_1" class="form-control" type="text" name="filepath_1">
+            <div class="product_option">
+                <div class="product_attribute">
+                    <div class="product_option--attribute">
+                        @if(isset($product_attribute_set))
+                            <div class="form-group">
+                                {{ Form::label('product_attribute_id', 'Chọn bộ thuộc tính') }}
+                                <select class="row form-select" name="product_attribute_set_id"
+                                        id="product_attribute_set_id" style="margin-left: 0;width: 330px;">
+                                    <option value="{{$product_attribute_set->id}}">Hiện
+                                        tại: {{$product_attribute_set->name}}</option>
+                                    @foreach($product_attribute_sets as $product_set)
+                                        <option
+                                            value="{{$product_set->id}}">{{$product_set->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @else
+                            <div class="form-group">
+                                {{ Form::label('product_attribute_id', 'Chọn bộ thuộc tính') }}
+                                <select class="row form-select" name="product_attribute_set_id"
+                                        id="product_attribute_set_id" style="margin-left: 0; width: 330px;">
+                                    @foreach($product_attribute_sets as $product_set)
+                                        <option
+                                            value="{{$product_set->id}}">{{$product_set->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
                     </div>
-{{--                    @if(isset($product_image) && $product_image->image_url)--}}
-{{--                        <div id="imageDisplay_image" style="margin-top:15px;max-height:100px;margin-right: 20px">--}}
-{{--                            <img src="{{ asset($product_image->image_url) }}" id="imageDisplay"--}}
-{{--                                 class="img-thumbnail user-image-detail-80" alt="Avatar">--}}
-{{--                        </div>--}}
-{{--                    @else--}}
-                        <div id="imageDisplay_image_1" style="margin-top:15px;margin-right: 20px">
-                            <img src="{{ asset('storage/photos/posts/default_post.png') }}" id="imageDisplay"
-                                 class="img-thumbnail user-image-detail-80" alt="Avatar">
+                </div>
+                <div class="product_sub_img">
+                    <label for="">Chọn ảnh phụ</label>
+                    {{-- Sub Image 1 --}}
+                    <div class="form-group" style="display: flex; flex-direction: row; gap: 50px; align-items: center">
+                        <div class="input-group">
+                        <span class="input-group-btn">
+                         <a id="lfm_1" data-input="thumbnail_1" data-preview="imageDisplay_image_1"
+                            class="btn btn-primary">
+                           <i class="fa fa-picture-o"></i> Chọn
+                         </a>
+                       </span>
+                            <input id="thumbnail_1" class="form-control" type="text" name="filepath_1">
                         </div>
-{{--                    @endif--}}
+                        @if(isset($product_image_1))
+                            <div id="imageDisplay_image_1" style="margin-top:15px;max-height:100px;">
+                                <img src="{{ asset($product_image_1->image_url) }}" id="imageDisplay"
+                                     class="img-thumbnail user-image-detail-80" alt="Avatar">
+                            </div>
+                        @else
+                            <div id="imageDisplay_image_1" style="margin-top:15px;">
+                                <img src="{{ asset('storage/photos/posts/default_post.png') }}" id="imageDisplay"
+                                     class="img-thumbnail user-image-detail-80" alt="Avatar">
+                            </div>
+                        @endif
+                    </div>
+
+                    <div id="holder" style="margin-top:15px;max-height:100px;"></div>
+
+                    {{-- Sub Image 2 --}}
+                    <div class="form-group" style="display: flex; flex-direction: row; gap: 50px; align-items: center">
+                        <div class="input-group">
+                        <span class="input-group-btn">
+                         <a id="lfm_2" data-input="thumbnail_2" data-preview="imageDisplay_image_2"
+                            class="btn btn-primary">
+                           <i class="fa fa-picture-o"></i> Chọn
+                         </a>
+                       </span>
+                            <input id="thumbnail_2" class="form-control" type="text" name="filepath_2">
+                        </div>
+                        @if(isset($product_image_2))
+                            <div id="imageDisplay_image_2" style="margin-top:15px;max-height:100px;">
+                                <img src="{{ asset($product_image_2->image_url) }}" id="imageDisplay"
+                                     class="img-thumbnail user-image-detail-80" alt="Avatar">
+                            </div>
+                        @else
+                            <div id="imageDisplay_image_2" style="margin-top:15px;">
+                                <img src="{{ asset('storage/photos/posts/default_post.png') }}" id="imageDisplay"
+                                     class="img-thumbnail user-image-detail-80" alt="Avatar">
+                            </div>
+                        @endif
+                    </div>
+
+                    <div id="holder" style="margin-top:15px;max-height:100px;"></div>
+
+                    {{-- Sub Image 3 --}}
+                    <div class="form-group" style="display: flex; flex-direction: row; gap: 50px; align-items: center">
+                        <div class="input-group">
+                        <span class="input-group-btn">
+                         <a id="lfm_3" data-input="thumbnail_3" data-preview="imageDisplay_image_3"
+                            class="btn btn-primary">
+                           <i class="fa fa-picture-o"></i> Chọn
+                         </a>
+                       </span>
+                            <input id="thumbnail_3" class="form-control" type="text" name="filepath_3">
+                        </div>
+                        @if(isset($product_image_3))
+                            <div id="imageDisplay_image_3" style="margin-top:15px;max-height:100px;">
+                                <img src="{{ asset($product_image_3->image_url) }}" id="imageDisplay"
+                                     class="img-thumbnail user-image-detail-80" alt="Avatar">
+                            </div>
+                        @else
+                            <div id="imageDisplay_image_3" style="margin-top:15px;">
+                                <img src="{{ asset('storage/photos/posts/default_post.png') }}" id="imageDisplay"
+                                     class="img-thumbnail user-image-detail-80" alt="Avatar">
+                            </div>
+                        @endif
+                    </div>
+
+                    <div id="holder" style="margin-top:15px;max-height:100px;"></div>
                 </div>
-
-                <div id="holder" style="margin-top:15px;max-height:100px;"></div>
-
-                {{-- Sub Image 2 --}}
-                <div class="form-group" style="display: flex; flex-direction: row; gap: 150px; align-items: center" >
-                    <div class="input-group">
-                    <span class="input-group-btn">
-                     <a id="lfm_2" data-input="thumbnail_2" data-preview="imageDisplay_image_2" class="btn btn-primary">
-                       <i class="fa fa-picture-o"></i> Chọn
-                     </a>
-                   </span>
-                        <input id="thumbnail_2" class="form-control" type="text" name="filepath_2">
-                    </div>
-                    {{--                    @if(isset($product) && $product->image)--}}
-                    {{--                        <div id="imageDisplay_image" style="margin-top:15px;max-height:100px;margin-right: 20px">--}}
-                    {{--                            <img src="{{ asset($product->image) }}" id="imageDisplay"--}}
-                    {{--                                 class="img-thumbnail user-image-detail-80" alt="Avatar">--}}
-                    {{--                        </div>--}}
-                    {{--                    @else--}}
-                    <div id="imageDisplay_image_2" style="margin-top:15px;margin-right: 20px">
-                        <img src="{{ asset('storage/photos/posts/default_post.png') }}" id="imageDisplay"
-                             class="img-thumbnail user-image-detail-80" alt="Avatar">
-                    </div>
-                    {{--                    @endif--}}
-                </div>
-
-                <div id="holder" style="margin-top:15px;max-height:100px;"></div>
-
-                {{-- Sub Image 3 --}}
-                <div class="form-group" style="display: flex; flex-direction: row; gap: 150px; align-items: center">
-                    <div class="input-group">
-                    <span class="input-group-btn">
-                     <a id="lfm_3" data-input="thumbnail_3" data-preview="imageDisplay_image_3" class="btn btn-primary">
-                       <i class="fa fa-picture-o"></i> Chọn
-                     </a>
-                   </span>
-                        <input id="thumbnail_3" class="form-control" type="text" name="filepath_3">
-                    </div>
-                    {{--                    @if(isset($product) && $product->image)--}}
-                    {{--                        <div id="imageDisplay_image" style="margin-top:15px;max-height:100px;margin-right: 20px">--}}
-                    {{--                            <img src="{{ asset($product->image) }}" id="imageDisplay"--}}
-                    {{--                                 class="img-thumbnail user-image-detail-80" alt="Avatar">--}}
-                    {{--                        </div>--}}
-                    {{--                    @else--}}
-                    <div id="imageDisplay_image_3" style="margin-top:15px;margin-right: 20px">
-                        <img src="{{ asset('storage/photos/posts/default_post.png') }}" id="imageDisplay"
-                             class="img-thumbnail user-image-detail-80" alt="Avatar">
-                    </div>
-                    {{--                    @endif--}}
-                </div>
-
-                <div id="holder" style="margin-top:15px;max-height:100px;"></div>
             </div>
 
+            <br>
             <br>
             <div class="text-center">
                 {{ Form::button(isset($product) ? 'Cập nhật sản phẩm' : 'Tạo mới sản phẩm', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
@@ -176,7 +211,8 @@
 
             {{ Form::close() }}
             <br>
-            <button class="btn btn-secondary" style="margin-left: 10px"><a style="color: white" href="/admin/products">Quay lại</a></button>
+            <button class="btn btn-secondary" style="margin-left: 10px"><a style="color: white" href="/admin/products">Quay
+                    lại</a></button>
         </div>
     </div>
 @endsection

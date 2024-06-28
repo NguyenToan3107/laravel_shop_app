@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <div class="container mt-5 d-flex justify-content-center margin_bottom_detail border_detail">
+    <div class="container mt-5 d-flex justify-content-center margin_bottom_detail">
         <div class="border_create w-100">
             <h2 class="text-center mb-4">Cập nhật người dùng</h2>
             <form action="/admin/users/{{$user->id}}" method="POST" enctype="multipart/form-data">

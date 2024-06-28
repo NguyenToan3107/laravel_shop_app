@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\ProductAttributeController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
@@ -19,6 +20,10 @@ const USER_ROUTE = '/users/{user}';
 const PRODUCT_ROUTE = '/products/{product}';
 const CATEGORY_ROUTE = '/categories/{category}';
 const ORDER_ROUTE = '/orders/{order}';
+const PRODUCT_ATTRIBUTE_ROUTE = '/product_attributes/{id}';
+const PRODUCT_ATTRIBUTE_SET_ROUTE = '/product_attribute_sets/{id}';
+
+
 
 
 require __DIR__ . '/auth.php';
@@ -54,6 +59,48 @@ Route::prefix('/admin')->group(function () {
     });
 
     ///////////////////////////
+
+
+    ////////////////////////// PRODUCT ATTRIBUTE
+    Route::middleware('auth')->group(function () {
+        Route::post('/product_attributes', [ProductAttributeController::class, 'store'])->name('product_attributes.store');
+        Route::get('/product_attributes/create', [ProductAttributeController::class, 'create'])->name('product_attributes.create');
+
+        Route::get('/product_attributes', [ProductAttributeController::class, 'index'])->name('product_attributes.index');
+        Route::get('/product_attributes/{id}', [ProductAttributeController::class, 'show'])->name('product_attributes.show');
+
+        Route::get(PRODUCT_ATTRIBUTE_ROUTE . '/edit', [ProductAttributeController::class, 'edit'])->name('product_attributes.edit');
+        Route::put('/product_attributes/{id}', [ProductAttributeController::class, 'update'])->name('product_attributes.update');
+
+        // hard delete
+        Route::delete(PRODUCT_ATTRIBUTE_ROUTE, [ProductAttributeController::class, 'destroy'])->name('product_attributes.destroy');
+    });
+
+    ///////////////////////////
+
+
+
+
+    ////////////////////////// PRODUCT ATTRIBUTE SET
+    Route::middleware('auth')->group(function () {
+        Route::post('/product_attribute_sets', [ProductAttributeController::class, 'store'])->name('product_attribute_sets.store');
+        Route::get('/product_attribute_sets/create', [ProductAttributeController::class, 'create'])->name('product_attribute_sets.create');
+
+        Route::get('/product_attribute_sets', [ProductAttributeController::class, 'index'])->name('product_attribute_sets.index');
+        Route::get('/product_attribute_sets/{id}', [ProductAttributeController::class, 'show'])->name('product_attribute_sets.show');
+
+        Route::get(PRODUCT_ATTRIBUTE_SET_ROUTE . '/edit', [ProductAttributeController::class, 'edit'])->name('product_attribute_sets.edit');
+        Route::put('/product_attribute_sets/{id}', [ProductAttributeController::class, 'update'])->name('product_attribute_sets.update');
+
+        // hard delete
+        Route::delete(PRODUCT_ATTRIBUTE_SET_ROUTE, [ProductAttributeController::class, 'destroy'])->name('product_attribute_sets.destroy');
+    });
+
+    ///////////////////////////
+
+
+
+
 
     /////////////////////////// POST
 

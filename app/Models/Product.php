@@ -14,7 +14,7 @@ class Product extends Model
         'content', 'image', 'image_extension', 'image_banner', 'image_icon', 'url', 'url_type', 'author_id', 'target', 'price', 'params',
         'params_plus', 'total_item', 'total_view', 'total_order', 'order', 'providers_id', 'position', 'display_type', 'sticky', 'is_display',
         'seo_title', 'seo_description', 'seo_robots', 'status', 'account_fake', 'started_at', 'ended_at', 'published_at', 'created_at',
-        'updated_at', 'deleted_at', 'category_id'];
+        'updated_at', 'deleted_at', 'category_id', 'product_attribute_set_id'];
 
     public $timestamps = true;
 
@@ -32,8 +32,13 @@ class Product extends Model
             ->select('id', 'product_id', 'image_url');
     }
 
-    public function product_attributes() {
-        return $this->hasMany(Product_Attribute::class, 'product_id', 'id')
-            ->select('product_id', 'id', 'capacity', 'price', 'percent_sale', 'price_old', 'color');
+    public function skus()
+    {
+        return $this->hasMany(Product_Sku::class, 'product_id', 'id');
     }
+
+    public function product_attribute_set() {
+        return $this->belongsTo(Product_Attribute_Set::class, 'product_attribute_set_id', 'id');
+    }
+
 }

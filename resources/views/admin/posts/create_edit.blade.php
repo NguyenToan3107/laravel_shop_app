@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <div class="container mt-5 d-flex justify-content-center margin_bottom_detail border_detail">
+    <div class="container mt-5 d-flex justify-content-center margin_bottom_detail">
         <div class="border_create w-100">
             <h2 class="text-center mb-4">{{ isset($post) ? 'Cập nhật bài viết' : 'Tạo mới bài viết' }}</h2>
 
@@ -19,7 +19,7 @@
             @if(isset($user))
                 <div class="form-group">
                     {{ Form::label('author_id', 'Ai là người tạo bài viết') }}
-                    <select class="row form-control" name="author_id" id="author_id">
+                    <select class="row form-control" name="author_id" id="author_id" style="margin-left: 0">
                         <option value="{{$user->id}}">Hiện tại: {{$user->name}}</option>
                         @foreach ($users as $u)
                             @can('create-post')
@@ -31,7 +31,7 @@
             @else
                 <div class="form-group">
                     {{ Form::label('author_id', 'Ai là người tạo bài viết') }}
-                    <select class="row form-control" name="author_id" id="author_id">
+                    <select class="row form-control" name="author_id" id="author_id" style="margin-left: 0">
                         @foreach ($users as $user)
                             @can('create-post')
                                 <option value="{{$user->id}}">Tên: {{$user->name}}</option>

@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Product_Sku extends Model
+{
+    use HasFactory;
+    protected $table = 'product_skus';
+    protected $fillable = ['id', 'product_id', 'sku', 'price', 'price_old',
+        'percent_sale', 'created_at', 'updated_at', 'deleted_at'];
+
+    public function attributeValues() {
+        return $this->belongsToMany(Product_Attribute_Value::class,
+            'product_skus_attribute_value', 'sku_id', 'attribute_value_id');
+    }
+}

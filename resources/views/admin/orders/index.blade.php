@@ -95,7 +95,7 @@
         @can('create-order')
             <a href="/admin/orders/create"
                class="btn btn-primary margin_bottom_detail"
-               style="margin-left: 830px"
+               style="margin-left: 800px"
             >
                 Tạo đơn hàng mới
             </a>
