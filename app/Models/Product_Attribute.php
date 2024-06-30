@@ -13,7 +13,7 @@ class Product_Attribute extends Model
 
     public function attributeValues()
     {
-        return $this->hasMany(Product_Attribute_Value::class);
+        return $this->hasMany(Product_Attribute_Value::class, 'attribute_id', 'id');
     }
     public function product_attribute_sets() {
         return $this->belongsToMany(

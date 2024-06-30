@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProductAttributeController;
 use App\Http\Controllers\Admin\ProductAttributeSetController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductSkusController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SearchController;
@@ -24,6 +25,7 @@ const CATEGORY_ROUTE = '/categories/{category}';
 const ORDER_ROUTE = '/orders/{order}';
 const PRODUCT_ATTRIBUTE_ROUTE = '/product_attributes/{id}';
 const PRODUCT_ATTRIBUTE_SET_ROUTE = '/product_attribute_sets/{id}';
+const PRODUCT_SKUS = '/product_skus/{id}';
 
 
 
@@ -100,6 +102,24 @@ Route::prefix('/admin')->group(function () {
     });
 
     ///////////////////////////
+
+
+
+
+    ////////////////////////// PRODUCT SKUS
+    Route::middleware('auth')->group(function () {
+        Route::post('/products/{product_id}/product_skus', [ProductSkusController::class, 'store'])->name('product_skus.store');
+        Route::get('/products/{product_id}/product_skus/create', [ProductSkusController::class, 'create'])->name('product_skus.create');
+
+        Route::get(PRODUCT_SKUS . '/edit', [ProductSkusController::class, 'edit'])->name('product_skus.edit');
+        Route::post('/product_skus/{id}', [ProductSkusController::class, 'update'])->name('product_skus.update');
+
+        // hard delete
+        Route::delete(PRODUCT_SKUS, [ProductSkusController::class, 'destroy'])->name('product_skus.destroy');
+    });
+
+    ///////////////////////////
+
 
 
 
@@ -212,6 +232,7 @@ Route::prefix('/admin')->group(function () {
         Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+        Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
         // search
         Route::post('/search-product', [SearchController::class, 'searchProduct']);
 

@@ -491,3 +491,49 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 .product_attribute_set_create--lable {
     margin: 30px 0;
 }
+
+
+/* SHOW PRODUCT */
+.product_category {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #0DCAF0;
+    border-radius: 20px;
+    width: 150px;
+    margin: 10px 0;
+    padding: 5px 0;
+}
+
+.product_category p {
+    color: white;
+    font-weight: 500;
+    font-size: 1.2rem;
+    margin-bottom: 0;
+}
+
+
+.product_attribute-info {
+    margin-top: 80px;
+}
+
+.product_attribute p{
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.product_attribute{
+    margin-bottom: 15px;
+}
+
+.product_attribute-info p {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.product_attribute_value {
+     display: flex;
+     flex-direction: row;
+}
+

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ProductsDataTable;
+use App\DataTables\ProductSkusDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
@@ -32,10 +33,16 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show($id, ProductSkusDataTable $dataTable)
     {
         $product = Product::find($id);
-        return view('admin.products.show', ['product' => $product]);
+        $product_attributes = $product->product_attribute_set->attributes;
+        $category = $product->categories()->where('id', $product->category_id)->first();
+        return $dataTable->with(['product' => $product])->render('admin.products.show', [
+            'product' => $product,
+            'category' => $category,
+            'product_attributes' => $product_attributes
+        ]);
     }
 
     public function create()

@@ -12,7 +12,7 @@ class Product_Attribute_Value extends Model
     protected $fillable = ['id', 'attribute_id', 'value', 'created_at', 'updated_at', 'deleted_at'];
 
     public function attribute() {
-        return $this->belongsTo(Product_Attribute::class, 'attribute_id');
+        return $this->belongsTo(Product_Attribute::class, 'attribute_id', 'id');
     }
 
     public function skus()
