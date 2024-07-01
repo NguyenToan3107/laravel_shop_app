@@ -9,7 +9,7 @@ class Product_Sku extends Model
 {
     use HasFactory;
     protected $table = 'product_skus';
-    protected $fillable = ['id', 'product_id', 'sku', 'price', 'price_old',
+    protected $fillable = ['id', 'product_id', 'sku', 'price', 'price_old', 'quantity',
         'percent_sale', 'created_at', 'updated_at', 'deleted_at'];
 
     public function attributeValues() {

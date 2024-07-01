@@ -64,17 +64,17 @@
                 @if(isset($carts))
                     @foreach($carts as $cart)
                         <tr>
-                            <td><button class="cart_item_product--remove" value="{{$cart->product_id}}">
+                            <td><button class="cart_item_product--remove" value="{{$cart['product_id']}}">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button></td>
                             <td><img style="width: 40px; height: 40px"
-                                     src="{{$cart->image}}" alt=""></td>
-                            <td>{{$cart->title}}</td>
-                            <td>{{number_format($cart->price * 1000, 0)}}</td>
-                            <td>{{$cart->percent_sale}}%</td>
-                            <td><input class="form-control cart_item_product--change" data-id="{{$cart->product_id}}" style="width: 80px" type="number" value="{{$cart->quantity}}"></td>
+                                     src="{{$cart['image']}}" alt=""></td>
+                            <td>{{$cart['title']}}</td>
+                            <td>{{number_format($cart['price'] * 1000, 0)}}</td>
+                            <td>{{$cart['percent_sale']}}%</td>
+                            <td><input class="form-control cart_item_product--change" data-id="{{$cart['product_id']}}" style="width: 80px" type="number" value="{{$cart['quantity']}}"></td>
                             <?php
-                                $total_price = $cart->quantity * (1 - ($cart->percent_sale / 100)) * $cart->price
+                                $total_price = $cart['quantity'] * (1 - ($cart['percent_sale'] / 100)) * $cart['price']
                                 ?>
                             <td>{{number_format($total_price * 1000, 0)}}</td>
                         </tr>

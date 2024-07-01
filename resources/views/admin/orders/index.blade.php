@@ -92,6 +92,13 @@
             </div>
         </form>
         <br>
+        <br>
+        <br>
+        <div>
+            <p>Tổng số đơn hàng: {{$count_order}}</p>
+            <p>Tổng tiền: {{number_format($total_order * 1000, 0)}} đ</p>
+        </div>
+
         @can('create-order')
             <a href="/admin/orders/create"
                class="btn btn-primary margin_bottom_detail"

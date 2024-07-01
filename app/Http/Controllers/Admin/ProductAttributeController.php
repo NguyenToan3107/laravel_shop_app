@@ -21,14 +21,23 @@ class ProductAttributeController extends Controller
         Product_Attribute::create([
             'name' => $request->get('name')
         ]);
-        return redirect()->back()->with('success', 'Product Attribute Set created!');
+        return redirect()->back()->with('success', 'Tạo thuộc tính thành công');
     }
 
     public function edit($id) {
-        return view('admin.products.product_attributes.edit');
+        $product_attribute = Product_Attribute::where('id', $id)->select('id', 'name')->first();
+
+        $product_attribute_values = $product_attribute->attributeValues;
+
+        return view('admin.products.product_attributes.edit',
+            compact('product_attribute', 'product_attribute_values'));
     }
 
-    public function update($id) {}
+    public function update($id, Request $request) {
+        $request->validate([
+            'value' => 'required|unique:product_attribute_value,value'
+        ]);
+    }
     public function destroy($id) {}
 
 }

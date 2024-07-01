@@ -895,6 +895,57 @@ if(product_search_form) {
 
 
 
+///////////// PRODUCT ATRRIBUTE VALUE
+
+$(document).ready(function () {
+    $(document).ajaxSend(function () {
+        $("#overlay").fadeIn(100);
+    })
+    $(document).on('click', '.delete_product_attribute_value', function (e) {
+        e.preventDefault();
+        let product_attribute_value_id = $(this).data('id');
+        let product_attribute_id = $(this).data('attr');
+
+        $.ajax({
+            url: '/admin/product_attributes/' + product_attribute_id + '/product_attribute_value/' + product_attribute_value_id,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function () {
+                    $.ajax({
+                    type: 'GET',
+                    url: '/admin/product_attributes/' + product_attribute_id + '/edit',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (data) {
+                        var list_attribute_value = $(data).find('#product_attribute_value_list').html();
+                        $('#product_attribute_value_list').html(list_attribute_value);
+                    }
+                })
+            }
+        }).done(function () {
+            setTimeout(function () {
+                $('#overlay').fadeOut(100)
+            }, 200)
+        }).fail(function (xhr, status, error) {
+            setTimeout(function () {
+                $('#overlay').fadeOut(100)
+            }, 200);
+            Toastify({
+                text: "Xóa thất bại!",
+                duration: 2000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                className: "toastify-custom toastify-error"
+            }).showToast();
+        })
+    })
+})
+
 
 
 

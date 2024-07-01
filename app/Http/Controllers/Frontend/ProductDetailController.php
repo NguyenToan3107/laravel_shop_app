@@ -16,66 +16,8 @@ class ProductDetailController extends Controller
 {
     public function index($id, Request $request)
     {
-        $product = Product::with('skus.attributeValues.attribute')->where('id', $id)
+        $product = Product::where('id', $id)
             ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id')->first();
-
-        if ($product) {
-            $capacities = collect();
-            $colors = collect();
-
-            foreach ($product->skus as $sku) {
-                foreach ($sku->attributeValues as $attributeValue) {
-                    if ($attributeValue->attribute->name === 'dung lượng') {
-                        $capacities->push($attributeValue);
-                    }
-
-                    if ($attributeValue->attribute->name === 'màu sắc') {
-                        $colors->push($attributeValue);
-                    }
-                }
-            }
-        }
-
-        if ($request->filled(['color', 'capacity'])) {
-            DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
-
-            $color_value = $request->query('color');
-            $capacity_value = $request->query('capacity');
-
-            // Lấy id của thuộc tính Capacity và Color từ bảng ProductAttribute
-            $capacity = Product_Attribute::where('name', 'dung lượng')->first()->id;
-            $color = Product_Attribute::where('name', 'màu sắc')->first()->id;
-
-            // Lấy id của giá trị Attribute Value cho Capacity và Color
-            $valueCapacity = Product_Attribute_Value::where('attribute_id', $capacity)
-                ->where('value', $capacity_value)->first()->value;
-
-            $valueColor = Product_Attribute_Value::where('attribute_id', $color)
-                ->where('value', $color_value)->first()->value;
-
-            $sku_first = Product_Sku::select('product_skus.*')
-                ->join('product_skus_attribute_value as psav', 'psav.sku_id', '=', 'product_skus.id')
-                ->join('product_attribute_value as pav', 'pav.id', '=', 'psav.attribute_value_id')
-                ->where('product_skus.product_id', $id)
-                ->where(function ($query) use ($capacity, $color, $valueCapacity, $valueColor) {
-                    $query->where(function ($query) use ($color, $valueColor) {
-                        $query->where('pav.attribute_id', $color)
-                            ->where('pav.value', $valueColor);
-                    })->orWhere(function ($query) use ($capacity, $valueCapacity) {
-                        $query->where('pav.attribute_id', $capacity)
-                            ->where('pav.value', $valueCapacity);
-                    });
-                })
-                ->groupBy('product_skus.id')
-                ->havingRaw('COUNT(DISTINCT pav.attribute_id) = 2')
-                ->first();
-
-        } else {
-            $sku_first = $product->skus->first();
-        }
-
-        $capacities = $capacities->unique('value');
-        $colors = $colors->unique('value');
 
         $product_images = $product->product_images;
         // involve product
@@ -85,14 +27,24 @@ class ProductDetailController extends Controller
             ->select('id', 'image', 'title', 'price', 'percent_sale')
             ->get();
 
+        $product_sku_first_price = $product->skus->first();
+        $product_skus = $product->skus;
+
+//        foreach ($product_skus as $product_sku) {
+//            $product_attributes = $product_sku->attributeValues;
+//            $attribute = $product_attributes->map(function ($attributeName) {
+//                return '<label class="badge bg-primary mx-1">' . $attributeName->value . '</label>';
+//            })->implode(' ');
+////            dd($attribute);
+//        }
+
         return view('frontend.product_detail.index',
             [
                 'product' => $product,
                 'product_images' => $product_images,
                 'involve_products' => $involve_products,
-                'capacities' => $capacities,
-                'colors' => $colors,
-                'sku_first' => $sku_first
+                'product_skus' => $product_skus,
+                'product_sku_first_price' => $product_sku_first_price
             ]);
     }
 }

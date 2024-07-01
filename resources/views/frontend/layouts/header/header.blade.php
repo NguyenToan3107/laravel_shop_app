@@ -1,8 +1,9 @@
 <header>
     <div class="header_nav">
-        <div class="header_nav--logo" style="cursor: pointer"><a style="text-decoration: none; color: black" href="/">Exclusive</a></div>
+        <div class="header_nav--logo" style="cursor: pointer"><a style="text-decoration: none; color: black" href="/">Exclusive</a>
+        </div>
         <div class="header_nav--nav">
-{{--            <a href="/">Home</a>--}}
+            {{--            <a href="/">Home</a>--}}
             <a href="/products">Sản phẩm</a>
             <a href="/">About</a>
             <a href="/contact">Liên hệ</a>
@@ -14,13 +15,14 @@
             <div class="input-group input-group-sm mb-3 header_nav--right--hidden" style="margin-top: 14px;">
                 <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
                        placeholder="Bạn đang tìm kiếm thứ gì">
-                <span class="input-group-text header_nav--right--hidden"><ion-icon name="search-outline"></ion-icon></span>
+                <span class="input-group-text header_nav--right--hidden"><ion-icon
+                        name="search-outline"></ion-icon></span>
             </div>
-            <span class="header_nav--right--hidden">
-                <ion-icon name="heart-outline"></ion-icon>
+            <span class="header_nav--right--hidden header_heart_icon">
+                <i class="fa-regular fa-heart"></i>
             </span>
-            <a href="/cart" class="header_identify" style="text-decoration: none; color: black; margin-top: 4px">
-                <ion-icon name="cart-outline"></ion-icon>
+            <a href="/cart" class="header_identify header_count_cart" style="text-decoration: none; color: black; margin-top: 4px">
+                <i class="fa-solid fa-cart-shopping"></i>
             </a>
             <div class="dropdown">
 
@@ -60,3 +62,4 @@
 <br>
 <div class="horizontal-bar">
 </div>
+

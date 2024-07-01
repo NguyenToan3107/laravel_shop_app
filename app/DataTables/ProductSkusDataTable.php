@@ -34,8 +34,10 @@ class ProductSkusDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($product_sku) {
+                $product = $this->product;
                 return view('admin.products.product_skus.action', [
                     'product_sku' => $product_sku,
+                    'product' => $product,
                 ]);
             })
             ->editColumn('price', function ($product_sku) {

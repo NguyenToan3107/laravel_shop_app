@@ -8,3 +8,4 @@
                 class="btn btn-danger btn-sm delete_button_product_attribute"><i class="fa-solid fa-trash"></i></button>
     @endcan
 </div>
+

@@ -282,3 +282,4 @@ document.addEventListener('click', function (event) {
         nav.classList.remove('open');
     }
 });
+

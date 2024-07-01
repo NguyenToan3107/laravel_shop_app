@@ -11,6 +11,7 @@ use App\Models\Product_Attribute;
 use App\Models\Product_Attribute_Set;
 use App\Models\Product_Attribute_Set_Attribute;
 use App\Models\Product_Sku;
+use App\Models\Product_Skus_Attribute_Value;
 use Illuminate\Http\Request;
 
 class ProductAttributeSetController extends Controller
@@ -82,10 +83,25 @@ class ProductAttributeSetController extends Controller
 
     public function deleteAttribute($id_attribute_set, $id_attribute)
     {
-        $product = Product_Attribute_Set_Attribute::where('attribute_set_id', $id_attribute_set)
+        $product_set_attribute = Product_Attribute_Set_Attribute::where('attribute_set_id', $id_attribute_set)
             ->where('attribute_id', $id_attribute)->first();
-        if(isset($product)) {
-            $product->delete();
+
+        $products = Product::where('product_attribute_set_id', $id_attribute_set)->get();
+
+        foreach ($products as $product) {
+            $product_skus = $product->skus;
+            foreach ($product_skus as $product_sku) {
+                $product_skus_attributes = $product_sku->attributeValues->where('attribute_id', $id_attribute);
+                foreach ($product_skus_attributes as $product_sku_attribute) {
+                    $product_sku_attribute_value = Product_Skus_Attribute_Value::where('attribute_value_id', $product_sku_attribute->id)->first();
+                    $product_sku_attribute_value->delete();
+                }
+            }
+        }
+
+
+        if(isset($product_set_attribute)) {
+            $product_set_attribute->delete();
         }else {
             return redirect()->back()->with('error', 'Xóa thuộc tính thất bại');
         }

@@ -45,39 +45,33 @@
             <p>{{$product->description}}</p>
 
             <form id="form_choose_option">
-                <div class="product-detail--capacity">
-                    @foreach($capacities as $capacity)
-                        @if($loop->first)
-                            @if($capacity->value == 1000)
-                                <p class="active" data-id="{{$product->id}}"
-                                   data-capacity="{{$capacity->value}}">{{$capacity->value / 1000}} TB</p>
-                            @else
-                                <p class="active" data-id="{{$product->id}}" data-capacity="{{$capacity->value}}">{{$capacity->value}} GB</p>
-                            @endif
-                        @else
-                            @if($capacity->value == 1000)
-                                <p data-id="{{$product->id}}" data-capacity="{{$capacity->value}}">{{$capacity->value / 1000}} TB</p>
-                            @else
-                                <p data-id="{{$product->id}}" data-capacity="{{$capacity->value}}">{{$capacity->value}} GB</p>
-                            @endif
-                        @endif
+
+                <div class="product-detail--color">
+{{--                    @foreach($colors as $color)--}}
+{{--                        @if($loop->first)--}}
+{{--                            <p class="active" data-id="{{$product->id}}" data-color="{{$color->value}}">{{$color->value}}</p>--}}
+{{--                        @else--}}
+{{--                            <p data-id="{{$product->id}}" data-color="{{$color->value}}">{{$color->value}}</p>--}}
+{{--                        @endif--}}
+{{--                    @endforeach--}}
+                </div>
+
+                <div class="product_skus">
+                    @foreach($product_skus as $product_sku)
+                        <div class="product_sku_attribute">
+                            @foreach($product_sku->attributeValues as $product_attribute)
+                                <p>{{$product_attribute->value}}</p>
+                            @endforeach
+                        </div>
+                        <p class="product_sku_price">{{$product_sku->price}}</p>
                     @endforeach
                 </div>
 
-                <div class="product-detail--color">
-                    @foreach($colors as $color)
-                        @if($loop->first)
-                            <p class="active" data-id="{{$product->id}}" data-color="{{$color->value}}">{{$color->value}}</p>
-                        @else
-                            <p data-id="{{$product->id}}" data-color="{{$color->value}}">{{$color->value}}</p>
-                        @endif
-                    @endforeach
-                </div>
                 <br>
                 <div class="product_star--price" id="product_star--price">
-                    <p class="product_star--price--new">{{number_format($sku_first->price * 1000, 0)}} đ</p>
-                    <p class="product_star--price--old">{{number_format($sku_first->price_old * 1000, 0)}} đ</p>
-                    <p class="product_star--discount">-({{$sku_first->percent_sale}})%</p>
+                    <p class="product_star--price--new">{{number_format($product_sku_first_price->price * 1000, 0)}} đ</p>
+                    <p class="product_star--price--old">{{number_format($product_sku_first_price->price_old * 1000, 0)}} đ</p>
+                    <p class="product_star--discount">-({{$product_sku_first_price->percent_sale}})%</p>
                 </div>
                 <br>
                 <div class="product_detail--quantity">

@@ -28,6 +28,13 @@ class ProductAttributeDataTable extends DataTable
                     'product_attribute' => $product_attribute,
                 ]);
             })
+            ->addColumn('value', function ($product_attribute) {
+                $attributes = $product_attribute->attributeValues->map(function ($attribute_value) {
+                    return '<lable class="badge text-bg-primary mx-1">' . $attribute_value->value . '</lable>';
+                })->implode('');
+                return '<td>' . $attributes . '</td>';
+            })
+            ->rawColumns(['action', 'value'])
             ->setRowId('id');
     }
 
@@ -71,6 +78,7 @@ class ProductAttributeDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name')->title('Tên thuộc tính'),
+            Column::make('value')->title('Giá trị'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

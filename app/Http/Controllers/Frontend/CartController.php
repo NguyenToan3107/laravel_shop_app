@@ -11,11 +11,12 @@ class CartController extends Controller
 {
     public function index()
     {
-        $carts = json_decode(Cookie::get('cart'));
+//        $carts = json_decode(Cookie::get('cart'));
+        $carts = json_decode(Cookie::get('cart', '[]'), true);
         $price = 0;
         if ($carts) {
             foreach ($carts as $cart) {
-                $price += $cart->price * $cart->quantity * (1 - ($cart->percent_sale / 100));
+                $price += $cart['price'] * $cart['quantity'] * (1 - ($cart['percent_sale'] / 100));
             }
         } else {
             $carts = []; // Nếu không có sản phẩm, gán $carts là một mảng rỗng để tránh lỗi khi truy cập vào biến trong view

@@ -22,7 +22,12 @@ class OrderController extends Controller
     }
 
     public function index(OrdersDataTable $dataTable) {
-        return $dataTable->render('admin.orders.index');
+        $count_order = Order::count();
+        $total_order = Order::sum('price');
+        return $dataTable->render('admin.orders.index', [
+            'count_order' => $count_order,
+            'total_order' => $total_order,
+        ]);
     }
 
     public function show($id, OrderDetailsDataTable $dataTable) {

@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center">
     @can('edit-product')
-        <a href="/admin/product_skus/{{$product_sku->id}}/edit"
+        <a href="/admin/products/{{$product->id}}/product_skus/{{$product_sku->id}}/edit"
            class="btn btn-primary btn-sm mr-2" style="margin-left: 6px"><i class="fa-solid fa-wrench"></i></a>
     @endcan
     @can('delete-product')

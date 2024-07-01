@@ -7,13 +7,13 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProductAttributeController;
 use App\Http\Controllers\Admin\ProductAttributeSetController;
+use App\Http\Controllers\Admin\ProductAttributeValueController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductSkusController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\UserController;
-use App\Models\Product_Attribute_Set;
 use Illuminate\Support\Facades\Route;
 
 const POST_ROUTE = '/posts/{post}';
@@ -84,6 +84,21 @@ Route::prefix('/admin')->group(function () {
 
 
 
+    ////////////////////////// PRODUCT ATTRIBUTE VALUE
+    Route::middleware('auth')->group(function () {
+        Route::post('/product_attributes/{id_attribute}/product_attribute_value', [ProductAttributeValueController::class, 'store'])->name('product_attributes.store');
+
+        Route::get('/product_attributes/{id_attribute}/product_attribute_value/{id_attribute_value}/edit',
+            [ProductAttributeController::class, 'edit'])
+            ->name('product_attributes.edit');
+//        Route::put('/product_attributes/{id}', [ProductAttributeValueController::class, 'update'])->name('product_attributes.update');
+
+        Route::delete('/product_attributes/{id_attribute}/product_attribute_value/{id}', [ProductAttributeValueController::class, 'destroy']);
+    });
+
+    ///////////////////////////
+
+
 
     ////////////////////////// PRODUCT ATTRIBUTE SET
     Route::middleware('auth')->group(function () {
@@ -111,8 +126,8 @@ Route::prefix('/admin')->group(function () {
         Route::post('/products/{product_id}/product_skus', [ProductSkusController::class, 'store'])->name('product_skus.store');
         Route::get('/products/{product_id}/product_skus/create', [ProductSkusController::class, 'create'])->name('product_skus.create');
 
-        Route::get(PRODUCT_SKUS . '/edit', [ProductSkusController::class, 'edit'])->name('product_skus.edit');
-        Route::post('/product_skus/{id}', [ProductSkusController::class, 'update'])->name('product_skus.update');
+        Route::get('/products/{product_id}/product_skus/{product_sku_id}/edit', [ProductSkusController::class, 'edit'])->name('product_skus.edit');
+        Route::post('/products/{product_id}/product_skus/{id}', [ProductSkusController::class, 'update'])->name('product_skus.update');
 
         // hard delete
         Route::delete(PRODUCT_SKUS, [ProductSkusController::class, 'destroy'])->name('product_skus.destroy');
