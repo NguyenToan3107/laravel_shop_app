@@ -38,41 +38,60 @@
                 <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                 (150 Reviews)
             </div>
-{{--            <div class="product_star--price">--}}
-{{--                <p class="product_star--price--new">{{number_format($product->price * (1 - ($product->percent_sale / 100)) * 1000, 0)}} đ</p>--}}
-{{--                <p class="product_star--price--old">{{number_format($product->price * 1000, 0)}} đ</p>--}}
-{{--            </div>--}}
             <p>{{$product->description}}</p>
 
             <form id="form_choose_option">
 
                 <div class="product-detail--color">
-{{--                    @foreach($colors as $color)--}}
-{{--                        @if($loop->first)--}}
-{{--                            <p class="active" data-id="{{$product->id}}" data-color="{{$color->value}}">{{$color->value}}</p>--}}
-{{--                        @else--}}
-{{--                            <p data-id="{{$product->id}}" data-color="{{$color->value}}">{{$color->value}}</p>--}}
-{{--                        @endif--}}
-{{--                    @endforeach--}}
+                    {{--                    @foreach($colors as $color)--}}
+                    {{--                        @if($loop->first)--}}
+                    {{--                            <p class="active" data-id="{{$product->id}}" data-color="{{$color->value}}">{{$color->value}}</p>--}}
+                    {{--                        @else--}}
+                    {{--                            <p data-id="{{$product->id}}" data-color="{{$color->value}}">{{$color->value}}</p>--}}
+                    {{--                        @endif--}}
+                    {{--                    @endforeach--}}
                 </div>
 
                 <div class="product_skus">
                     @foreach($product_skus as $product_sku)
-                        <div class="product_sku_attribute">
-                            @foreach($product_sku->attributeValues as $product_attribute)
-                                <p>{{$product_attribute->value}}</p>
-                            @endforeach
-                        </div>
-                        <p class="product_sku_price">{{$product_sku->price}}</p>
+                        @if($loop->first)
+                            <div class="product_skus--item active">
+                                <div class="product_sku_attribute">
+                                    @foreach($product_sku->attributeValues as $product_attribute)
+                                        <p>{{$product_attribute->value}}</p>
+                                    @endforeach
+                                </div>
+                                <p class="product_sku_price">{{number_format($product_sku->price * 1000, 0)}} đ</p>
+                            </div>
+                        @else
+                            <div class="product_skus--item">
+                                <div class="product_sku_attribute">
+                                    @foreach($product_sku->attributeValues as $product_attribute)
+                                        <p>{{$product_attribute->value}}</p>
+                                    @endforeach
+                                </div>
+                                <p class="product_sku_price">{{number_format($product_sku->price * 1000, 0)}} đ</p>
+                            </div>
+                        @endif
                     @endforeach
                 </div>
 
                 <br>
-                <div class="product_star--price" id="product_star--price">
-                    <p class="product_star--price--new">{{number_format($product_sku_first_price->price * 1000, 0)}} đ</p>
-                    <p class="product_star--price--old">{{number_format($product_sku_first_price->price_old * 1000, 0)}} đ</p>
-                    <p class="product_star--discount">-({{$product_sku_first_price->percent_sale}})%</p>
-                </div>
+                @if(isset($product_sku_first_price))
+                    <div class="product_star--price" id="product_star--price">
+                        <p class="product_star--price--new">{{number_format($product_sku_first_price->price * 1000, 0)}}
+                            đ</p>
+                        <p class="product_star--price--old">{{number_format($product_sku_first_price->price_old * 1000, 0)}}
+                            đ</p>
+                        <p class="product_star--discount">-({{$product_sku_first_price->percent_sale}})%</p>
+                    </div>
+                @else
+                    <div class="product_star--price">
+                        <p class="product_star--price--new">{{number_format($product->price * (1 - ($product->percent_sale / 100)) * 1000, 0)}}
+                            đ</p>
+                        <p class="product_star--price--old">{{number_format($product->price * 1000, 0)}} đ</p>
+                    </div>
+                @endif
                 <br>
                 <div class="product_detail--quantity">
                     <div class="product_detail--quantity--num">
@@ -85,7 +104,6 @@
                     <button type="submit" class="btn btn-secondary"><i class="fa-regular fa-heart"></i></button>
                 </div>
             </form>
-
             <br>
             <br>
 

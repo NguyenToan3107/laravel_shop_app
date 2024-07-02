@@ -23,6 +23,10 @@
                     <input type="text" name="fullname" class="form-control" id="" required>
                 </div>
                 <div class="mb-3">
+                    <label for="" class="form-label">Email</label>
+                    <input type="text" name="email" class="form-control" id="" required>
+                </div>
+                <div class="mb-3">
                     <label for="" class="form-label">Số điện thoại*</label>
                     <input type="text" name="phone" class="form-control" id="" required>
                 </div>

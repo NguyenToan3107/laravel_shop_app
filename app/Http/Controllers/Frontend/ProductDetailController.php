@@ -30,13 +30,6 @@ class ProductDetailController extends Controller
         $product_sku_first_price = $product->skus->first();
         $product_skus = $product->skus;
 
-//        foreach ($product_skus as $product_sku) {
-//            $product_attributes = $product_sku->attributeValues;
-//            $attribute = $product_attributes->map(function ($attributeName) {
-//                return '<label class="badge bg-primary mx-1">' . $attributeName->value . '</label>';
-//            })->implode(' ');
-////            dd($attribute);
-//        }
 
         return view('frontend.product_detail.index',
             [

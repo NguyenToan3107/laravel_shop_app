@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
+
+
 class OrderController extends Controller
 {
     public function __construct()
@@ -39,12 +41,6 @@ class OrderController extends Controller
     public function create(OrderDetailsDataTable $dataTable)
     {
         $users = User::all();
-//        return $dataTable
-////            ->with(['order' => $order, 'user' => $user])
-//            ->render('admin.orders.create_edit', [
-//                'users' => $users,
-//            ]);
-
         return view('admin.orders.create_edit', [
             'users' => $users,
         ]);

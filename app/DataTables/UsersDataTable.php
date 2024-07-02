@@ -67,6 +67,7 @@ class UsersDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
+                    ->autoWidth(false)
                     ->scrollX(true)
                     ->orderBy(1)
                     ->selectStyleSingle()
@@ -87,17 +88,18 @@ class UsersDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('image_path'),
-            Column::make('name'),
-            Column::make('email'),
-            Column::make('phoneNumber'),
-            Column::make('address'),
-            Column::make('roles'),
-            Column::make('age'),
-            Column::make('status'),
+            Column::make('image_path')->title('Ảnh'),
+            Column::make('name')->title('Tên'),
+            Column::make('email')->title('Email'),
+            Column::make('phoneNumber')->title('Số điện thoại'),
+            Column::make('address')->title('Địa chỉ'),
+            Column::make('roles')->title('Quyền'),
+            Column::make('age')->title('Tuổi'),
+            Column::make('status')->title('Trạng thái'),
 //            Column::make('created_at'),
 //            Column::make('updated_at'),
             Column::computed('action')
+                ->title('Hành động')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

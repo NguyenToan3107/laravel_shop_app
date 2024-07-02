@@ -105,7 +105,7 @@
         @can('create-user')
             <a href="/admin/users/create"
                class="btn btn-primary margin_bottom_detail"
-               role="button" style="margin-left: 800px">
+                style="margin-left: 770px">
                 Thêm mới người dùng
             </a>
         @endcan

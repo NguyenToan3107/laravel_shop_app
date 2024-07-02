@@ -89,7 +89,6 @@ class UserController extends Controller
     public function update(Request $request, $id) {
         $request->validate([
             'email' => 'email',
-//            'image' => 'required|image|mimes:jpeg,png,jpg|max:5048',
         ]);
 
         $user = User::find($id);
@@ -129,15 +128,6 @@ class UserController extends Controller
             ->where('status', 4);
 
         return DataTables::of($model)
-//            ->editColumn('status', function ($user) {
-//                $statusMessages = [
-//                    1 => 'Hoạt động',
-//                    2 => 'Không hoạt động',
-//                    3 => 'Đợi',
-//                    4 => 'Xóa mềm'
-//                ];
-//                return $statusMessages[$user->status];
-//            })
             ->editColumn('status', function ($user) {
                 if ($user->status == 1) {
                     return 'Hoạt động';

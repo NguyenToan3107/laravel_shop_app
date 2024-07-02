@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmail_Register_User;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -52,11 +53,8 @@ class RegisteredUserController extends Controller
             'age' => $request->input('age'),
             'address' => $request->input('address'),
             'phoneNumber' => $request->input('phoneNumber'),
-            'image_path' => 'default_user.jpg',
+            'image_path' => '/storage/photos/users/default_user.jpg',
             'status' => 1,
-//            'role' => strtolower($request->input('role')),
-//            'created_at' => now(),
-//            'updated_at' => now()
         ]);
 
         $user->syncRoles($request->roles);
@@ -64,6 +62,16 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        if($user) {
+            $message = [
+                'email' => $user->email,
+                'name' => $user->name,
+            ];
+
+            // send email
+            SendEmail_Register_User::dispatch($message)->delay(now()->addMinute(1));
+        }
 
         return redirect(RouteServiceProvider::HOME);
     }

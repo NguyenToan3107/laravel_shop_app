@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmail;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
@@ -45,7 +46,8 @@ class OrderController extends Controller
             'phone' => request('phone'),
             'address' => request('address'),
             'status' => 1,
-            'price' => $total
+            'price' => $total,
+            'percent_sale' => 0,
         ]);
 
         // create order detail
@@ -56,6 +58,18 @@ class OrderController extends Controller
                 'unit_price' => $cart->price,
                 'order_id' => $order->id
             ]);
+        }
+
+        // send email
+        $message = [
+            'type' => 'Thông báo đơn đặt hàng',
+            'name' => $order->fullname,
+            'content' => 'Chúc mừng bạn đã đặt thành công',
+            'order' => $order
+        ];
+
+        if($request->filled('email')) {
+            SendEmail::dispatch($message, $request->get('email'))->delay(now()->addMinute(1));
         }
 
         return redirect('/cart')->with('success', 'Bạn đã đặt hàng thành công!');

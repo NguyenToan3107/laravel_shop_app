@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailNotify extends Mailable
+class RegisterUserMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,8 +29,8 @@ class MailNotify extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
+            subject: 'Mail đăng ký người dùng',
             from: 'nguyentoan31072k3@gmail.com',
-            subject: 'Thư xác nhận',
         );
     }
 
@@ -40,9 +40,10 @@ class MailNotify extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'admin.mails.mail_notify',
+            view: 'admin.mails.register-user',
         );
     }
+
     /**
      * Get the attachments for the message.
      *
