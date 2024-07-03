@@ -10,7 +10,7 @@ class ProductAttributeValueController extends Controller
 {
     public function store($id_attribute, Request $request) {
         $request->validate([
-            'value' => 'required|unique:product_attribute_value,value'
+            'value' => 'required'
         ]);
         try {
             Product_Attribute_Value::create([

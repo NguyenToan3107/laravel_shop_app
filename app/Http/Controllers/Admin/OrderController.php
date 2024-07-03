@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\orders\OrderDetailsDataTable;
 use App\DataTables\OrdersDataTable;
+use App\Exports\OrdersExport;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 
@@ -92,7 +95,6 @@ class OrderController extends Controller
 
         return redirect('/admin/orders')->with('success', 'Cập nhật đơn hàng thành công!');
     }
-
 
     public function destroy($id, Request $request)
     {
@@ -179,5 +181,23 @@ class OrderController extends Controller
             ->setRowId('id')
             ->make();
 
+    }
+
+    // export order
+    public function export()
+    {
+        $filename = 'orders.xlsx';
+        return Excel::download(new OrdersExport, $filename);
+    }
+
+    public function export_order_detail($id)
+    {
+        $order = Order::findOrFail($id);
+        $user = User::find($order->author_id);
+        $pdf = PDF::loadView('admin.exports.pdf.order_detail', [
+            'order' => $order,
+            'user' => $user
+        ]);
+        return $pdf->download('invoice.pdf');
     }
 }

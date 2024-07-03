@@ -72,11 +72,13 @@
                 </div>
                 <div class="input-group mb-3 width-300">
                     <span class="input-group-text" id="basic-addon1">Từ</span>
-                    <input type="datetime-local" id="start_date" name="start_date" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="start_date" name="start_date" class="form-control" placeholder=""
+                           aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3 width-300">
                     <span class="input-group-text" id="basic-addon1">Tới</span>
-                    <input type="datetime-local" id="ended_date" name="end_date" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="ended_date" name="end_date" class="form-control" placeholder=""
+                           aria-describedby="basic-addon1">
                 </div>
             </div>
             <br>
@@ -99,15 +101,23 @@
             <p>Tổng tiền: {{number_format($total_order * 1000, 0)}} đ</p>
         </div>
 
-        @can('create-order')
-            <a href="/admin/orders/create"
-               class="btn btn-primary margin_bottom_detail"
-               style="margin-left: 800px"
-            >
-                Tạo đơn hàng mới
-            </a>
-        @endcan
-        <br>
+        <div>
+            @can('create-order')
+                <a href="/admin/orders/create"
+                   class="btn btn-primary margin_bottom_detail"
+                   style="margin-left: 680px"
+                >
+                    <i class="fa-regular fa-square-plus"></i>
+                    Tạo đơn hàng mới
+                </a>
+            @endcan
+            @can('view-order')
+                <a href="/admin/orders/export" class="btn btn-secondary margin_bottom_detail">
+                    <i class="fa-solid fa-download"></i>
+                    In excel
+                </a>
+            @endcan
+        </div>
         <div class="row">
             <div class="col-md-12">
                 {{ $dataTable->table()}}

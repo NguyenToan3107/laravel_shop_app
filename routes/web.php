@@ -44,9 +44,16 @@ Route::get('/product_detail/{id}', [ProductDetailController::class, 'index']);
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile', [ProfileController::class, 'index']);
 });
-//
-//Route::group(['middleware' => ['auth']], function () {
-//    Route::resource('orders', OrderController::class);
-//});
+
+Route::get('/admin/orders/export', [\App\Http\Controllers\Admin\OrderController::class, 'export'])
+    ->middleware('auth');
+
+Route::get('/admin/orders/order_detail/{id}', [\App\Http\Controllers\Admin\OrderController::class, 'export_order_detail'])
+    ->middleware('auth');
 
 
+
+Route::get('/admin/products/import', [\App\Http\Controllers\Admin\ProductController::class, 'import'])
+    ->middleware('auth');
+Route::post('/admin/products/import', [\App\Http\Controllers\Admin\ProductController::class, 'importExcelData'])
+    ->middleware('auth');

@@ -28,7 +28,7 @@ class SearchController extends Controller
     public function searchProduct(Request $request)
     {
         $model = Product::query()
-            ->select(['id', 'image', 'title', 'description', 'price', 'status', 'created_at', 'updated_at']);
+            ->select(['id', 'image', 'title', 'price_old', 'percent_sale', 'price', 'status', 'created_at', 'updated_at']);
 //            ->whereNull('deleted_at');
 
         if ($request->filled('title')) {
@@ -76,6 +76,9 @@ class SearchController extends Controller
             })
             ->editColumn('price', function ($product) {
                 return number_format($product->price * 1000, 0, ',', ',');
+            })
+            ->editColumn('price_old', function ($product) {
+                return number_format($product->price_old * 1000, 0, ',', ',');
             })
             ->editColumn('image', function ($row) {
                 return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';

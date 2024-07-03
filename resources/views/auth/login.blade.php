@@ -45,5 +45,25 @@
             <button type="submit" class="btn btn-primary">Đăng nhập</button>
         </div>
     </form>
+    <div class="social_media">
+        <div>
+            <i class="fa-brands fa-facebook" style="color: #005af5;"></i>
+            Facebook
+        </div>
+        <div>
+            <i class="fa-brands fa-google" style="color: #408bc4;"></i>
+            Google
+        </div>
+    </div>
     <a class="btn btn-secondary" href="/register">Đăng ký</a>
 </x-guest-layout>
+
+@push('scripts')
+    <style>
+        .social_media {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    </style>
+@endpush

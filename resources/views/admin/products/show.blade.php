@@ -43,7 +43,7 @@
                 <h2>{{ $product->title }} </h2>
                 <div class="product_category">
                     <p>
-                        {{strtoupper($category->title)}}
+                        {{ ($category->title)}}
                     </p>
                 </div>
                 <p><strong>Mô tả: </strong> {{ $product->description }}</p>

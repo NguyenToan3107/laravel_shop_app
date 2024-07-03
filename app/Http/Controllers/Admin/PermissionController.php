@@ -27,6 +27,7 @@ class PermissionController extends Controller
         ]);
         Permission::create([
             'name' => $request->name,
+            'guard_name' => 'web'
         ]);
 
         return redirect('admin/permissions')->with('status', 'Tạo mới thành công');
@@ -52,6 +53,7 @@ class PermissionController extends Controller
         ]);
         Permission::where('id', $id)->update([
             'name' => $request->name,
+            'guard_name' => 'web'
         ]);
         return redirect('admin/permissions')->with('status', 'Cập nhật thành công');
     }

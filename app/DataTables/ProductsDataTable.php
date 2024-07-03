@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -35,7 +36,17 @@ class ProductsDataTable extends DataTable
                 }
             })
             ->editColumn('price', function ($product) {
-                return number_format($product->price * 1000, 0, ',', ',');
+                    return number_format($product->price * 1000, 0, ',', ',');
+//                if(Auth::user()->hasPermissionTo('view-price')) {
+//                } else {
+//                    return '';
+//                }
+            })
+            ->editColumn('price_old', function ($product) {
+                return number_format($product->price_old * 1000, 0, ',', ',');
+            })
+            ->editColumn('percent_sale', function ($product) {
+                return $product->percent_sale . '%';
             })
             ->addColumn('action', function ($product) {
                 return view('admin.products.action', ['product' => $product]);
@@ -52,7 +63,7 @@ class ProductsDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->newQuery()->select(['id', 'image', 'title', 'description', 'price', 'status', 'created_at', 'updated_at'])
+        return $model->newQuery()->select(['id', 'image', 'title', 'description', 'price', 'status', 'created_at', 'updated_at', 'price_old', 'percent_sale'])
                                 ->whereNull('deleted_at')->where('status', '<>', 4);
     }
 
@@ -85,14 +96,14 @@ class ProductsDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('image'),
-            Column::make('title'),
-            Column::make('description'),
-            Column::make('price'),
-            Column::make('status'),
-//            Column::make('created_at')->hidden(),
-//            Column::make('updated_at')->hidden(),
+            Column::make('image')->title('Ảnh'),
+            Column::make('title')->title('Tên sản phẩm'),
+            Column::make('price_old')->title('Giá gốc'),
+            Column::make('percent_sale')->title('Khuyến mãi'),
+            Column::make('price')->title('Giá bán'),
+            Column::make('status')->title('Trạng thái'),
             Column::computed('action')
+                ->title('Hành động')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

@@ -23,6 +23,12 @@
                 <p>Địa chỉ đặt hàng: {{$order->address}}</p>
             </div>
         </div>
+        @can('view-order-detail')
+            <a href="/admin/orders/order_detail/{{$order->id}}" class="btn btn-secondary margin_bottom_detail" style="margin-left: 770px">
+                <i class="fa-solid fa-download"></i>
+                In hóa đơn
+            </a>
+        @endcan
         <div class="row">
             <div class="col-md-12">
                 {{ $dataTable->table()}}

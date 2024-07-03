@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\ProductsDataTable;
 use App\DataTables\ProductSkusDataTable;
 use App\Http\Controllers\Controller;
+use App\Imports\ProductsImport;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Product_Attribute_Set;
 use App\Models\Product_Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 
 class ProductController extends Controller
@@ -109,6 +111,7 @@ class ProductController extends Controller
             ]);
         }
 
+
         return redirect(ProductController::PRODUCTS_PATH);
     }
 
@@ -193,11 +196,20 @@ class ProductController extends Controller
 
         $product_images = Product_Image::where('product_id', $product->id)->get();
 
-        foreach ($product_images as $product_image) {
-            $product_image->update([
-                'image_url' => $image_paths[0],
-            ]);
-            array_shift($image_paths);
+        if (isset($product_images)) {
+            foreach ($product_images as $product_image) {
+                $product_image->update([
+                    'image_url' => $image_paths[0],
+                ]);
+                array_shift($image_paths);
+            }
+        } else {
+            foreach ($product_images as $product_image) {
+                $product_image->update([
+                    'image_url' => '/storage/photos/products/empty-photo.jpg',
+                ]);
+                array_shift($image_paths);
+            }
         }
 
 
@@ -314,6 +326,24 @@ class ProductController extends Controller
             })
             ->rawColumns(['image'])
             ->make();
+    }
+
+
+    public function import()
+    {
+        return view('admin.imports.products.import_product');
+    }
+
+    public function importExcelData(Request $request)
+    {
+        $request->validate([
+            'import_file' => ['required', 'file'],
+        ]);
+
+        $file = $request->file('import_file');
+        Excel::import(new ProductsImport, $file);
+
+        return redirect()->back()->with('status', 'Nhập file thành công');
     }
 }
 

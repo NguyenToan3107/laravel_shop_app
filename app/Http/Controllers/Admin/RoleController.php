@@ -31,6 +31,7 @@ class RoleController extends Controller
     public function store(Request $request) {
         $request->validate([
             'name' => 'required|unique:roles,name|string',
+            'guard_name' => 'web'
         ]);
         role::create([
             'name' => $request->name,
@@ -56,6 +57,7 @@ class RoleController extends Controller
         ]);
         role::where('id', $id)->update([
             'name' => $request->name,
+            'guard_name' => 'web'
         ]);
         return redirect('admin/roles')->with('status', 'Cập nhật thành công');
     }

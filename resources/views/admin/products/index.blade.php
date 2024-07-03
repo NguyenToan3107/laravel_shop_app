@@ -2,17 +2,14 @@
 
 @section('content')
 
+
+
     <div class="container mt-5">
         <div class="row mb-4">
             <div class="col-md-12">
                 <h2 class="text-center">Danh sách sản phẩm</h2>
             </div>
         </div>
-{{--                <div class="flex-button">--}}
-{{--                    @foreach($categories as $category)--}}
-{{--                        <button class="btn_custom_categories" name="{{$category->id}}">{{$category->title}}</button>--}}
-{{--                    @endforeach--}}
-{{--                </div>--}}
         <br>
         <form id="product_search_form">
             @csrf
@@ -59,15 +56,28 @@
             </div>
         </form>
         <br>
-        @can('create-product')
-            <a href="/admin/products/create"
-               class="btn btn-primary margin_bottom_detail"
-               style="margin-left: 800px"
-            >
-                Tạo sản phẩm mới
-            </a>
-        @endcan
-        <br>
+        <div>
+            @can('create-product')
+                <a href="/admin/products/create"
+                   class="btn btn-primary margin_bottom_detail"
+                   style="margin-left: 750px"
+                >
+                    <i class="fa-regular fa-square-plus"></i>
+                    Tạo mới
+                </a>
+            @endcan
+            @can('view-product')
+{{--                    <a href="/admin/products/import"--}}
+{{--                       class="btn btn-secondary margin_bottom_detail">--}}
+{{--                        <i class="fa-solid fa-file-import"></i>--}}
+{{--                        Tải tệp lên--}}
+{{--                    </a>--}}
+                    <a class="btn btn-secondary margin_bottom_detail" data-bs-toggle="modal" data-bs-target="#importData">
+                        <i class="fa-solid fa-file-import"></i>
+                        Tải tệp lên
+                    </a>
+            @endcan
+        </div>
         <div class="row">
             <div class="col-md-12">
                 {{ $dataTable->table()}}
@@ -127,6 +137,42 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Import data -->
+    <div class="modal fade" id="importData" tabindex="-1" aria-labelledby="importDataModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="importDataModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card d-flex flex-column h-100">
+{{--                        <div class="card-header">--}}
+{{--                            <h4>--}}
+{{--                                Import dữ liệu sản phẩm--}}
+{{--                                <a href="{{url('admin/products')}}" class="btn btn-danger float-end">Quay lại</a>--}}
+{{--                            </h4>--}}
+{{--                        </div>--}}
+                        <div class="card-body">
+                            <form action="/admin/products/import" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="mb-3">
+                                    <input type="file" name="import_file" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-primary">Import</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

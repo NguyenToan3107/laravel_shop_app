@@ -16,7 +16,6 @@ class ProductSkusController extends Controller
         $product = Product::find($product_id);
 
         $product_attributes = $product->product_attribute_set->attributes;
-
         return view('admin.products.product_skus.create', [
             'product' => $product,
             'product_attributes' => $product_attributes
