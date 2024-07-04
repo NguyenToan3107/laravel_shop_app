@@ -15,14 +15,14 @@
         <div class="d-flex align-items-center">
             @can('edit-category')
                 <a href="/admin/categories/{{$category->id}}/edit" class="btn btn-primary btn-sm mr-2"
-                   style="margin-right: 6px">Sửa</a>
+                   style="margin-right: 6px"><i class="fa-solid fa-pen-to-square"></i></a>
             @endcan
 
             @can('delete-category')
                 <form action="/admin/categories/{{ $category->id }}" method="post" class="mb-0">
                     @csrf
                     @method('delete')
-                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash-can"></i></button>
                 </form>
             @endcan
         </div>

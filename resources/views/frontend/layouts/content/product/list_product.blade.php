@@ -43,8 +43,15 @@
         @endforeach
     </div>
 </div>
-<div style="margin-top: 50px; display: flex; justify-content: center">
-    <button class="btn btn-danger">Xem thêm sản phẩm</button>
+
+<div id="num_more_product_detail" style="margin-top: 50px; display: flex; justify-content: center">
+    @if($count_product < \App\Utils\Util::num_page_product_detail and $count_product > 0)
+        <button class="btn btn-danger product_more_view_detail" data-id="{{$product->id}}" value="{{$count_product}}">Xem thêm {{$count_product}} sản phẩm</button>
+    @elseif($count_product >= \App\Utils\Util::num_page_product_detail)
+        <button class="btn btn-danger product_more_view_detail" data-id="{{$product->id}}" value="{{\App\Utils\Util::num_page_product_detail}}">
+            Xem thêm {{\App\Utils\Util::num_page_product_detail}} sản phẩm
+        </button>
+    @endif
 </div>
 
 <div style="margin-top: 50px"></div>

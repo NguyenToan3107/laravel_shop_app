@@ -34,10 +34,19 @@
 
     @include('frontend.layouts.content.category')
 
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
+
     <div class="products">
         <div class="products_top">
             <p>Wishlist (4)</p>
-            <button class="btn btn-secondary">Move To The Bag</button>
+            <a href="/cart" style="text-decoration: none; color: white" class="btn btn-secondary">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Đi tới giỏ hàng
+            </a>
         </div>
         <div class="product_list" style="margin-top: 100px">
             @foreach($products as $product)
@@ -85,7 +94,11 @@
             @endforeach
         </div>
     </div>
-    <div style="margin-top: 50px; display: flex; justify-content: center">
-        <button class="btn btn-danger">Xem thêm sản phẩm</button>
+    <div id="num_more_product" style="margin-top: 50px; display: flex; justify-content: center">
+        @if($count_product < 20 and $count_product > 0)
+            <button class="btn btn-danger product_more_view" value="{{$count_product}}">Xem thêm {{$count_product}} sản phẩm</button>
+        @elseif($count_product >= 20)
+            <button class="btn btn-danger product_more_view" value="{{20}}">Xem thêm 20 sản phẩm</button>
+        @endif
     </div>
 @endsection

@@ -70,7 +70,6 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (data) {
-                console.log('Product removed successfully');
                 // Sau khi xóa thành công, cập nhật lại nội dung giỏ hàng
                 $.ajax({
                     type: "GET",
@@ -189,20 +188,10 @@ $(document).ready(function () {
                 var newContent = $(data).find('#product_star--price').html();
                 $('#product_star--price').html(newContent);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 setTimeout(function () {
                     $('#overlay').fadeOut(100)
                 }, 200);
-                // Toastify({
-                //     text: "Màu này không còn!",
-                //     duration: 2000,
-                //     close: true,
-                //     gravity: "top",
-                //     position: "right",
-                //     stopOnFocus: true,
-                //     className: "toastify-custom toastify-error"
-                // }).showToast();
-                console.log(error)
             }
         }).done(function () {
             setTimeout(function () {
@@ -240,7 +229,7 @@ $(document).ready(function () {
                 // var color = $(data).find('.product-detail--color').html();
                 // $('.product-detail--color').html(color);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
 
             }
         }).done(function () {
@@ -282,4 +271,246 @@ document.addEventListener('click', function (event) {
         nav.classList.remove('open');
     }
 });
+
+
+// Feature xem thêm sản phẩm
+$(document).ready(function () {
+    $(document).ajaxSend(function () {
+        $("#overlay").fadeIn(100);
+    })
+    $(document).on('click', '.product_more_view', function (e) {
+        e.preventDefault();
+
+        let num_product = $(this).val();
+        console.log(num_product)
+
+        $.ajax({
+            type: 'GET',
+            url: '/products',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                num_product: num_product
+            },
+            success: function (data) {
+                let num_more_product = $(data).find('#num_more_product').html();
+                $('#num_more_product').html(num_more_product);
+
+                let product_list = $(data).find('.product_list').html();
+                $('.product_list').html(product_list);
+            }
+        }).done(function () {
+            setTimeout(function () {
+                $('#overlay').fadeOut(100)
+            }, 200)
+        })
+    })
+})
+
+$(document).ready(function () {
+    $(document).ajaxSend(function () {
+        $("#overlay").fadeIn(100);
+    })
+    $(document).on('click', '.product_more_view_detail', function (e) {
+        e.preventDefault();
+
+        let num_product = $(this).val();
+        let product_id = $(this).data('id')
+        console.log(num_product)
+
+        $.ajax({
+            type: 'GET',
+            url: '/product_detail/' + product_id,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                num_product: num_product
+            },
+            success: function (data) {
+                let num_more_product = $(data).find('#num_more_product_detail').html();
+                $('#num_more_product_detail').html(num_more_product);
+
+                let product_list = $(data).find('.product_list').html();
+                $('.product_list').html(product_list);
+            }
+        }).done(function () {
+            setTimeout(function () {
+                $('#overlay').fadeOut(100)
+            }, 200)
+        })
+    })
+})
+
+$(document).ready(function () {
+    $(document).ajaxSend(function () {
+        $("#overlay").fadeIn(100);
+    })
+    $(document).on('click', '.category_item', function (e) {
+        e.preventDefault();
+
+        let category_id = $(this).data('id');
+        $.ajax({
+            type: 'GET',
+            url: '/products',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                category_id: category_id
+            },
+            success: function (data) {
+                let num_more_product = $(data).find('#num_more_product').html();
+                $('#num_more_product').html(num_more_product);
+
+                let product_list = $(data).find('.product_list').html();
+                $('.product_list').html(product_list);
+
+                let category_brand = $(data).find('#category-brand--item').html();
+                $('#category-brand--item').html(category_brand);
+
+                let detail_nav = $(data).find('.detail_nav').html();
+                $('.detail_nav').html(detail_nav);
+
+            }
+        }).done(function () {
+            setTimeout(function () {
+                $('#overlay').fadeOut(100)
+            }, 200)
+        })
+
+    })
+})
+
+$(document).ready(function () {
+    $(document).ajaxSend(function () {
+        $("#overlay").fadeIn(100);
+    })
+    $(document).on('click', '#category_item_brand', function (e) {
+        e.preventDefault();
+
+        let category_brand_id = $(this).data('id');
+        $.ajax({
+            type: 'GET',
+            url: '/products',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                category_brand_id: category_brand_id
+            },
+            success: function (data) {
+                let num_more_product = $(data).find('#num_more_product').html();
+                $('#num_more_product').html(num_more_product);
+
+                let product_list = $(data).find('.product_list').html();
+                $('.product_list').html(product_list);
+
+                let detail_nav = $(data).find('.detail_nav').html();
+                $('.detail_nav').html(detail_nav);
+
+            }
+        }).done(function () {
+            setTimeout(function () {
+                $('#overlay').fadeOut(100)
+            }, 200)
+        })
+
+    })
+})
+
+
+
+
+$(document).ready(function () {
+    $(document).ajaxSend(function () {
+        $("#overlay").fadeIn(100);
+    })
+    $(document).on('click', '.category_recursive', function (e) {
+        e.preventDefault();
+
+        let category_id = $(this).data('id');
+        $.ajax({
+            type: 'GET',
+            url: '/products',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                category_id: category_id
+            },
+            success: function (data) {
+                sessionStorage.setItem('category_id', category_id)
+
+                window.location.href = '/products';
+            }
+        }).done(function () {
+            setTimeout(function () {
+                $('#overlay').fadeOut(100)
+            }, 200)
+        })
+    })
+})
+
+
+$(document).ready(function () {
+    $(document).ajaxSend(function () {
+        $("#overlay").fadeIn(100);
+    })
+    $(document).on('click', '.category_recursive_brand', function (e) {
+        e.preventDefault();
+
+        let category_brand_id = $(this).data('id');
+        $.ajax({
+            type: 'GET',
+            url: '/products',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                category_brand_id: category_brand_id
+            },
+            success: function (data) {
+                window.location.href = '/products';
+            }
+        }).done(function () {
+            setTimeout(function () {
+                $('#overlay').fadeOut(100)
+            }, 200)
+        })
+
+    })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

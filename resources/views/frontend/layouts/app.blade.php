@@ -13,17 +13,13 @@
 {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!--
-      - favicon
-    -->
+    {{--favicon--}}
     <link rel="shortcut icon" href="{{asset('assets/frontend/images/logo/favicon.ico')}}" type="image/x-icon">
 
     <link rel="stylesheet" href="{{asset('assets/frontend/css/style.css')}}">
 
     <script src="{{asset('assets/frontend/js/script.js')}}" defer></script>
-    <!--
-      - google font link
-    -->
+    {{-- google font link  --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
@@ -44,6 +40,12 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
 
+    {{--  slide swiper  --}}
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    @stack('style')
 </head>
 
 <body>
@@ -76,7 +78,7 @@
 -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
+@stack('scripts')
 
 </body>
 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DataTables\CategoriesDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -25,13 +24,6 @@ class CategoryController extends Controller
         $categories = Category::with('children')->whereNull('parent_id')->get();
         return view('admin.categories.index', ['categories' => $categories]);
     }
-
-//    public function index(CategoriesDataTable $dataTable) {
-//
-////        $categories = Category::with('children')->whereNull('parent_id')->get();
-//        return $dataTable->render('admin.categories.index');
-//    }
-
     public function create()
     {
         $categories = Category::with('children')->whereNull('parent_id')->get();
@@ -95,7 +87,6 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         $description = $request->input('description');
-//        $description = substr($description, 3, strlen($description) - 7);
 
         if($request->filled('filepath')) {
             $image_path = $request->input('filepath');
