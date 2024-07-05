@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     protected $table = 'products';
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'idkey', 'shop_id','module', 'locale', 'parent_id', 'title', 'slug', 'is_slug_override', 'duplicate', 'description',
@@ -39,5 +40,19 @@ class Product extends Model
 
     public function product_attribute_set() {
         return $this->belongsTo(Product_Attribute_Set::class, 'product_attribute_set_id', 'id');
+    }
+
+
+    public function searchableAs()
+    {
+        return 'products_index';
+    }
+
+    public function toSearchableArray()
+    {
+        // Trả về một mảng chỉ chứa trường 'title'
+        return [
+            'title' => $this->title,
+        ];
     }
 }

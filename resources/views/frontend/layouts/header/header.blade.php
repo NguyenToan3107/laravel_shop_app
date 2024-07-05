@@ -13,15 +13,45 @@
         </div>
         <div class="header_nav--right">
             <div class="input-group input-group-sm mb-3 header_nav--right--hidden" style="margin-top: 14px;">
-                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                       placeholder="Bạn đang tìm kiếm thứ gì">
-                <span class="input-group-text header_nav--right--hidden"><ion-icon
-                        name="search-outline"></ion-icon></span>
+                <form method="GET" action="/items-lists" class="form-search-global">
+                    <div class="row">
+                        <div class="form-group">
+                            <input type="text" name="titlesearch" class="form-control search_product"
+                                   id="search_product" placeholder="Enter Title For Search"
+                                   value="{{ old('titlesearch') }}">
+                        </div>
+                    </div>
+                    @if(isset($items))
+                        <ul class="search_list" id="search_list">
+                            @foreach($items as $item)
+                                <a href="/product_detail/{{$item->id}}" class="search_item">
+                                    <img src="{{$item->image}}" alt="{{$item->title}}">
+                                    <div class="search_item--info">
+                                        <p>{{$item->title}}</p>
+                                        <div class="search_item--price">
+                                            <p class="search_price_new">{{number_format($item->price * 1000, 0)}} đ</p>
+                                            <p class="search_price_old">{{number_format($item->price_old * 1000, 0)}}
+                                                đ</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+
+                            {{-- spinner --}}
+                            <div id="overlay1">
+                                <div class="cv-spinner1">
+                                    <span class="spinner1"></span>
+                                </div>
+                            </div>
+                        </ul>
+                    @endif
+                </form>
             </div>
             <span class="header_nav--right--hidden header_heart_icon">
                 <i class="fa-regular fa-heart"></i>
             </span>
-            <a href="/cart" class="header_identify header_count_cart" style="text-decoration: none; color: black; margin-top: 4px">
+            <a href="/cart" class="header_identify header_count_cart"
+               style="text-decoration: none; color: black; margin-top: 4px">
                 <i class="fa-solid fa-cart-shopping"></i>
             </a>
             <div class="dropdown">

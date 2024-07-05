@@ -167,7 +167,6 @@ header {
 /* BANNER */
 
 .banner {
-    position: relative;
     margin-top: 30px;
     display: flex;
     flex-direction: row;
@@ -176,9 +175,10 @@ header {
 }
 
 .banner_category {
+    position: relative;
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 220px;
     border-radius: 10px;
     box-shadow: 0 0 12px 0 rgba(49, 57, 66, 0.2);
     gap: 5px;
@@ -188,8 +188,9 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    /*margin-left: 10px;*/
     margin-top: 10px;
+    width: 200px;
+    height: 30px;
 }
 
 .image_banner--sub {
@@ -198,10 +199,43 @@ header {
     gap: 20px;
 }
 
-.banner_category--item:hover {
+.banner_category--subitem:hover {
     background-color: #ccc;
-    border-radius: 0;
+    cursor: pointer;
 }
+
+.banner_category--subitem:hover .banner_category--sub{
+    display: flex;
+    opacity: 1;
+    top: 0;
+    left: 100px;
+}
+
+.banner_category--subitem {
+    /*position: absolute;*/
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 10px;
+    width: 200px;
+    height: 30px;
+}
+
+.banner_category--sub {
+    position: absolute;
+    top: 0;
+    left: 100px;
+    display: none;
+    width: 500px;
+    height: 200px;
+    flex-direction: column;
+    margin-left: 90px;
+    z-index: 100;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.20);
+    border-radius: 10px;
+    background-color: white;
+}
+
 
 .banner_category--img {
     width: 30px;
@@ -262,14 +296,6 @@ header {
 }
 
 
-.banner_category--subitem {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    margin: 0 10px;
-}
-
 .category_recursive {
     display: flex;
     flex-direction: row;
@@ -305,6 +331,8 @@ header {
 .category_recursive_brand a:hover {
     color: #DB4444;
 }
+
+
 
 /* Products */
 .products {
@@ -1185,6 +1213,99 @@ footer {
 }
 .is-hide{
     display:none;
+}
+
+/* more search product */
+
+#overlay1 {
+    position: absolute;
+    top: 70%;
+    z-index: 100;
+    width: 90%;
+    height: 90%;
+    display: none;
+    /*background: rgba(0, 0, 0, 0.2);*/
+}
+
+.cv-spinner1 {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.spinner1 {
+    width: 30px;
+    height: 30px;
+    border: 4px #ddd solid;
+    border-top: 4px #2e93e6 solid;
+    border-radius: 50%;
+    animation: sp-anime 0.8s infinite linear;
+}
+
+/* Search Product Global */
+
+.form-search-global {
+    position: relative;
+}
+
+.search_list {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 400px;
+    height: 300px;
+    overflow: auto;
+    background-color: white;
+    z-index: 100;
+    border-radius: 5px;
+    box-shadow: 0 0 12px 0 rgba(49, 57, 66, 0.15);
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 20px;
+    margin-top: 10px;
+}
+
+.search_item {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+.search_item img {
+    width: 65px;
+    height: 65px;
+    border-radius: 6px;
+
+}
+
+
+.search_item--info {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.search_item--price {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+
+.search_price_new {
+    color: #DB4444;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.search_price_old {
+    color: #575555;
+    font-size: 1rem;
+    text-decoration: line-through;
 }
 
 

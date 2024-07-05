@@ -32,6 +32,7 @@ class PostController extends Controller
 
         $permissionName = 'create-post';
 
+        // get all user has create-post permission
         $usersWithPermission = $users->filter(function ($user) use ($permissionName) {
             return $user->hasPermissionTo($permissionName);
         });
@@ -56,41 +57,28 @@ class PostController extends Controller
 //            'title' => 'required|unique:products',
         ]);
 
-//        if(isset(request()->image)) {
-//            $generatedImageName = str_replace(' ', '',
-//                ('image' . time() . '-'.request()->name. '.' .request()->image->getClientOriginalExtension()));
-//            request()->image->move(public_path('images/posts'), $generatedImageName);
-//        } else {
-//            $generatedImageName = 'default_post.png';
-//        }
-
-        DB::table('posts')->insert([
+        Post::create([
             'title' => $request->input('title'),
             'description' => $description,
             'content' => $content,
             'image' => $image_path,
             'author_id' => $request->input('author_id'),
             'status' => 1,
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
         return redirect(PostController::POSTS_PATH);
     }
-    public function show($id) {
 
-    }
-    public function edit($id) {
-        $post = DB::table('posts')
-            ->select(['id', 'title', 'image', 'description', 'content', 'author_id', 'status', 'created_at', 'updated_at'])
-            ->where('id', $id)
+    public function edit($slug) {
+        $post = Post::select(['id', 'title', 'image', 'description', 'content', 'author_id', 'status', 'created_at', 'updated_at', 'slug'])
+            ->where('slug', $slug)
             ->first();
         $users = User::query()
             ->select(['id', 'name'])
             ->orderBy('name')
             ->get();
 
-        $user = DB::table('users')->select(['id', 'name'])->where('id', $post->author_id)->first();
+        $user = User::select(['id', 'name'])->where('id', $post->author_id)->first();
 
         return view('admin.posts.create_edit', [
             'post' => $post,
@@ -98,13 +86,13 @@ class PostController extends Controller
             'user' => $user
         ]);
     }
-    public function update(Request $request, $id) {
+    public function update(Request $request, $slug) {
 
         $description = $request->input('description');
 
         $content = $request->input('content');
 
-        $post = DB::table('posts')->find($id);
+        $post = Post::find($slug);
 
         if($request->filled('filepath')) {
             $image_path = $request->input('filepath');
@@ -112,15 +100,8 @@ class PostController extends Controller
         }else {
             $image_path = $post->image;
         }
-//        if(isset(request()->image)) {
-//            $generatedImageName = str_replace(' ', '',
-//                ('image' . time() . '-'.request()->name. '.' .request()->image->getClientOriginalExtension()));
-//            request()->image->move(public_path('images/posts'), $generatedImageName);
-//        } else {
-//            $generatedImageName = $post->image;
-//        }
 
-        DB::table('posts')->where('id', $request->id)->update([
+        $post->update([
             'title' => $request->input('title'),
             'description' => $description,
             'content' => $content,
@@ -136,7 +117,7 @@ class PostController extends Controller
     public function destroy($id, Request $request)
     {
         if($request->filled('id')) {
-            DB::table('posts')->where('id', $id)->delete();
+            Post::where('id', $id)->delete();
         }
         $model = Post::query()
             ->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at'])

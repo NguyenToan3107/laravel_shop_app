@@ -420,9 +420,7 @@ $(document).ready(function () {
     })
 })
 
-
-
-
+// chưa biết làm gì
 $(document).ready(function () {
     $(document).ajaxSend(function () {
         $("#overlay").fadeIn(100);
@@ -453,7 +451,7 @@ $(document).ready(function () {
     })
 })
 
-
+// chưa biết làm gì
 $(document).ready(function () {
     $(document).ajaxSend(function () {
         $("#overlay").fadeIn(100);
@@ -484,15 +482,95 @@ $(document).ready(function () {
 })
 
 
+// search global
+$(document).ready(function () {
+    // Debounce function to limit the number of AJAX calls
+    let debounceSearch = _.debounce(function (titlesearch) {
+        $.ajax({
+            type: 'GET',
+            url: '/',
+            data: {
+                titlesearch: titlesearch
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (data) {
+                let search_list = $(data).find('#search_list').html();
+                $('#search_list').html(search_list);
+            }
+        });
+    }, 200); // 500 milliseconds delay
+
+    $(document).on('keyup', '#search_product', function (e) {
+        e.preventDefault();
+        let titlesearch = $(this).val();
+
+        // Call the debounced search function
+        debounceSearch(titlesearch);
+    });
+});
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    var inputField = document.getElementById('search_product');
+    var searchList = document.getElementById('search_list');
+
+    // Show search list when clicking on input field
+    inputField.addEventListener('click', function (event) {
+        searchList.style.display = 'flex';
+        event.stopPropagation(); // Ngăn sự kiện lan ra ngoài
+    });
+
+    // Hide search list when clicking outside
+    document.addEventListener('click', function (event) {
+        if (!inputField.contains(event.target) && !searchList.contains(event.target)) {
+            searchList.style.display = 'none';
+        }
+    });
+});
 
 
+$(document).ready(function () {
 
 
+    $('#search_list').on('scroll', function () {
+        let scrollTop = $(this).scrollTop();
+        let elementHeight = $(this).prop('scrollHeight');
+        let viewHeight = $(this).innerHeight();
 
 
+        $(document).ajaxSend(function () {
+            $("#overlay1").fadeIn(300);
+        })
+        // console.log(scrollTop + ' ' + elementHeight + ' ' + viewHeight);
 
+        // Kiểm tra nếu thanh cuộn đã tới cuối phần tử
+        if (scrollTop + viewHeight >= elementHeight) {
+
+            $.ajax({
+                type: 'GET',
+                url: '/',
+                data: {
+                    load_more:  6
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (data) {
+                    console.log('Đã cộn đến cuối')
+                    let search_list = $(data).find('#search_list').html();
+                    $('#search_list').html(search_list);
+                }
+
+            }).done(function () {
+                setTimeout(function () {
+                    $('#overlay1').fadeOut(300)
+                }, 400)
+            })
+        }
+    });
+});
 
 
 

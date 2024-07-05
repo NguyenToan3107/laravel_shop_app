@@ -8,6 +8,7 @@ use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\ProductDetailController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\ProductSearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,3 +58,4 @@ Route::get('/admin/products/import', [\App\Http\Controllers\Admin\ProductControl
     ->middleware('auth');
 Route::post('/admin/products/import', [\App\Http\Controllers\Admin\ProductController::class, 'importExcelData'])
     ->middleware('auth');
+
