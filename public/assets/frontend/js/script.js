@@ -47,7 +47,11 @@ if (addToCartButtons) {
                         className: "toastify-custom toastify-error"
                     }).showToast();
                 }
-            })
+            }).done(function () {
+                setTimeout(function () {
+                    $('#overlay').fadeOut(300)
+                }, 500)
+            });
         })
     })
 }
@@ -143,115 +147,6 @@ $(document).ready(function () {
 ////////////////////////////// PRUDUCT DETAIL ////////////////////
 
 
-//////////////////////////////// ACTICE when click button choose color, capacity
-document.querySelectorAll('.product-detail--capacity p').forEach(p => {
-    p.addEventListener('click', () => {
-        document.querySelectorAll('.product-detail--capacity p').forEach(p => {
-            p.classList.remove('active');
-        });
-        p.classList.add('active');
-    });
-});
-
-document.querySelectorAll('.product-detail--color p').forEach(p => {
-    p.addEventListener('click', () => {
-        document.querySelectorAll('.product-detail--color p').forEach(p => {
-            p.classList.remove('active');
-        });
-        p.classList.add('active');
-    });
-});
-
-$(document).ready(function () {
-    $(document).ajaxSend(function () {
-        $("#overlay").fadeIn(100);
-    })
-    $(document).on('click', '.product-detail--capacity p', function (event) {
-        event.preventDefault();
-        let capacity = $(this).data('capacity')
-        let product_id = $(this).data('id')
-        let color = $('.product-detail--color p.active').data('color');
-
-        console.log(capacity + ' ' + product_id + ' ' + color);
-        $.ajax({
-            type: 'GET',
-            url: '/product_detail/' + product_id,
-            data: {
-                capacity: capacity,
-                color: color
-            },
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function (data) {
-                // $('#product_star--price').load(location.href + ' #product_star--price')
-                var newContent = $(data).find('#product_star--price').html();
-                $('#product_star--price').html(newContent);
-            },
-            error: function (xhr, status, error) {
-                setTimeout(function () {
-                    $('#overlay').fadeOut(100)
-                }, 200);
-            }
-        }).done(function () {
-            setTimeout(function () {
-                $('#overlay').fadeOut(100)
-            }, 200)
-        })
-    })
-})
-
-$(document).ready(function () {
-    $(document).ajaxSend(function () {
-        $("#overlay").fadeIn(100);
-    })
-    $(document).on('click', '.product-detail--color p', function (event) {
-        event.preventDefault();
-        let color = $(this).data('color')
-        let product_id = $(this).data('id')
-        let capacity = $('.product-detail--capacity p.active').data('capacity');
-
-        $.ajax({
-            type: 'GET',
-            url: '/product_detail/' + product_id,
-            data: {
-                capacity: capacity,
-                color: color
-            },
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function (data) {
-                // $('#product_star--price').load(location.href + ' #product_star--price')
-                var price = $(data).find('#product_star--price').html();
-                $('#product_star--price').html(price);
-
-                // var color = $(data).find('.product-detail--color').html();
-                // $('.product-detail--color').html(color);
-            },
-            error: function (xhr, status, error) {
-
-            }
-        }).done(function () {
-            setTimeout(function () {
-                $('#overlay').fadeOut(100)
-            }, 200)
-        }).fail(function (xhr, status, error) {
-            setTimeout(function () {
-                $('#overlay').fadeOut(100)
-            }, 200);
-            Toastify({
-                text: "Màu này không còn!",
-                duration: 2000,
-                close: true,
-                gravity: "top",
-                position: "right",
-                stopOnFocus: true,
-                className: "toastify-custom toastify-error"
-            }).showToast();
-        })
-    })
-})
 
 //////////////////////////////// RESPONSIVE //////////////////////
 
@@ -272,6 +167,7 @@ document.addEventListener('click', function (event) {
     }
 });
 
+////////////////////////////////////////////////////////////////
 
 // Feature xem thêm sản phẩm
 $(document).ready(function () {
@@ -343,46 +239,8 @@ $(document).ready(function () {
     })
 })
 
-$(document).ready(function () {
-    $(document).ajaxSend(function () {
-        $("#overlay").fadeIn(100);
-    })
-    $(document).on('click', '.category_item', function (e) {
-        e.preventDefault();
 
-        let category_id = $(this).data('id');
-        $.ajax({
-            type: 'GET',
-            url: '/products',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                category_id: category_id
-            },
-            success: function (data) {
-                let num_more_product = $(data).find('#num_more_product').html();
-                $('#num_more_product').html(num_more_product);
-
-                let product_list = $(data).find('.product_list').html();
-                $('.product_list').html(product_list);
-
-                let category_brand = $(data).find('#category-brand--item').html();
-                $('#category-brand--item').html(category_brand);
-
-                let detail_nav = $(data).find('.detail_nav').html();
-                $('.detail_nav').html(detail_nav);
-
-            }
-        }).done(function () {
-            setTimeout(function () {
-                $('#overlay').fadeOut(100)
-            }, 200)
-        })
-
-    })
-})
-
+// các category con khi được click sẽ tìm những sản pham liên quan đến nó
 $(document).ready(function () {
     $(document).ajaxSend(function () {
         $("#overlay").fadeIn(100);
@@ -390,15 +248,13 @@ $(document).ready(function () {
     $(document).on('click', '#category_item_brand', function (e) {
         e.preventDefault();
 
-        let category_brand_id = $(this).data('id');
+        let slug = $(this).data('slug');
+        let category = $(this).data('category');
         $.ajax({
             type: 'GET',
-            url: '/products',
+            url: '/products/' + slug,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                category_brand_id: category_brand_id
             },
             success: function (data) {
                 let num_more_product = $(data).find('#num_more_product').html();
@@ -416,70 +272,9 @@ $(document).ready(function () {
                 $('#overlay').fadeOut(100)
             }, 200)
         })
-
     })
 })
 
-// chưa biết làm gì
-$(document).ready(function () {
-    $(document).ajaxSend(function () {
-        $("#overlay").fadeIn(100);
-    })
-    $(document).on('click', '.category_recursive', function (e) {
-        e.preventDefault();
-
-        let category_id = $(this).data('id');
-        $.ajax({
-            type: 'GET',
-            url: '/products',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                category_id: category_id
-            },
-            success: function (data) {
-                sessionStorage.setItem('category_id', category_id)
-
-                window.location.href = '/products';
-            }
-        }).done(function () {
-            setTimeout(function () {
-                $('#overlay').fadeOut(100)
-            }, 200)
-        })
-    })
-})
-
-// chưa biết làm gì
-$(document).ready(function () {
-    $(document).ajaxSend(function () {
-        $("#overlay").fadeIn(100);
-    })
-    $(document).on('click', '.category_recursive_brand', function (e) {
-        e.preventDefault();
-
-        let category_brand_id = $(this).data('id');
-        $.ajax({
-            type: 'GET',
-            url: '/products',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                category_brand_id: category_brand_id
-            },
-            success: function (data) {
-                window.location.href = '/products';
-            }
-        }).done(function () {
-            setTimeout(function () {
-                $('#overlay').fadeOut(100)
-            }, 200)
-        })
-
-    })
-})
 
 
 // search global
@@ -530,7 +325,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
 $(document).ready(function () {
 
 
@@ -539,11 +333,9 @@ $(document).ready(function () {
         let elementHeight = $(this).prop('scrollHeight');
         let viewHeight = $(this).innerHeight();
 
-
         $(document).ajaxSend(function () {
             $("#overlay1").fadeIn(300);
         })
-        // console.log(scrollTop + ' ' + elementHeight + ' ' + viewHeight);
 
         // Kiểm tra nếu thanh cuộn đã tới cuối phần tử
         if (scrollTop + viewHeight >= elementHeight) {

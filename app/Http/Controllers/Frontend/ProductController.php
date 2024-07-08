@@ -10,90 +10,78 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index(Request $request) {
-
-
-        $productsAll = Product::where('status', '<>', 4)
-            ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id')->get();
-
-        if ($request->has('num_product')) {
-            $products = Product::where('status', '<>', 4)
-                ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id')
-                ->take(Util::num_page + $request->query('num_product'))
-                ->get();
-
-            $count_product = count($productsAll) - count($products);
-        } else {
-            $products = Product::where('status', '<>', 4)
-                ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id')
-                ->take(Util::num_page)
-                ->get();
-            $count_product = count($productsAll) - count($products);
-        }
-
+    public function index(Request $request, $slug = null, $category = null)
+    {
         $category_parent = null;
-        if($request->has('category_id')) {
-
-            $category_parent = Category::where('id', $request->query('category_id'))->first();
-
-            $category_brand = Category::where('parent_id', $request->query('category_id'))
-                ->select('id', 'title', 'image', 'parent_id')
-                ->get();
-            $products = Product::where('status', '<>', 4)
-                ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id')
-                ->take(Util::num_page)
-                ->whereIn('category_id', $category_brand->pluck('id'))
-                ->get();
-
-
-            $count_product = count($productsAll) - count($products);
-            if(count($products) == 0) {
-                $count_product = 0;
-            }
-        }
         $category_brand = null;
-        if($request->has('category_brand_id')) {
-            $category_brand = Category::where('id', $request->query('category_brand_id'))->first();
-            $products = Product::where('status', '<>', 4)
-                ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id')
-                ->take(Util::num_page)
-                ->where('category_id', $request->query('category_brand_id'))
-                ->get();
+        if ($slug == null) {
+            $productsAll = Product::query()
+                ->where('status', '<>', 4)
+                ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id', 'price_old', 'slug');
+            $products = Product::query()
+                ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id', 'price_old', 'slug')
+                ->where('status', '<>', 4);
 
-            $count_product = count($productsAll) - count($products);
-            if(count($products) == 0) {
-                $count_product = 0;
+            ///////////////////////////////
+            // sử lý xem them sản phẩm
+            if ($request->has('num_product')) {
+                $products = $products->take(Util::num_page + $request->query('num_product'));
+            } else {
+                $products = $products->take(Util::num_page);
             }
+            //////////////////////////////
+            $products = $products->get();
+            $productsAll = $productsAll->get();
+            $count_product = count($productsAll) - count($products);
+
+        } else {
+            $productsAll = Product::query()
+                ->where('status', '<>', 4)
+                ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id', 'price_old', 'slug');
+            $products = Product::query()
+                ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id', 'price_old', 'slug')
+                ->where('status', '<>', 4);
+
+            $category_parent = Category::where('slug', $slug)->first();
+            if ($category_parent->parent_id == null) {
+                $brand = Category::where('parent_id', $category_parent->id)
+                    ->select('id', 'title', 'image', 'parent_id', 'slug')
+                    ->get();
+                $products = $products
+                    ->take(Util::num_page)
+                    ->whereIn('category_id', $brand->pluck('id'));
+                $productsAll = $productsAll->whereIn('category_id', $brand->pluck('id'));
+            } else {
+                $products = $products
+                    ->take(Util::num_page)
+                    ->where('category_id', $category_parent->id);
+
+                $productsAll = $productsAll->where('category_id', $category_parent->id);
+            }
+            ///////////////////////////////
+            // sử lý xem them sản phẩm
+            if ($request->has('num_product')) {
+                $products = $products->take(Util::num_page + $request->query('num_product'));
+            } else {
+                $products = $products->take(Util::num_page);
+            }
+            //////////////////////////////
+
+            $products = $products->get();
+            $productsAll = $productsAll->get();
+            $count_product = count($productsAll) - count($products);
         }
 
-        if($request->session()->get('category_id') !== null) {
-            $category_id = $request->session()->get('category_id');
-            $category_parent = Category::where('id', $category_id)->first();
+        if (count($products) == 0) $count_product = 0;
 
-            $category_brand = Category::where('parent_id', $category_id)
-                ->select('id', 'title', 'image', 'parent_id')
-                ->get();
-            $products = Product::where('status', '<>', 4)
-                ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id')
-                ->take(Util::num_page)
-                ->whereIn('category_id', $category_brand->pluck('id'))
-                ->get();
-
-            $count_product = count($productsAll) - count($products);
-            if(count($products) == 0) {
-                $count_product = 0;
-            }
-            $request->session()->forget('category_id');
-        }
-
-        $categories = Category::whereNull('parent_id')->select('id', 'title', 'image', 'parent_id')->get();
+        $categories = Category::whereNull('parent_id')->select('id', 'title', 'image', 'parent_id', 'slug')->get();
 
         return view('frontend.products.index', [
             'products' => $products,
             'categories' => $categories,
             'count_product' => $count_product,
-            'category_parent' => $category_parent,
-            'category_brand' => $category_brand
+            'category_brand' => $category_brand,
+            'category_parent' => $category_parent
         ]);
     }
 }

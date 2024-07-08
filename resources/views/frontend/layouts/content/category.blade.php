@@ -4,7 +4,7 @@
     <a href="/products">Sản phẩm</a>
     @if(isset($category_parent) || !is_null($category_parent))
         <i class="fa-solid fa-chevron-right"></i>
-        <a href="/products">{{$category_parent->title}}</a>
+        <a href="/products/{{$category_parent->slug}}">{{$category_parent->title}}</a>
     @endif
     @if(isset($category_brand) || !is_null($category_brand))
         <i class="fa-solid fa-chevron-right"></i>
@@ -26,7 +26,7 @@
 
     <div class="category_list">
         @foreach($categories as $category)
-            <a class="category_item" data-id="{{$category->id}}">
+            <a href="/products/{{$category->slug}}" class="category_item" data-id="{{$category->id}}" data-slug="{{$category->slug}}">
                 <img class="category_item--img" src="{{$category->image}}" alt="">
                 <p>{{$category->title}}</p>
             </a>
@@ -38,7 +38,9 @@
             <div class="category_item--sub--item">
                 @if(count($category_parent->children) > 0)
                     @foreach($category_parent->children as $child)
-                        <div id="category_item_brand" data-id="{{$child->id}}">
+                        <div
+                           id="category_item_brand"
+                           data-slug="{{$child->slug}}" data-category="{{$category_parent->slug}}">
                             <img class="category_item--item--img" src="{{$child->image}}" alt="{{$child->title}}">
                         </div>
                     @endforeach

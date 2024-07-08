@@ -10,8 +10,7 @@
         <br>
         @can('create-category')
             <a href="categories/create"
-               class="btn btn-primary margin_bottom_detail"
-               role="button">
+               class="btn btn-primary margin_bottom_detail">
                 Tạo mới một danh mục sản phẩm
             </a>
         @endcan

@@ -6,7 +6,7 @@
         </a>
     @endcan
     @can('delete-post')
-        <button style="margin-left: 6px" value="{{$post->id}}" data-id="{{$post->id}}"
+        <button style="margin-left: 6px" value="{{$post->slug}}" data-id="{{$post->slug}}"
                 class="btn btn-danger btn-sm delete_button_post">
             <i class="fa-solid fa-trash"></i>
         </button>

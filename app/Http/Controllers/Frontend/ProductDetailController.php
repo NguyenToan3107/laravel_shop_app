@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\DB;
 
 class ProductDetailController extends Controller
 {
-    public function index($id, Request $request)
+    public function index($slug, Request $request)
     {
-        $product = Product::where('id', $id)
-            ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id')->first();
+        $product = Product::where('slug', $slug)
+            ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id', 'slug', 'price_old', 'description', 'content', 'product_attribute_set_id')->first();
 
         $product_images = $product->product_images;
 
@@ -31,7 +31,7 @@ class ProductDetailController extends Controller
             $involve_products = Product::where('category_id', $product->category_id)
                 ->limit(Util::num_page_product_detail)
                 ->where('id', '!=', $product->id)
-                ->select('id', 'image', 'title', 'price', 'percent_sale')
+                ->select('id', 'image', 'title', 'price', 'percent_sale', 'slug', 'price_old')
                 ->take(Util::num_page_product_detail + $request->query('num_product'))
                 ->get();
 
@@ -40,7 +40,7 @@ class ProductDetailController extends Controller
             $involve_products = Product::where('category_id', $product->category_id)
                 ->limit(Util::num_page_product_detail)
                 ->where('id', '!=', $product->id)
-                ->select('id', 'image', 'title', 'price', 'percent_sale')
+                ->select('id', 'image', 'title', 'price', 'percent_sale', 'slug', 'price_old')
                 ->take(Util::num_page_product_detail)
                 ->get();
 
@@ -50,7 +50,7 @@ class ProductDetailController extends Controller
         $product_sku_first_price = $product->skus->first();
         $product_skus = $product->skus;
 
-
+        $product_attributes = $product->product_attribute_set->attributes;
         return view('frontend.product_detail.index',
             [
                 'product' => $product,
@@ -58,7 +58,8 @@ class ProductDetailController extends Controller
                 'involve_products' => $involve_products,
                 'product_skus' => $product_skus,
                 'product_sku_first_price' => $product_sku_first_price,
-                'count_product' => $count_product
+                'count_product' => $count_product,
+                'product_attributes' => $product_attributes
             ]);
     }
 }

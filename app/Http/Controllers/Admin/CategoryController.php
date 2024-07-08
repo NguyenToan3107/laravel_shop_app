@@ -48,28 +48,20 @@ class CategoryController extends Controller
             $image_path = '/storage/photos/products/empty-photo.jpg';
         }
 
-        DB::table('categories')->insert([
+        Category::create([
             'title' => $request->get('title'),
             'description' => $description,
             'parent_id' => $parent_id,
             'image' => $image_path,
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
         return redirect(CategoryController::CATEGORIES_PATH);
     }
 
-    public function show($id)
+    public function edit($slug)
     {
-        $category = DB::table('categories')->where('id', $id)->first();
-        return view('admin.categories.show', ['category' => $category]);
-    }
-
-    public function edit($id)
-    {
-        $category = DB::table('categories')->where('id', $id)->first();
+        $category = Category::where('slug', $slug)->first();
         if($category->parent_id !== null){
-            $parent_category = DB::table('categories')->where('id', $category->parent_id)->first();
+            $parent_category = Category::where('id', $category->parent_id)->first();
         }
         else {
             $parent_category = $category;
@@ -83,9 +75,9 @@ class CategoryController extends Controller
             ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        $category = Category::find($id);
+        $category = Category::where('slug', $slug)->first();
         $description = $request->input('description');
 
         if($request->filled('filepath')) {
@@ -105,9 +97,9 @@ class CategoryController extends Controller
         return redirect(self::CATEGORIES_PATH);
     }
 
-    public function destroy($id)
+    public function destroy($slug)
     {
-        Category::where('id', $id)->with('children')->delete();
+        Category::where('slug', $slug)->with('children')->delete();
         return redirect(self::CATEGORIES_PATH);
     }
 }

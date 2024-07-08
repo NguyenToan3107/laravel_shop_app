@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Scout\Searchable;
@@ -9,6 +10,7 @@ use Laravel\Scout\Searchable;
 class Product extends Model
 {
     use HasFactory, Searchable;
+    use Sluggable;
     protected $table = 'products';
     protected $primaryKey = 'id';
     protected $fillable = ['id', 'idkey', 'shop_id','module', 'locale', 'parent_id', 'title', 'slug', 'is_slug_override', 'duplicate', 'description',
@@ -53,6 +55,15 @@ class Product extends Model
         // Trả về một mảng chỉ chứa trường 'title'
         return [
             'title' => $this->title,
+        ];
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
         ];
     }
 }

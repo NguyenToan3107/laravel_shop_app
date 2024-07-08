@@ -38,20 +38,8 @@
                 <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                 (150 Reviews)
             </div>
-            <p>{{$product->description}}</p>
 
             <form id="form_choose_option">
-
-                <div class="product-detail--color">
-                    {{--                    @foreach($colors as $color)--}}
-                    {{--                        @if($loop->first)--}}
-                    {{--                            <p class="active" data-id="{{$product->id}}" data-color="{{$color->value}}">{{$color->value}}</p>--}}
-                    {{--                        @else--}}
-                    {{--                            <p data-id="{{$product->id}}" data-color="{{$color->value}}">{{$color->value}}</p>--}}
-                    {{--                        @endif--}}
-                    {{--                    @endforeach--}}
-                </div>
-
                 <div class="product_skus">
                     @foreach($product_skus as $product_sku)
                         @if($loop->first)
@@ -100,7 +88,7 @@
                         <input type="number" class="form-control" value="0" style="width: 80px;">
                         <span class="input-group-text icon-hidden"><i class="fa-solid fa-plus"></i></span>
                     </div>
-                    <button type="submit" class="btn btn-danger" value="{{$product->id}}">Thêm vào giỏ hàng</button>
+                    <button type="submit" class="btn btn-danger product_cart--button" value="{{$product->id}}">Thêm vào giỏ hàng</button>
                     <button type="submit" class="btn btn-secondary"><i class="fa-regular fa-heart"></i></button>
                 </div>
             </form>
@@ -126,6 +114,26 @@
             </div>
         </div>
     </div>
+    <div class="product_detail--description">
+        <div class="product_detail--content">
+            <div class="product_detail--content--desc">
+                <p>{!! $product->description !!}</p>
+            </div>
+            <p>{!! $product->content !!}</p>
+        </div>
+        <div class="product_detail--stat">
+            <p class="stat">Thông số thống kê</p>
+            <table class="table table-striped">
+                @foreach($product_attributes as $product_attribute)
+                    <tr>
+                        <td>{{ucwords($product_attribute->name)}}</td>
+                        <td>30,000</td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
+    </div>
+
     <div style="margin-top: 140px"></div>
     <div class="product-detail_related">
         <div></div>

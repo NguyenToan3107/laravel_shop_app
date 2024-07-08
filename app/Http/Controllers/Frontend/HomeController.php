@@ -9,8 +9,16 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
+
+        $products_new_arivals = Product::take(5)->orderBy('created_at', 'desc')
+            ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id', 'price_old', 'slug')
+            ->get();
+
+        $products_top_rated = Product::take(5)->orderBy('total_order', 'desc')->get();
+
+        $product_trending = Product::take(5)->inRandomOrder()->get();
+
         if ($request->has('titlesearch')) {
             $items = Product::search($request->titlesearch)
                 ->paginate(6)->items();
@@ -26,6 +34,9 @@ class HomeController extends Controller
         return view('frontend.welcome', [
             'categories' => $categories,
             'items' => $items,
+            'products_new_arivals' => $products_new_arivals,
+            'products_top_rated' => $products_top_rated,
+            'product_trending' => $product_trending
         ]);
     }
 }

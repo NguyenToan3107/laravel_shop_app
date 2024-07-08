@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\SendEmail;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 
@@ -57,6 +58,11 @@ class OrderController extends Controller
                 'quantity' => $cart->quantity,
                 'unit_price' => $cart->price,
                 'order_id' => $order->id
+            ]);
+
+            $product = Product::where('id', $cart->product_id)->first();
+            $product->update([
+                'total_order' => $product->total_order + $cart->quantity
             ]);
         }
 

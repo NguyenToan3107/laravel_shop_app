@@ -51,7 +51,7 @@ class PostsDataTable extends DataTable
      */
     public function query(Post $model): QueryBuilder
     {
-        return $model->newQuery()->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at'])
+        return $model->newQuery()->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at', 'slug'])
             ->where('status', '<>', 4)->whereNull('deleted_at');
     }
 

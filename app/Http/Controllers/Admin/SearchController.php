@@ -28,7 +28,7 @@ class SearchController extends Controller
     public function searchProduct(Request $request)
     {
         $model = Product::query()
-            ->select(['id', 'image', 'title', 'price_old', 'percent_sale', 'price', 'status', 'created_at', 'updated_at']);
+            ->select(['id', 'image', 'title', 'price_old', 'percent_sale', 'price', 'status', 'created_at', 'updated_at', 'slug']);
 //            ->whereNull('deleted_at');
 
         if ($request->filled('title')) {
@@ -90,7 +90,7 @@ class SearchController extends Controller
     public function searchPost(Request $request)
     {
         $model = Post::query()
-            ->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at']);
+            ->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at', 'slug']);
 
 //            ->whereNull('deleted_at');
 

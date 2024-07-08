@@ -14,31 +14,35 @@
         </div>
     </div>
     <div class="product_list" style="margin-top: 50px">
-        <div class="product_item">
-            <a href="/product_detail" class="product_item">
+        @foreach($products_new_arivals as $products_new_arival)
+            <div class="product_item">
                 <div class="product_item--sale">
-                    <p>-40%</p>
+                    <p>-{{$products_new_arival->percent_sale}}%</p>
                 </div>
-                <span class="product_item--heart">
-                        <i class="fa-regular fa-heart"></i>
-                    </span>
+                <div class="product_item--heart">
+                    <i class="fa-regular fa-heart"></i>
+                </div>
 
-                <span class="product_item--preview">
-                        <ion-icon name="eye-outline"></ion-icon>
-                    </span>
-
-                <div class="product_cart">
-                    <div class="product_img">
-                        <img class="product_img--cart" src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
+                <a href="/product_detail/{{$products_new_arival->slug}}" class="product_item--preview">
+                    <ion-icon name="eye-outline"></ion-icon>
+                </a>
+                <a href="/product_detail/{{$products_new_arival->slug}}" value="{{$products_new_arival->slug}}">
+                    <div class="product_cart">
+                        <div class="product_img">
+                            <img class="product_img--cart" src="{{$products_new_arival->image}}" alt="">
+                        </div>
+                        <button class="product_cart--button" value="{{$products_new_arival->id}}">
+                            <ion-icon name="cart-outline"></ion-icon>
+                            Thêm vào giỏ hàng
+                        </button>
                     </div>
-                    <button class="product_cart--button"><ion-icon name="cart-outline"></ion-icon> Thêm vào giỏ hàng</button>
-                </div>
+                </a>
                 <div class="product_content">
                     <br>
-                    <a href="/product_detail" class="product_price--name">Gucci Gacbaga bag</a>
+                    <p class="product_price--name">{{$products_new_arival->title}}</p>
                     <div class="product_price">
-                        <p class="product_price--new">$960</p>
-                        <p class="product_price--old">$1000</p>
+                        <p class="product_price--new">{{number_format($products_new_arival->price_old * 1000, 0)}}</p>
+                        <p class="product_price--old">{{number_format($products_new_arival->price * 1000, 0)}}</p>
                     </div>
                     <div class="product_star">
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
@@ -49,164 +53,16 @@
                         (70)
                     </div>
                 </div>
-            </a>
-        </div>
-        <div class="product_item">
-            <a href="/product_detail" class="product_item">
-                <div class="product_item--sale">
-                    <p>-40%</p>
-                </div>
-                <span class="product_item--heart">
-                        <i class="fa-regular fa-heart"></i>
-                    </span>
-
-                <span class="product_item--preview">
-                        <ion-icon name="eye-outline"></ion-icon>
-                    </span>
-
-                <div class="product_cart">
-                    <div class="product_img">
-                        <img class="product_img--cart" src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-                    </div>
-                    <button class="product_cart--button"><ion-icon name="cart-outline"></ion-icon> Thêm vào giỏ hàng</button>
-                </div>
-                <div class="product_content">
-                    <br>
-                    <a href="/product_detail" class="product_price--name">Gucci Gacbaga bag</a>
-                    <div class="product_price">
-                        <p class="product_price--new">$960</p>
-                        <p class="product_price--old">$1000</p>
-                    </div>
-                    <div class="product_star">
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        (70)
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="product_item">
-            <a href="/product_detail" class="product_item">
-                <div class="product_item--sale">
-                    <p>-40%</p>
-                </div>
-                <span class="product_item--heart">
-                        <i class="fa-regular fa-heart"></i>
-                    </span>
-
-                <span class="product_item--preview">
-                        <ion-icon name="eye-outline"></ion-icon>
-                    </span>
-
-                <div class="product_cart">
-                    <div class="product_img">
-                        <img class="product_img--cart" src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-                    </div>
-                    <button class="product_cart--button"><ion-icon name="cart-outline"></ion-icon> Thêm vào giỏ hàng</button>
-                </div>
-                <div class="product_content">
-                    <br>
-                    <a href="/product_detail" class="product_price--name">Gucci Gacbaga bag</a>
-                    <div class="product_price">
-                        <p class="product_price--new">$960</p>
-                        <p class="product_price--old">$1000</p>
-                    </div>
-                    <div class="product_star">
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        (70)
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="product_item">
-            <a href="/product_detail" class="product_item">
-                <div class="product_item--sale">
-                    <p>-40%</p>
-                </div>
-                <span class="product_item--heart">
-                        <i class="fa-regular fa-heart"></i>
-                    </span>
-
-                <span class="product_item--preview">
-                        <ion-icon name="eye-outline"></ion-icon>
-                    </span>
-
-                <div class="product_cart">
-                    <div class="product_img">
-                        <img class="product_img--cart" src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-                    </div>
-                    <button class="product_cart--button"><ion-icon name="cart-outline"></ion-icon> Thêm vào giỏ hàng</button>
-                </div>
-                <div class="product_content">
-                    <br>
-                    <a href="/product_detail" class="product_price--name">Gucci Gacbaga bag</a>
-                    <div class="product_price">
-                        <p class="product_price--new">$960</p>
-                        <p class="product_price--old">$1000</p>
-                    </div>
-                    <div class="product_star">
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        (70)
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="product_item">
-            <a href="/product_detail" class="product_item">
-                <div class="product_item--sale">
-                    <p>-40%</p>
-                </div>
-                <span class="product_item--heart">
-                        <i class="fa-regular fa-heart"></i>
-                    </span>
-
-                <span class="product_item--preview">
-                        <ion-icon name="eye-outline"></ion-icon>
-                    </span>
-
-                <div class="product_cart">
-                    <div class="product_img">
-                        <img class="product_img--cart" src="{{asset('assets/frontend/images/products/bag.png')}}" alt="">
-                    </div>
-                    <button class="product_cart--button"><ion-icon name="cart-outline"></ion-icon> Thêm vào giỏ hàng</button>
-                </div>
-                <div class="product_content">
-                    <br>
-                    <a href="/product_detail" class="product_price--name">Gucci Gacbaga bag</a>
-                    <div class="product_price">
-                        <p class="product_price--new">$960</p>
-                        <p class="product_price--old">$1000</p>
-                    </div>
-                    <div class="product_star">
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
-                        (70)
-                    </div>
-                </div>
-            </a>
-        </div>
+            </div>
+        @endforeach
     </div>
 </div>
-<div style="margin-top: 50px; display: flex; justify-content: center">
-    <button class="btn btn-danger">Xem thêm sản phẩm</button>
-</div>
+{{--<div style="margin-top: 50px; display: flex; justify-content: center">--}}
+{{--    <button class="btn btn-danger">Xem thêm sản phẩm</button>--}}
+{{--</div>--}}
 
 <div style="margin-top: 50px"></div>
 
-<div class="horizontal-bar">
-</div>
+{{--<div class="horizontal-bar">--}}
+{{--</div>--}}
 

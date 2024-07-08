@@ -26,8 +26,8 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/auth.php';
 
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/blog', [BlogController::class, 'index']);
-Route::get('/products', [ProductController::class, 'index']);
+//Route::get('/posts', [BlogController::class, 'index']);
+Route::get('/products/{slug?}', [ProductController::class, 'index']);
 
 Route::get('/cart', [CartController::class, 'index']);
 Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart']);
@@ -37,10 +37,9 @@ Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart']);
 Route::get('/checkout', [OrderController::class, 'index']);
 Route::post('/orders', [OrderController::class, 'store']);
 
-
 Route::get('/contact', [ContactController::class, 'index']);
 
-Route::get('/product_detail/{id}', [ProductDetailController::class, 'index']);
+Route::get('/product_detail/{slug}', [ProductDetailController::class, 'index']);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile', [ProfileController::class, 'index']);

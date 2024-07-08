@@ -6,13 +6,13 @@
 $(document).ready(function () {
     $(document).on('click', '.delete_button_post', function (event) {
         event.preventDefault();
-        let post_id = $(this).val();
+        let slug = $(this).val();
         $('#deleteModal').modal('show')
-        $('#confirmDeleteButton_trash').val(post_id)
+        $('#confirmDeleteButton_trash').val(slug)
 
         $('#confirmDeleteButton_trash').on('click', function (event) {
             event.preventDefault();
-            let post_id = $(this).val();
+            let slug = $(this).val();
 
             if ($.fn.DataTable.isDataTable('#posts-table')) {
                 $('#posts-table').DataTable().destroy();
@@ -28,7 +28,7 @@ $(document).ready(function () {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: {
-                        post_id: post_id,
+                        slug: slug,
                     },
                     error: function(xhr, status, error) {
                         let errorMessage = xhr.status + ': ' + xhr.statusText
@@ -86,19 +86,17 @@ $(document).ready(function () {
     })
 })
 
-
-
 // Hard delete
 $(document).ready(function () {
     $(document).on('click', '.trash_button_post', function (event) {
         event.preventDefault();
-        let post_id = $(this).val();
+        let slug = $(this).val();
         $('#trashModal').modal('show')
-        $('#confirmDeleteButton_remove').val(post_id)
+        $('#confirmDeleteButton_remove').val(slug)
 
         $('#confirmDeleteButton_remove').on('click', function (event) {
             event.preventDefault();
-            let post_id = $(this).val();
+            let slug = $(this).val();
 
             if ($.fn.DataTable.isDataTable('#posts-table')) {
                 $('#posts-table').DataTable().destroy();
@@ -108,13 +106,13 @@ $(document).ready(function () {
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: `/admin/posts/` + post_id,
+                    url: `/admin/posts/` + slug,
                     type: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: {
-                        id: post_id,
+                        slug: slug,
                     },
                     error: function(xhr, status, error) {
                         let errorMessage = xhr.status + ': ' + xhr.statusText
@@ -708,13 +706,13 @@ $(document).ready(function () {
 $(document).ready(function () {
     $(document).on('click', '.delete_button_product', function (event) {
         event.preventDefault();
-        let product_id = $(this).val();
+        let slug = $(this).val();
         $('#deleteModal').modal('show')
-        $('#confirmDeleteButton_trash').val(product_id)
+        $('#confirmDeleteButton_trash').val(slug)
 
         $('#confirmDeleteButton_trash').on('click', function (event) {
             event.preventDefault();
-            let product_id = $(this).val();
+            let slug = $(this).val();
 
             if ($.fn.DataTable.isDataTable('#products-table')) {
                 $('#products-table').DataTable().destroy();
@@ -730,14 +728,15 @@ $(document).ready(function () {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: {
-                        product_id: product_id,
+                        slug: slug,
                     }
                 },
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'image', name: 'image'},
                     {data: 'title', name: 'title'},
-                    {data: 'description', name: 'description'},
+                    {data: 'price_old', name: 'price_old'},
+                    {data: 'percent_sale', name: 'percent_sale'},
                     {data: 'price', name: 'price'},
                     {data: 'status', name: 'status'},
                     {data: 'action', name: 'action'}
@@ -757,13 +756,13 @@ $(document).ready(function () {
 $(document).ready(function () {
     $(document).on('click', '.trash_button_product', function (event) {
         event.preventDefault();
-        let product_id = $(this).val();
+        let slug = $(this).val();
         $('#trashModal').modal('show')
-        $('#confirmDeleteButton_remove').val(product_id)
+        $('#confirmDeleteButton_remove').val(slug)
 
         $('#confirmDeleteButton_remove').on('click', function (event) {
             event.preventDefault();
-            let product_id = $(this).val();
+            let slug = $(this).val();
 
             if ($.fn.DataTable.isDataTable('#products-table')) {
                 $('#products-table').DataTable().destroy();
@@ -773,20 +772,21 @@ $(document).ready(function () {
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: `/admin/products/` + product_id,
+                    url: `/admin/products/` + slug,
                     type: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     data: {
-                        id: product_id,
+                        slug: slug,
                     },
                 },
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'image', name: 'image'},
                     {data: 'title', name: 'title'},
-                    {data: 'description', name: 'description'},
+                    {data: 'price_old', name: 'price_old'},
+                    {data: 'percent_sale', name: 'percent_sale'},
                     {data: 'price', name: 'price'},
                     {data: 'status', name: 'status'},
                     {data: 'action', name: 'action'}

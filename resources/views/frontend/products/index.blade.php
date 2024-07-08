@@ -63,7 +63,7 @@
                     <span class="product_item--preview">
                         <ion-icon name="eye-outline"></ion-icon>
                     </span>
-                    <a class="product_cart--item" href="/product_detail/{{$product->id}}" value="{{$product->id}}">
+                    <a class="product_cart--item" href="/product_detail/{{$product->slug}}" value="{{$product->slug}}">
                         <div class="product_cart">
                             <div class="product_img">
                                 <img class="product_img--cart" src="{{$product->image}}" alt="">

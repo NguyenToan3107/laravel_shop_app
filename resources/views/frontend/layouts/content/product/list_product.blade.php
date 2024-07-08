@@ -9,15 +9,15 @@
                     <i class="fa-regular fa-heart"></i>
                 </div>
 
-                <a href="/product_detail/{{$involve_product->id}}" class="product_item--preview">
+                <a href="/product_detail/{{$involve_product->slug}}" class="product_item--preview">
                     <ion-icon name="eye-outline"></ion-icon>
                 </a>
-                <a href="/product_detail/{{$involve_product->id}}" value="{{$involve_product->id}}">
+                <a href="/product_detail/{{$involve_product->slug}}" value="{{$involve_product->slug}}">
                     <div class="product_cart">
                         <div class="product_img">
                             <img class="product_img--cart" src="{{$involve_product->image}}" alt="">
                         </div>
-                        <button class="product_cart--button">
+                        <button class="product_cart--button" value="{{$involve_product->id}}">
                             <ion-icon name="cart-outline"></ion-icon>
                             Thêm vào giỏ hàng
                         </button>

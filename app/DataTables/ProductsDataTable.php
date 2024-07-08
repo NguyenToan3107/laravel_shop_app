@@ -9,9 +9,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
-use Yajra\DataTables\Html\SearchPane;
 use Yajra\DataTables\Services\DataTable;
 
 class ProductsDataTable extends DataTable
@@ -37,10 +34,6 @@ class ProductsDataTable extends DataTable
             })
             ->editColumn('price', function ($product) {
                     return number_format($product->price * 1000, 0, ',', ',');
-//                if(Auth::user()->hasPermissionTo('view-price')) {
-//                } else {
-//                    return '';
-//                }
             })
             ->editColumn('price_old', function ($product) {
                 return number_format($product->price_old * 1000, 0, ',', ',');
@@ -63,7 +56,7 @@ class ProductsDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->newQuery()->select(['id', 'image', 'title', 'description', 'price', 'status', 'created_at', 'updated_at', 'price_old', 'percent_sale'])
+        return $model->newQuery()->select(['id', 'image', 'title', 'description', 'price', 'status', 'created_at', 'updated_at', 'price_old', 'percent_sale', 'slug'])
                                 ->whereNull('deleted_at')->where('status', '<>', 4);
     }
 
@@ -78,6 +71,7 @@ class ProductsDataTable extends DataTable
                     ->minifiedAjax()
 //                    ->dom('Pfrtip')
                     ->orderBy(1)
+                    ->autoWidth(false)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),

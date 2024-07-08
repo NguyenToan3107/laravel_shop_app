@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
     <div class="container mt-5">
         <div class="row mb-4">
             <div class="col-md-12">
@@ -36,11 +34,13 @@
                 </div>
                 <div class="input-group mb-3 width-300">
                     <span class="input-group-text" id="basic-addon1">Từ</span>
-                    <input type="datetime-local" id="start_date" name="start_date" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="start_date" name="start_date" class="form-control" placeholder=""
+                           aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group mb-3 width-300">
                     <span class="input-group-text" id="basic-addon1">Tới</span>
-                    <input type="datetime-local" id="ended_date" name="end_date" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="ended_date" name="end_date" class="form-control" placeholder=""
+                           aria-describedby="basic-addon1">
                 </div>
             </div>
             <br>
@@ -67,15 +67,10 @@
                 </a>
             @endcan
             @can('view-product')
-{{--                    <a href="/admin/products/import"--}}
-{{--                       class="btn btn-secondary margin_bottom_detail">--}}
-{{--                        <i class="fa-solid fa-file-import"></i>--}}
-{{--                        Tải tệp lên--}}
-{{--                    </a>--}}
-                    <a class="btn btn-secondary margin_bottom_detail" data-bs-toggle="modal" data-bs-target="#importData">
-                        <i class="fa-solid fa-file-import"></i>
-                        Tải tệp lên
-                    </a>
+                <a class="btn btn-secondary margin_bottom_detail" data-bs-toggle="modal" data-bs-target="#importData">
+                    <i class="fa-solid fa-file-import"></i>
+                    Tải tệp lên
+                </a>
             @endcan
         </div>
         <div class="row">
@@ -85,7 +80,7 @@
         </div>
     </div>
 
-{{--    soft delete--}}
+    {{--    soft delete--}}
     <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -152,12 +147,6 @@
                 </div>
                 <div class="modal-body">
                     <div class="card d-flex flex-column h-100">
-{{--                        <div class="card-header">--}}
-{{--                            <h4>--}}
-{{--                                Import dữ liệu sản phẩm--}}
-{{--                                <a href="{{url('admin/products')}}" class="btn btn-danger float-end">Quay lại</a>--}}
-{{--                            </h4>--}}
-{{--                        </div>--}}
                         <div class="card-body">
                             <form action="/admin/products/import" method="POST" enctype="multipart/form-data">
                                 @csrf
@@ -179,10 +168,6 @@
     </div>
 
 @endsection
-
-{{--@push('scripts')--}}
-{{--    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}--}}
-{{--@endpush--}}
 
 @push('scripts')
     {{ $dataTable->scripts() }}

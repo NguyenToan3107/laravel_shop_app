@@ -6,7 +6,7 @@
             <h2 class="text-center mb-4">{{ isset($product) ? 'Cập nhật sản phẩm' : 'Tạo mới sản phẩm' }}</h2>
 
             @if(isset($product))
-                {{ Form::open(['route' => ['products.update', $product->id], 'method' => 'PUT', 'id' => 'formMain', 'enctype' => 'multipart/form-data', 'files' => true]) }}
+                {{ Form::open(['route' => ['products.update', $product->slug], 'method' => 'PUT', 'id' => 'formMain', 'enctype' => 'multipart/form-data', 'files' => true]) }}
             @else
                 {{ Form::open(['route' => 'products.store', 'method' => 'POST', 'id' => 'formMain', 'enctype' => 'multipart/form-data']) }}
             @endif
@@ -41,17 +41,32 @@
             <br>
             <div class="form-group">
                 {{ Form::label('description', 'Mô tả') }}
-                {{ Form::textarea('description', isset($product) ? $product->description : '', ['class' => 'form-control textarea', 'cols' => 30, 'rows' => 10]) }}
+                {{ Form::textarea('description', isset($product) ? $product->description : '', ['class' => 'form-control textarea', 'style' => 'height: 400px;', 'cols' => 30, 'rows' => 10]) }}
             </div>
             <br>
             <div class="form-group">
-                {{ Form::label('price', 'Giá') }}
+                {{ Form::label('content', 'Nội dung') }}
+                {{ Form::textarea('content', isset($product) ? $product->content : '', ['class' => 'form-control textarea ', 'style' => 'height: 600px;', 'cols' => 30, 'rows' => 10]) }}
+            </div>
+            <br>
+            <div class="form-group">
+                {{ Form::label('price', 'Giá bán') }}
                 {{ Form::text('price', $product->price ?? '', ['class' => 'form-control', 'id' => 'price', 'required']) }}
             </div>
             <br>
             <div class="form-group">
                 {{ Form::label('percent_sale', 'Phần trăm giảm giá') }}
                 {{ Form::text('percent_sale', $product->percent_sale ?? '', ['class' => 'form-control', 'id' => 'percent_sale', 'required']) }}
+            </div>
+            <br>
+            <div class="form-group">
+                {{ Form::label('price', 'Giá gốc') }}
+                {{ Form::text('price_old', $product->price_old ?? '', ['class' => 'form-control', 'id' => 'price_old', 'required']) }}
+            </div>
+            <br>
+            <div class="form-group">
+                {{ Form::label('total_item', 'Số lượng') }}
+                {{ Form::text('total_item', $product->total_item ?? '', ['class' => 'form-control', 'id' => 'total_item', 'required']) }}
             </div>
 
             @if(isset($product))

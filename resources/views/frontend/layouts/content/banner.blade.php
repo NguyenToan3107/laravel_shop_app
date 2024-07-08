@@ -10,12 +10,64 @@
                         </p>
                     </div>
                     @if(count($category->children) > 0)
-                        <span>
+                        <span class="banner_category--subitem--icon-left">
                                 <i class="fa-solid fa-angle-right fa-lg" style="color: #a0a3a6;"></i>
                             </span>
                     @endif
                     <ul class="banner_category--sub">
-                        <x-category-item-banner :category="$category"/>
+                        <div style="display: flex; flex-direction: column">
+                            <x-category-item-banner :category="$category"/>
+                        </div>
+                        <div class="banner_info_fake">
+                            <p style="font-weight: bold">Phân khúc giá</p>
+                            <p>Dưới 10 triệu</p>
+                            <p>Từ 10 đến 15 triệu</p>
+                            <p>Từ 15 đến 20 triệu</p>
+                            <p>Từ 20 đến 25 triệu</p>
+                            <p>Từ 25 đến 30 triệu</p>
+                            <p>Từ 30 đến 35 triệu</p>
+                            <p>Từ 35 đến 40 triệu</p>
+                        </div>
+
+                        <div class="banner_info_fake">
+                            <p style="font-weight: bold">Điện thoại Hot</p>
+                            <p>iPhone 15 Pro Max</p>
+                            <p>Samsung Galaxy A35</p>
+                            <p>Oppo reno12 Series</p>
+                            <p>Xiaomi 14</p>
+                            <p>Samsung Galaxy M34</p>
+                            <p>Xiaomi 14 Ultra 5G</p>
+                            <p>OPPO Reno11 F 5G</p>
+                            <p>realme C67</p>
+                            <p>realme C51 4G 128GB</p>
+                            <p>Tecno Camon 30</p>
+                            <p>POCO M6</p>
+                            <p>Redmi Note 13</p>
+                        </div>
+                        <div class="banner_info_fake">
+                            <p style="font-weight: bold">Hãng máy tính bảng</p>
+                            <p>iPad</p>
+                            <p>Samsung</p>
+                            <p>Xiaomi</p>
+                            <p>Lenovo</p>
+                            <p>Nokia</p>
+                            <p>TCL</p>
+                            <p>Masstel</p>
+                            <p>Máy đọc sách</p>
+                            <p>Kindle</p>
+                            <p>Boox</p>
+                        </div>
+                        <div class="banner_info_fake">
+                            <p style="font-weight: bold">Máy tính bảng HOT ⚡</p>
+                            <p>iPad Air 2024 HOT and NEW</p>
+                            <p>iPad Pro 2024 HOT and NEW</p>
+                            <p>Galaxy Tab S9 FE 5G</p>
+                            <p>Galaxy Tab S9 Ultra</p>
+                            <p>Xiaomi Pad 6 256GB</p>
+                            <p>Xiaomi Pad SE</p>
+                            <p>Xiaomi Redmi Pad Pro</p>
+                        </div>
+
                     </ul>
                 </div>
             </div>

@@ -114,13 +114,13 @@ class PostController extends Controller
 
         return redirect(PostController::POSTS_PATH);
     }
-    public function destroy($id, Request $request)
+    public function destroy($slug, Request $request)
     {
-        if($request->filled('id')) {
-            Post::where('id', $id)->delete();
+        if($request->filled('slug')) {
+            Post::where('slug', $slug)->delete();
         }
         $model = Post::query()
-            ->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at'])
+            ->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at', 'slug'])
             ->where('deleted_at','<>', 'null')
             ->where('status', 4);
 
@@ -153,11 +153,11 @@ class PostController extends Controller
     public function softDelete(Request $request)
     {
         $model = Post::query()
-            ->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at'])
+            ->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at', 'slug'])
             ->whereNull('deleted_at')
             ->where('status', '<>', 4);
-        if ($request->filled('post_id')) {
-            Post::find($request->post_id)->update([
+        if ($request->filled('slug')) {
+            Post::where('slug', $request->slug)->first()->update([
                 'deleted_at' => now(),
                 'status' => 4
             ]);

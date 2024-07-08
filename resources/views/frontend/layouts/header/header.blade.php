@@ -13,7 +13,7 @@
         </div>
         <div class="header_nav--right">
             <div class="input-group input-group-sm mb-3 header_nav--right--hidden" style="margin-top: 14px;">
-                <form method="GET" action="/items-lists" class="form-search-global">
+                <form method="GET" class="form-search-global">
                     <div class="row">
                         <div class="form-group">
                             <input type="text" name="titlesearch" class="form-control search_product"
@@ -24,7 +24,7 @@
                     @if(isset($items))
                         <ul class="search_list" id="search_list">
                             @foreach($items as $item)
-                                <a href="/product_detail/{{$item->id}}" class="search_item">
+                                <a href="/product_detail/{{$item->slug}}" class="search_item">
                                     <img src="{{$item->image}}" alt="{{$item->title}}">
                                     <div class="search_item--info">
                                         <p>{{$item->title}}</p>

@@ -150,7 +150,7 @@ Route::prefix('/admin')->group(function () {
         Route::put(POST_ROUTE, [PostController::class, 'update'])->name('posts.update');
 
         // hard delete
-        Route::delete(POST_ROUTE, [PostController::class, 'destroy'])->name('posts.destroy');
+        Route::delete('/posts/{slug}', [PostController::class, 'destroy'])->name('posts.destroy');
         // soft delete
         Route::post('/posts/soft_delete', [PostController::class, 'softDelete']);
     });
@@ -244,7 +244,7 @@ Route::prefix('/admin')->group(function () {
         Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-        Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+        Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
         // search
         Route::post('/search-product', [SearchController::class, 'searchProduct']);
 

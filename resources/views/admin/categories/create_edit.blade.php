@@ -6,7 +6,7 @@
             <h2 class="text-center mb-4">{{ isset($c) ? 'Cập nhật danh mục' : 'Tạo danh mục sản phẩm' }}</h2>
 
             @if(isset($c))
-                {{ Form::open(['route' => ['categories.update', $c->id], 'method' => 'PUT', 'id' => 'formMain']) }}
+                {{ Form::open(['route' => ['categories.update', $c->slug], 'method' => 'PUT', 'id' => 'formMain']) }}
             @else
                 {{ Form::open(['route' => 'categories.store', 'method' => 'POST', 'id' => 'formMain']) }}
             @endif

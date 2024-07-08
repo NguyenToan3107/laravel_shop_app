@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
@@ -10,6 +11,7 @@ class Category extends Model
 {
     use HasFactory;
     use HasRecursiveRelationships;
+    use Sluggable;
 
     protected $table = 'categories';
     protected $primaryKey = 'id';
@@ -27,5 +29,14 @@ class Category extends Model
     public function children()
     {
         return $this->hasMany(Category::class,'parent_id');
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
     }
 }

@@ -1,14 +1,12 @@
 @props(['category'])
 
-@if(is_null($category->parent_id))
-    <div class="category_recursive" data-id="{{$category->id}}">
-        <a href="">{{ucwords($category->title)}}</a>
-    </div>
-@else
-    <div class="category_recursive_brand" data-id="{{$category->id}}">
-        <a href="">{{ucwords($category->title)}}</a>
-    </div>
-@endif
+<div class="category_recursive" data-slug="{{$category->slug}}">
+    @if(!is_null($category->children) && count($category->children) > 0)
+        <a href="/products/{{$category->slug}}" style="font-weight: bold">{{ucwords($category->title)}}</a>
+    @else
+        <a href="/products/{{$category->slug}}">{{ucwords($category->title)}}</a>
+    @endif
+</div>
 
 @if(count($category->children) > 0)
     @foreach($category->children as $child)
