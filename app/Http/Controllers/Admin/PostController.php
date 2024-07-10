@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\PostsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -144,7 +145,10 @@ class PostController extends Controller
             ->editColumn('image', function ($row) {
                 return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
             })
-            ->rawColumns(['image'])
+            ->addColumn('checkbox', function($row) {
+                return '<input type="checkbox" name="ids_post" class="checkbox_ids" value="'.$row->id.'"/>';
+            })
+            ->rawColumns(['image', 'checkbox'])
             ->make();
     }
 
@@ -187,7 +191,63 @@ class PostController extends Controller
             ->editColumn('image', function ($row) {
                 return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
             })
-            ->rawColumns(['image'])
+            ->addColumn('checkbox', function($row) {
+                return '<input type="checkbox" name="ids_post" class="checkbox_ids" value="'.$row->id.'"/>';
+            })
+            ->rawColumns(['image', 'checkbox'])
             ->make();
     }
+
+    public function deleteMultiple(Request $request) {
+        $all_ids = $request->get('ids');
+
+        $products = Post::whereIn('id', $all_ids)->get();
+
+        $products->each(function ($product) {
+            $product->update([
+                'deleted_at' => now(),
+                'status' => 4
+            ]);
+        });
+
+        $model = Post::query()
+            ->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at', 'slug'])
+            ->whereNull('deleted_at')
+            ->where('status', '<>', 4);
+
+
+        return DataTables::of($model)
+            ->editColumn('status', function ($post) {
+                $statusMessages = [
+                    1 => 'Hoạt động',
+                    2 => 'Không hoạt động',
+                    3 => 'Đợi',
+                    4 => 'Xóa mềm'
+                ];
+                return $statusMessages[$post->status];
+            })
+            ->addColumn('action', function ($post) use ($request) {
+                if ($request->filled('status')) {
+                    if ($post->status == 4) {
+                        return view('posts.action_delete', ['post' => $post]);
+                    }
+                    return view('posts.action', ['post' => $post]);
+                }else {
+                    return view('posts.action', ['post' => $post]);
+                }
+            })
+            ->editColumn('author_id',function ($post) {
+                return $post->users->name;
+            })
+            ->editColumn('image', function ($row) {
+                return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
+            })
+            ->addColumn('checkbox', function($row) {
+                return '<input type="checkbox" name="ids_post" class="checkbox_ids" value="'.$row->id.'"/>';
+            })
+            ->rawColumns(['image', 'checkbox'])
+            ->make();
+
+    }
+
 }

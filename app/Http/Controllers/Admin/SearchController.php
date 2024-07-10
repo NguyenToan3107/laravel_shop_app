@@ -142,10 +142,13 @@ class SearchController extends Controller
             ->editColumn('author_id',function ($post) {
                 return $post->users->name;
             })
+            ->addColumn('checkbox', function($row) {
+                return '<input type="checkbox" name="ids_post" class="checkbox_ids" value="'.$row->id.'"/>';
+            })
             ->editColumn('image', function ($row) {
                 return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
             })
-            ->rawColumns(['image'])
+            ->rawColumns(['image', 'checkbox'])
             ->make();
     }
 

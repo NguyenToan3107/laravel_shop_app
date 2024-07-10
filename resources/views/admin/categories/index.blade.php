@@ -22,7 +22,6 @@
                         <th>ID</th>
                         <th>Ảnh</th>
                         <th>Tiêu đề</th>
-                        <th>Mô tả</th>
                     </tr>
                     </thead>
                     <tbody id="userTable">

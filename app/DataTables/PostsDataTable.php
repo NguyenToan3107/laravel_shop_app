@@ -33,16 +33,20 @@ class PostsDataTable extends DataTable
                     return 'Xóa mềm';
                 }
             })
-            ->editColumn('author_id',function ($post) {
+            ->editColumn('author_id', function ($post) {
                 return $post->users->name;
             })
+
             ->addColumn('action', function ($post) {
                 return view('admin.posts.action', ['post' => $post]);
             })
             ->addColumn('image', function ($row) {
-                return '<img class="img-thumbnail user-image-45" src="'.$row->image . '" alt="' . $row->title . '">';
+                return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
             })
-            ->rawColumns(['image'])
+            ->addColumn('checkbox', function($row) {
+                return '<input type="checkbox" name="ids_post" class="checkbox_ids" value="'.$row->id.'"/>';
+            })
+            ->rawColumns(['image', 'checkbox', 'action'])
             ->setRowId('id');
     }
 
@@ -61,20 +65,21 @@ class PostsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('posts-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+            ->setTableId('posts-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->autoWidth(false)
+            ->orderBy(1)
+            ->selectStyleSingle()
+            ->buttons([
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ]);
     }
 
     /**
@@ -83,15 +88,21 @@ class PostsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('image'),
-            Column::make('title'),
-            Column::make('description'),
-            Column::make('author_id'),
-            Column::make('status'),
+            Column::make('checkbox')
+                ->title('<input type="checkbox" name="" id="select_all_ids"/>')
+                ->exportable(false)
+                ->printable(false)
+                ->orderable(false)
+                ->searchable(false),
+            Column::make('id')->title('Id'),
+            Column::make('image')->title('Ảnh'),
+            Column::make('title')->title('Tiêu đề'),
+            Column::make('author_id')->title('Tác giả'),
+            Column::make('status')->title('Trạng thái'),
 //            Column::make('created_at'),
 //            Column::make('updated_at'),
             Column::computed('action')
+                ->title('Hành động')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)

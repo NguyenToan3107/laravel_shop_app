@@ -42,7 +42,7 @@ class CategoriesDataTable extends DataTable
         return $model->newQuery()
             ->with('children')
             ->whereNull('parent_id')
-            ->select(['id', 'parent_id', 'title', 'description', 'image']);
+            ->select(['id', 'parent_id', 'title', 'image']);
     }
 
     /**
@@ -76,7 +76,6 @@ class CategoriesDataTable extends DataTable
             Column::make('id'),
             Column::make('image'),
             Column::make('title'),
-            Column::make('description'),
 //            Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)

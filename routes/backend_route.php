@@ -138,7 +138,6 @@ Route::prefix('/admin')->group(function () {
 
 
     /////////////////////////// POST
-
     Route::middleware('auth')->group(function () {
         Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
         Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
@@ -153,6 +152,8 @@ Route::prefix('/admin')->group(function () {
         Route::delete('/posts/{slug}', [PostController::class, 'destroy'])->name('posts.destroy');
         // soft delete
         Route::post('/posts/soft_delete', [PostController::class, 'softDelete']);
+
+        Route::post('/posts/delete_multiple', [PostController::class, 'deleteMultiple']);
     });
 
     ///////////////////////////

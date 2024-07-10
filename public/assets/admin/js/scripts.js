@@ -71,14 +71,12 @@ $(document).ready(function () {
                     }
                 },
                 columns: [
+                    {data: 'checkbox', name: 'checkbox'},
                     {data: 'id', name: 'id'},
                     {data: 'image', name: 'image'},
                     {data: 'title', name: 'title'},
-                    {data: 'description', name: 'description'},
                     {data: 'author_id', name: 'author_id'},
                     {data: 'status', name: 'status'},
-                    // { data: 'created_at', name: 'created_at' },
-                    // { data: 'updated_at', name: 'updated_at' },
                     {data: 'action', name: 'action'}
                 ],
             });
@@ -155,10 +153,10 @@ $(document).ready(function () {
                     }
                 },
                 columns: [
+                    {data: 'checkbox', name: 'checkbox'},
                     {data: 'id', name: 'id'},
                     {data: 'image', name: 'image'},
                     {data: 'title', name: 'title'},
-                    {data: 'description', name: 'description'},
                     {data: 'author_id', name: 'author_id'},
                     {data: 'status', name: 'status'},
                     // { data: 'created_at', name: 'created_at' },
@@ -192,17 +190,16 @@ const reset_post_datatable = function () {
     if ($.fn.DataTable.isDataTable('#posts-table')) {
         $('#posts-table').DataTable().destroy(); // Nếu có, hủy bảng DataTable hiện tại
     }
-
     $('#posts-table').DataTable({
         processing: true,
         serverSide: true,
         ajax: '/admin/posts',
         type: 'GET',
         columns: [
+            {data: 'checkbox', name: 'checkbox'},
             {data: 'id', name: 'id'},
             {data: 'image', name: 'image'},
             {data: 'title', name: 'title'},
-            {data: 'description', name: 'description'},
             {data: 'author_id', name: 'author_id'},
             {data: 'status', name: 'status'},
             // { data: 'created_at', name: 'created_at' },
@@ -250,10 +247,10 @@ if(post_search_form) {
                 }
             },
             columns: [
+                {data: 'checkbox', name: 'checkbox'},
                 {data: 'id', name: 'id'},
                 {data: 'image', name: 'image'},
                 {data: 'title', name: 'title'},
-                {data: 'description', name: 'description'},
                 {data: 'author_id', name: 'author_id'},
                 {data: 'status', name: 'status'},
                 // { data: 'created_at', name: 'created_at' },
@@ -264,6 +261,87 @@ if(post_search_form) {
     });
 }
 
+
+/////////////// DELETE MULTIPLE
+$(document).ready(function () {
+    $(document).on('click', '#select_all_ids', function () {
+        $(".checkbox_ids").prop('checked', $(this).prop('checked'));
+    });
+});
+
+$(document).ready(function () {
+    $(document).on('click', '#deleteAllSelectedPost', function (e) {
+        e.preventDefault();
+
+        let all_ids = []
+        $('input:checked[name=ids_post]:checked').each(function () {
+            all_ids.push($(this).val())
+        })
+
+        if ($.fn.DataTable.isDataTable('#posts-table')) {
+            $('#posts-table').DataTable().destroy();
+        }
+        $('#posts-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: `/admin/posts/delete_multiple`,
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    ids: all_ids
+                },
+                error: function(xhr, status, error) {
+                    let errorMessage = xhr.status + ': ' + xhr.statusText
+                    console.error('AJAX Error: ' + errorMessage);
+
+                    let existingToast = document.querySelector(".toastify");
+                    if (existingToast) {
+                        existingToast.remove();
+                    }
+                    Toastify({
+                        text: "Đã xảy ra lỗi khi xóa bài viết",
+                        duration: 2000,
+                        close: true,
+                        gravity: "top",
+                        position: "right",
+                        stopOnFocus: true,
+                        className: "toastify-custom toastify-error"
+                    }).showToast();
+
+                    reset_post_datatable();
+                },
+                success: function () {
+                    let existingToast = document.querySelector(".toastify");
+                    if (existingToast) {
+                        existingToast.remove();
+                    }
+                    Toastify({
+                        text: "Xóa thành công",
+                        duration: 2000,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "right", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        className: "toastify-custom toastify-success"
+                    }).showToast();
+                    reset_post_datatable();
+                }
+            },
+            columns: [
+                {data: 'checkbox', name: 'checkbox'},
+                {data: 'id', name: 'id'},
+                {data: 'image', name: 'image'},
+                {data: 'title', name: 'title'},
+                {data: 'author_id', name: 'author_id'},
+                {data: 'status', name: 'status'},
+                {data: 'action', name: 'action'}
+            ],
+        });
+    })
+})
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // --------------------------------- ORDERS --------------------------------------- //

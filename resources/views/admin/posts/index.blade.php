@@ -88,23 +88,30 @@
             </div>
         </form>
         <br>
-        @can('create-post')
-            <a href="/admin/posts/create"
-               class="btn btn-primary margin_bottom_detail"
-               style="margin-left: 830px"
-            >
-                Tạo bài viết mới
-            </a>
-        @endcan
-        <br>
-        <br>
+        <div>
+            @can('create-post')
+                <a href="/admin/posts/create"
+                   class="btn btn-primary margin_bottom_detail"
+                   style="margin-left: 560px"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                    Tạo bài viết mới
+                </a>
+            @endcan
+            @can('delete-post')
+                <a id="deleteAllSelectedPost"
+                   class="btn btn-danger margin_bottom_detail">
+                    <i class="fa-solid fa-trash"></i>
+                    Xóa những mục được chọn
+                </a>
+            @endcan
+        </div>
         <div class="row">
             <div class="col-md-12">
                 {{ $dataTable->table()}}
             </div>
         </div>
     </div>
-
 
     {{--    Xoa mem--}}
     <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"

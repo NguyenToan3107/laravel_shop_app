@@ -10,7 +10,6 @@
         @endif
         {{$category->title}}
     </td>
-    <td>{{$category->description}}</td>
     <td>
         <div class="d-flex align-items-center">
             @can('edit-category')
