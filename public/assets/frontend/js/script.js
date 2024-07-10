@@ -166,6 +166,28 @@ document.addEventListener('click', function (event) {
     }
 });
 
+// nav
+document.addEventListener('DOMContentLoaded', function () {
+    const currentPath = window.location.pathname;
+    const savedPath = localStorage.getItem('activeNavPath');
+    const navItems = document.querySelectorAll('.nav--item');
+
+    navItems.forEach(item => {
+        item.classList.remove('active');
+
+        // Add 'active' class if the path matches
+        if (item.getAttribute('data-path') === (savedPath || currentPath)) {
+            item.classList.add('active');
+        }
+
+        item.addEventListener('click', function () {
+            // Save the current path to local storage
+            localStorage.setItem('activeNavPath', item.getAttribute('data-path'));
+        });
+    });
+});
+
+
 ////////////////////////////////////////////////////////////////
 
 // Feature xem thêm sản phẩm
@@ -416,6 +438,29 @@ $(document).ready(function () {
 //         }
 //     );
 // });
+
+
+
+$(document).ready(function () {
+    $(document).on('click', '.category_parent--item', function (e) {
+        e.preventDefault();
+        let slug = $(this).data('slug')
+        console.log(slug)
+        $.ajax({
+            type: 'GET',
+            url: '/categories/' + slug,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (data) {
+                let category_child = $(data).find('#category_child').html();
+                $('#category_child').html(category_child)
+            }
+        })
+    })
+})
+
+
 
 
 

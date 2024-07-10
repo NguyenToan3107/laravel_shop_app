@@ -95,7 +95,6 @@
         <button class="menu-toggle" id="menu-toggle">☰</button>
     </div>
 </header>
-<br>
 <div class="horizontal-bar">
 </div>
 

@@ -89,7 +89,7 @@
                         <span class="input-group-text icon-hidden"><i class="fa-solid fa-plus"></i></span>
                     </div>
                     <button type="submit" class="btn btn-danger product_cart--button" value="{{$product->id}}">Thêm vào giỏ hàng</button>
-                    <button type="submit" class="btn btn-secondary"><i class="fa-regular fa-heart"></i></button>
+                    <button type="button" class="btn btn-secondary"><i class="fa-regular fa-heart"></i></button>
                 </div>
             </form>
             <br>

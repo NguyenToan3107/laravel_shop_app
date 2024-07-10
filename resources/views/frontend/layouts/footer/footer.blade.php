@@ -49,3 +49,27 @@
         </div>
     </div>
 </footer>
+
+
+<div class="nav_directive">
+    <a href="/" class="nav--item active" data-path="/">
+        <i class="fa-solid fa-house"></i>
+        Trang chủ
+    </a>
+    <a href="/categories" class="nav--item" data-path="/categories">
+        <i class="fa-solid fa-layer-group"></i>
+        Danh mục
+    </a>
+    <a href="/products" class="nav--item" data-path="/products">
+        <i class="fa-brands fa-product-hunt"></i>
+        Sản phẩm
+    </a>
+    <a href="/cart" class="nav--item" data-path="/cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Giỏ hàng
+    </a>
+    <a href="/contact" class="nav--item" data-path="/contact">
+        <i class="fa-regular fa-address-book"></i>
+        Liên hệ
+    </a>
+</div>

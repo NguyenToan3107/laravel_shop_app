@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\OrderController;
@@ -30,6 +31,8 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/{slug}', [PostController::class, 'show']);
 Route::get('/products/{slug?}', [ProductController::class, 'index']);
+
+Route::get('/categories/{slug?}', [CategoryController::class, 'index']);
 
 Route::get('/cart', [CartController::class, 'index']);
 Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart']);
