@@ -147,7 +147,6 @@ $(document).ready(function () {
 ////////////////////////////// PRUDUCT DETAIL ////////////////////
 
 
-
 //////////////////////////////// RESPONSIVE //////////////////////
 
 document.querySelector('.menu-toggle').addEventListener('click', function () {
@@ -276,11 +275,13 @@ $(document).ready(function () {
 })
 
 
-
 // search global
 $(document).ready(function () {
-    // Debounce function to limit the number of AJAX calls
-    let debounceSearch = _.debounce(function (titlesearch) {
+    $(document).ajaxSend(function () {
+        $("#overlay2").fadeIn(10);
+    })
+    $('#search_product').donetyping(function () {
+        let titlesearch = $(this).val().trim();
         $.ajax({
             type: 'GET',
             url: '/',
@@ -292,20 +293,63 @@ $(document).ready(function () {
             },
             success: function (data) {
                 let search_list = $(data).find('#search_list').html();
-                $('#search_list').html(search_list);
-            }
+                // $('#search_list').html(search_list);
+                let items = $(data).find('#search_list a');
+
+                if (items.length == 0) {
+                    $('#search_list').html('Không tìm thấy sản phẩm phù hợp!');
+                } else {
+                    $('#search_list').html(search_list);
+                }
+            },
+        }).done(function () {
+            setTimeout(function () {
+                $('#overlay2').fadeOut(10)
+                console.log('Done')
+            }, 10)
         });
-    }, 200); // 500 milliseconds delay
+        console.log('User finished typing:', titlesearch);
 
-    $(document).on('keyup', '#search_product', function (e) {
-        e.preventDefault();
-        let titlesearch = $(this).val();
+    }, 0.5e3);
+})
 
-        // Call the debounced search function
-        debounceSearch(titlesearch);
+// donetyping
+;(function($){
+    $.fn.extend({
+        donetyping: function(callback,timeout){
+            timeout = timeout || 1e3; // 1 second default timeout
+            var timeoutReference,
+                doneTyping = function(el){
+                    if (!timeoutReference) return;
+                    timeoutReference = null;
+                    callback.call(el);
+                };
+            return this.each(function(i,el){
+                var $el = $(el);
+                // Chrome Fix (Use keyup over keypress to detect backspace)
+                // thank you @palerdot
+                $el.is(':input') && $el.on('keyup keypress paste',function(e){
+                    // This catches the backspace and DEL button in chrome, but also prevents
+                    // the event from triggering too preemptively. Without this line,
+                    // using tab/shift+tab will make the focused element fire the callback.
+                    if (e.type=='keyup' && !([8,46].includes(e.keyCode))){return;}
+
+                    // Check if timeout has been set. If it has, "reset" the clock and
+                    // start over again.
+                    if (timeoutReference) clearTimeout(timeoutReference);
+                    timeoutReference = setTimeout(function(){
+                        // if we made it here, our timeout has elapsed. Fire the
+                        // callback
+                        doneTyping(el);
+                    }, timeout);
+                }).on('blur',function(){
+                    // If we can, fire the event since we're leaving the field
+                    doneTyping(el);
+                });
+            });
+        }
     });
-});
-
+})(jQuery);
 
 document.addEventListener('DOMContentLoaded', function () {
     var inputField = document.getElementById('search_product');
@@ -326,8 +370,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 $(document).ready(function () {
-
-
     $('#search_list').on('scroll', function () {
         let scrollTop = $(this).scrollTop();
         let elementHeight = $(this).prop('scrollHeight');
@@ -344,7 +386,7 @@ $(document).ready(function () {
                 type: 'GET',
                 url: '/',
                 data: {
-                    load_more:  6
+                    load_more: 6
                 },
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -364,22 +406,16 @@ $(document).ready(function () {
     });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// $(document).ready(function() {
+//     $('.banner_category--item').hover(
+//         function() {
+//             $(this).find('.banner_category--subitem--icon-left').css('display', 'flex');
+//         },
+//         function() {
+//             $(this).find('.banner_category--subitem--icon-left').css('opacity', 1);
+//         }
+//     );
+// });
 
 
 

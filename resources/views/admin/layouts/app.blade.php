@@ -39,14 +39,12 @@
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     {{--    <script src="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"></script>--}}
 
-    {{--    tiny mce--}}
-    <script src="https://cdn.tiny.cloud/1/p4pd0kdmn0lef2fn8v8fn4teyk9zypqxwcpckps4lyygmce8/tinymce/5/tinymce.min.js"
-            referrerpolicy="origin"></script>
-
+    <script src="{{ asset('js/tinymce/js/tinymce/tinymce.min.js') }}"></script>
     <script>
         var editor_config = {
             path_absolute: "http://localhost:8000/",
             selector: '.textarea',
+            license_key: 'gpl|p4pd0kdmn0lef2fn8v8fn4teyk9zypqxwcpckps4lyygmce8',
             relative_urls: false,
             plugins: [
                 "advlist autolink lists link image charmap print preview hr anchor pagebreak",
@@ -82,6 +80,9 @@
 
         tinymce.init(editor_config);
     </script>
+
+
+
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

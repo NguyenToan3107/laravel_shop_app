@@ -21,13 +21,13 @@ class HomeController extends Controller
 
         if ($request->has('titlesearch')) {
             $items = Product::search($request->titlesearch)
-                ->paginate(6)->items();
+                ->paginate(8)->items();
         } else {
-            $items = Product::take(6)->get();
+            $items = Product::take(8)->get();
         }
 
         if ($request->has('load_more')) {
-            $items = Product::take(12)->get();
+            $items = Product::take(16)->get();
         }
 
         $categories = Category::whereNull('parent_id')->get();

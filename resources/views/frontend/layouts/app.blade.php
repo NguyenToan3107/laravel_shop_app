@@ -48,6 +48,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 
+
+
     @stack('style')
 
 
@@ -75,7 +77,7 @@
 
 @include('frontend.layouts.footer.footer')
 
-@stack('scripts')
+{{--@stack('scripts')--}}
 
 <script src="{{asset('assets/frontend/js/script.js')}}"></script>
 <!--
@@ -86,6 +88,5 @@
 @stack('scripts')
 
 </body>
-
 </html>
 

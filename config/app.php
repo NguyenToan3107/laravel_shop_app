@@ -174,6 +174,9 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+
+//        UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
+//        Intervention\Image\ImageServiceProvider::class,
     ])->toArray(),
 
     /*

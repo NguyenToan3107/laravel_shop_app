@@ -66,7 +66,7 @@ class PostController extends Controller
             'status' => 1,
         ]);
 
-        return redirect(PostController::POSTS_PATH);
+        return redirect(PostController::POSTS_PATH)->with('success', 'Tạo bài thành công');
     }
 
     public function edit($slug) {
@@ -91,8 +91,7 @@ class PostController extends Controller
         $description = $request->input('description');
 
         $content = $request->input('content');
-
-        $post = Post::find($slug);
+        $post = Post::where('slug', $slug)->first();
 
         if($request->filled('filepath')) {
             $image_path = $request->input('filepath');
@@ -112,7 +111,7 @@ class PostController extends Controller
             'deleted_at' => null
         ]);
 
-        return redirect(PostController::POSTS_PATH);
+        return redirect(PostController::POSTS_PATH)->with('success', 'Cập nhật bài viết thành công');
     }
     public function destroy($slug, Request $request)
     {

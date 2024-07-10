@@ -8,7 +8,7 @@
             <a href="/">About</a>
             <a href="/contact">Liên hệ</a>
             @if(Auth::check() && Auth::user()->can('view-post'))
-                <a href="/post">Bài viết</a>
+                <a href="/posts">Bài viết</a>
             @endif
         </div>
         <div class="header_nav--right">
@@ -41,6 +41,12 @@
                             <div id="overlay1">
                                 <div class="cv-spinner1">
                                     <span class="spinner1"></span>
+                                </div>
+                            </div>
+
+                            <div id="overlay2">
+                                <div class="cv-spinner2">
+                                    <span class="spinner2"></span>
                                 </div>
                             </div>
                         </ul>

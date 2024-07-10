@@ -1,6 +1,38 @@
 @extends('admin.layouts.app')
 
 @section('content')
+
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Toastify({
+                    text: "{{ session('success') }}",
+                    duration: 2000,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    className: "toastify-custom toastify-success"
+                }).showToast();
+            });
+        </script>
+
+    @elseif(session('delete'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Toastify({
+                    text: "{{ session('delete') }}",
+                    duration: 2000,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    className: "toastify-custom toastify-error"
+                }).showToast();
+            });
+        </script>
+    @endif
+
     <div class="container mt-5">
         <div class="row mb-4">
             <div class="col-md-12">
