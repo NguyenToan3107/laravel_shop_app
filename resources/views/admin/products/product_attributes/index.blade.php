@@ -26,14 +26,46 @@
         <br>
         <div class="row">
             <div class="col-md-12">
-                {{ $dataTable->table()}}
+                <table id="product_attribute-table" class="table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" name="" id="select_all_ids_product_attributes"/></th>
+                        <th>Id</th>
+                        <th>Tên thuộc tính</th>
+                        <th>Giá trị</th>
+                        <th>Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
 @endsection
 
 @push('scripts')
-    {{ $dataTable->scripts() }}
+    <script>
+        $(document).ready(function () {
+            let datatable = $('#product_attribute-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/admin/product_attributes',
+                    type: 'GET',
+                },
+                scrollX: true,
+                order: [[1, 'asc']],
+                autoWidth: false,
+                columns: [
+                    {data: 'checkbox', name: 'checkbox', orderable: false, searchable: false},
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'value', name: 'value'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            })
+        })
+    </script>
 @endpush
 
 

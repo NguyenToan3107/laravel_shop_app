@@ -8,24 +8,75 @@ use App\Models\Post;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class PostController extends Controller
 {
     const POSTS_PATH = '/admin/posts';
+    const DEFAULT_DATE = 'NaN-NaN-NaN NaN:NaN:NaN';
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('permission:create-post')->only('store', 'create');
         $this->middleware('permission:edit-post')->only('update', 'edit');
-        $this->middleware('permission:delete-post')->only('destroy', 'softDelete');
+        $this->middleware('permission:delete-post')->only('destroy');
         $this->middleware('permission:view-post')->only('index');
     }
 
-    public function index(PostsDataTable $dataTable_post) {
-        return $dataTable_post->render('admin.posts.index');
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $model = Post::query()->with('users')->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at', 'slug', 'deleted_at']);
+            if ($request->filled('title')) {
+                $model = $model->where('title', 'like', '%' . $request->title . '%');
+            }
+            $model = $model->when($request->filled('author_name'), function ($query) use ($request) {
+                $userIds = User::where('name', 'like', '%' . $request->author_name . '%')
+                    ->pluck('id');
+                return $query->whereIn('author_id', $userIds);
+            });
+            if ($request->filled('status')) {
+                $model = $model->withTrashed()->where('status', $request->status);
+            } else {
+                $model = $model->where('status', '<>', 4);
+            }
+            if ($request->filled('started_at') && ($request->started_at != PostController::DEFAULT_DATE)) {
+                $model = $model->whereDate('created_at', '>=', $request->started_at);
+            }
+            if ($request->filled('ended_at') && ($request->ended_at != PostController::DEFAULT_DATE)) {
+                $model = $model->whereDate('created_at', '<=', $request->ended_at);
+            }
+            return DataTables::of($model)
+                ->editColumn('status', function ($post) {
+                    $message = [
+                        1 => 'Hoạt động',
+                        2 => 'Không hoạt động',
+                        3 => 'Đợi',
+                        4 => 'Thùng rác'
+                    ];
+                    return $message[$post->status];
+                })
+                ->editColumn('author_id', function ($post) {
+                    return $post->users ? $post->users->name : '';
+                })
+                ->addColumn('action', function ($post) {
+                    return view('admin.posts.action', ['post' => $post])->render();
+                })
+                ->addColumn('image', function ($row) {
+                    return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
+                })
+                ->addColumn('checkbox', function ($row) {
+                    return '<input type="checkbox" name="ids_post" class="checkbox_ids" value="' . $row->id . '"/>';
+                })
+                ->rawColumns(['image', 'checkbox', 'action'])
+                ->setRowId('id')
+                ->make(true);
+        }
+        return view('admin.posts.index');
     }
-    public function create() {
+
+    public function create()
+    {
         $users = User::query()
             ->select(['id', 'name'])
             ->orderBy('name')
@@ -42,12 +93,13 @@ class PostController extends Controller
             'users' => $usersWithPermission
         ]);
     }
+
     public function store(Request $request)
     {
-        if($request->filled('filepath')) {
+        if ($request->filled('filepath')) {
             $image_path = $request->input('filepath');
             $image_path = explode('http://localhost:8000', $image_path)[1];
-        }else {
+        } else {
             $image_path = '/storage/photos/posts/default_post.png';
         }
         $description = $request->input('description');
@@ -70,9 +122,11 @@ class PostController extends Controller
         return redirect(PostController::POSTS_PATH)->with('success', 'Tạo bài thành công');
     }
 
-    public function edit($slug) {
+    public function edit($id)
+    {
         $post = Post::select(['id', 'title', 'image', 'description', 'content', 'author_id', 'status', 'created_at', 'updated_at', 'slug'])
-            ->where('slug', $slug)
+            ->withTrashed()
+            ->where('id', $id)
             ->first();
         $users = User::query()
             ->select(['id', 'name'])
@@ -87,17 +141,19 @@ class PostController extends Controller
             'user' => $user
         ]);
     }
-    public function update(Request $request, $slug) {
+
+    public function update(Request $request, $id)
+    {
 
         $description = $request->input('description');
 
         $content = $request->input('content');
-        $post = Post::where('slug', $slug)->first();
+        $post = Post::where('id', $id)->withTrashed()->first();
 
-        if($request->filled('filepath')) {
+        if ($request->filled('filepath')) {
             $image_path = $request->input('filepath');
             $image_path = explode('http://localhost:8000', $image_path)[1];
-        }else {
+        } else {
             $image_path = $post->image;
         }
 
@@ -114,140 +170,24 @@ class PostController extends Controller
 
         return redirect(PostController::POSTS_PATH)->with('success', 'Cập nhật bài viết thành công');
     }
-    public function destroy($slug, Request $request)
+
+    public function destroy($id)
     {
-        if($request->filled('slug')) {
-            Post::where('slug', $slug)->delete();
+        $array_id = explode(',', $id);
+        $posts = Post::withTrashed()->whereIn('id', $array_id)->get();
+        foreach ($posts as $post) {
+            if (is_null($post->deleted_at)) {
+                $post->update([
+                    'status' => 4
+                ]);
+                $post->delete();
+            } else {
+                $post->forceDelete();
+            }
         }
-        $model = Post::query()
-            ->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at', 'slug'])
-            ->where('deleted_at','<>', 'null')
-            ->where('status', 4);
-
-        return DataTables::of($model)
-            ->editColumn('status', function ($product) {
-                if ($product->status == 1) {
-                    return 'Hoạt động';
-                } elseif ($product->status == 2) {
-                    return 'Không hoạt động';
-                } elseif ($product->status == 3) {
-                    return 'Đợi';
-                } else {
-                    return 'Xóa mềm';
-                }
-            })
-            ->editColumn('author_id',function ($post) {
-                return $post->users->name;
-            })
-            ->addColumn('action', function ($post) {
-                return view('admin.posts.action_delete', ['post' => $post]);
-            })
-            ->editColumn('image', function ($row) {
-                return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
-            })
-            ->addColumn('checkbox', function($row) {
-                return '<input type="checkbox" name="ids_post" class="checkbox_ids" value="'.$row->id.'"/>';
-            })
-            ->rawColumns(['image', 'checkbox'])
-            ->make();
+        return response()->json([
+            'success' => 1,
+            'message' => "Thành công",
+        ]);
     }
-
-    // soft post
-    public function softDelete(Request $request)
-    {
-        $model = Post::query()
-            ->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at', 'slug'])
-            ->whereNull('deleted_at')
-            ->where('status', '<>', 4);
-        if ($request->filled('slug')) {
-            Post::where('slug', $request->slug)->first()->update([
-                'deleted_at' => now(),
-                'status' => 4
-            ]);
-        }
-        return DataTables::of($model)
-            ->editColumn('status', function ($post) {
-                $statusMessages = [
-                    1 => 'Hoạt động',
-                    2 => 'Không hoạt động',
-                    3 => 'Đợi',
-                    4 => 'Xóa mềm'
-                ];
-                return $statusMessages[$post->status];
-            })
-            ->addColumn('action', function ($post) use ($request) {
-                if ($request->filled('status')) {
-                    if ($post->status == 4) {
-                        return view('posts.action_delete', ['post' => $post]);
-                    }
-                    return view('posts.action', ['post' => $post]);
-                }else {
-                    return view('posts.action', ['post' => $post]);
-                }
-            })
-            ->editColumn('author_id',function ($post) {
-                return $post->users->name;
-            })
-            ->editColumn('image', function ($row) {
-                return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
-            })
-            ->addColumn('checkbox', function($row) {
-                return '<input type="checkbox" name="ids_post" class="checkbox_ids" value="'.$row->id.'"/>';
-            })
-            ->rawColumns(['image', 'checkbox'])
-            ->make();
-    }
-
-    public function deleteMultiple(Request $request) {
-        $all_ids = $request->get('ids');
-
-        $products = Post::whereIn('id', $all_ids)->get();
-
-        $products->each(function ($product) {
-            $product->update([
-                'deleted_at' => now(),
-                'status' => 4
-            ]);
-        });
-
-        $model = Post::query()
-            ->select(['id', 'image', 'title', 'description', 'author_id', 'status', 'created_at', 'updated_at', 'slug'])
-            ->whereNull('deleted_at')
-            ->where('status', '<>', 4);
-
-
-        return DataTables::of($model)
-            ->editColumn('status', function ($post) {
-                $statusMessages = [
-                    1 => 'Hoạt động',
-                    2 => 'Không hoạt động',
-                    3 => 'Đợi',
-                    4 => 'Xóa mềm'
-                ];
-                return $statusMessages[$post->status];
-            })
-            ->addColumn('action', function ($post) use ($request) {
-                if ($request->filled('status')) {
-                    if ($post->status == 4) {
-                        return view('posts.action_delete', ['post' => $post]);
-                    }
-                    return view('posts.action', ['post' => $post]);
-                }else {
-                    return view('posts.action', ['post' => $post]);
-                }
-            })
-            ->editColumn('author_id',function ($post) {
-                return $post->users->name;
-            })
-            ->editColumn('image', function ($row) {
-                return '<img class="img-thumbnail user-image-45" src="' . $row->image . '" alt="' . $row->title . '">';
-            })
-            ->addColumn('checkbox', function($row) {
-                return '<input type="checkbox" name="ids_post" class="checkbox_ids" value="'.$row->id.'"/>';
-            })
-            ->rawColumns(['image', 'checkbox'])
-            ->make();
-
-    }
-
 }

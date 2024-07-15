@@ -3,10 +3,8 @@
 namespace App\Models;
 
 
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Models\Role;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -15,19 +13,20 @@ class User extends Authenticatable
 {
     use HasFactory;
     use HasRoles;
+    use SoftDeletes;
+
     protected $table = 'users';
-    protected $fillable = ['id', 'name', 'email', 'password', 'status', 'age', 'phoneNumber', 'address', 'role', 'image_path', 'deleted_at', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'name', 'email', 'password', 'status', 'age', 'phoneNumber', 'address', 'role',
+        'image_path', 'deleted_at', 'created_at', 'updated_at'];
     protected $hidden = ['password'];
 
     public function posts()
     {
         return $this->hasMany(Post::class);
     }
-
     public function orders() {
         return $this->hasMany(Order::class);
     }
-
     public function orderDetails() {
         return $this->hasMany(OrderDetail::class);
     }

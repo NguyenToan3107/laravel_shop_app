@@ -14,26 +14,91 @@ use Yajra\DataTables\DataTables;
 class UserController extends Controller
 {
     const USERS_PATH = '/admin/users';
+    const DEFAULT_DATE = 'NaN-NaN-NaN NaN:NaN:NaN';
 
     public function __construct()
     {
         $this->middleware('permission:create-user')->only('store', 'create');
         $this->middleware('permission:edit-user')->only('update', 'edit');
-        $this->middleware('permission:delete-user')->only('destroy', 'softDelete');
+        $this->middleware('permission:delete-user')->only('destroy');
         $this->middleware('permission:view-user')->only('index');
     }
-    public function index(UsersDataTable $dataTable)
-    {
-        return $dataTable->render('admin.users.index');
-    }
 
-    public function create() {
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $model = User::query()
+                ->select(['id', 'image_path', 'name', 'email', 'phoneNumber', 'status', 'address', 'age', 'created_at', 'updated_at']);
+
+            if ($request->filled('name')) {
+                $model = $model->where('name', 'like', '%' . $request->name . '%');
+            }
+            if ($request->filled('email')) {
+                $model = $model->where('email', 'like', '%' . $request->email . '%');
+            }
+            if ($request->filled('phone')) {
+                $model = $model->where('phoneNumber', 'like', '%' . $request->phone . '%');
+            }
+            if ($request->filled('address')) {
+                $model = $model->where('address', 'like', '%' . $request->address . '%');
+            }
+
+            if ($request->filled('age')) {
+                $model = $model->where('age', 'like', '%' . $request->age . '%');
+            }
+            if ($request->filled('status')) {
+                $model = $model->withTrashed()->where('status', $request->status);
+            } else {
+                $model = $model->where('status', '<>', 4);
+            }
+            if ($request->filled('started_at') && ($request->started_at != UserController::DEFAULT_DATE)) {
+                $model = $model->whereDate('created_at', '>=', $request->started_at);
+            }
+
+            if ($request->filled('ended_at') && ($request->ended_at != UserController::DEFAULT_DATE)) {
+                $model = $model->whereDate('created_at', '<=', $request->ended_at);
+            }
+
+            return DataTables::of($model)
+                ->editColumn('status', function ($post) {
+                    $statusMessages = [
+                        1 => 'Hoạt động',
+                        2 => 'Không hoạt động',
+                        3 => 'Đợi',
+                        4 => 'Xóa mềm'
+                    ];
+                    return $statusMessages[$post->status];
+                })
+                ->addColumn('action', function ($user) {
+                    return view('admin.users.action', ['user' => $user]);
+                })
+                ->addColumn('image_path', function ($row) {
+                    return '<img class="img-thumbnail user-image-45" src="' . $row->image_path . '" alt="' . $row->name . '">';
+                })
+                ->addColumn('roles', function ($user) {
+                    $roles = $user->getRoleNames()->map(function ($roleName) {
+                        return '<label class="badge bg-primary mx-1">' . $roleName . '</label>';
+                    })->implode(' ');
+
+                    return '<td>' . $roles . '</td>';
+                })
+                ->addColumn('checkbox', function ($row) {
+                    return '<input type="checkbox" name="ids_user" class="checkbox_ids_users" value="' . $row->id . '"/>';
+                })
+                ->rawColumns(['image_path', 'roles', 'action', 'checkbox'])
+                ->make();
+        }
+        return view('admin.users.index');
+    }
+    public function create()
+    {
         $roles = Role::pluck('name', 'name')->all();
         return view('admin.users.create', [
             'roles' => $roles
         ]);
     }
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'name' => 'required|unique:users|max:255',
             'email' => 'required|email',
@@ -45,10 +110,10 @@ class UserController extends Controller
 //            'image' => 'required|image|mimes:jpeg,png,jpg|max:5048',
         ]);
 
-        if($request->filled('filepath')) {
+        if ($request->filled('filepath')) {
             $image_path = $request->input('filepath');
             $image_path = explode('http://localhost:8000', $image_path)[1];
-        }else {
+        } else {
             $image_path = '/storage/photos/users/default_user.jpg';
         }
 
@@ -61,23 +126,15 @@ class UserController extends Controller
             'phoneNumber' => $request->input('phoneNumber'),
             'image_path' => $image_path,
             'status' => 1,
-//            'role' => strtolower($request->input('role')),
         ]);
 
         $user->syncRoles($request->roles);
         return redirect(UserController::USERS_PATH)->with('success', 'Tạo người dùng thành công');
     }
-    public function show($id) {
-        $user = $this->userService->getById($id);
-        return view('admin.users.show', [
-            'user' => $user
-        ]);
-    }
-    public function edit($id) {
-
-        $user = User::find($id);
+    public function edit($id){
+        $user = User::withTrashed()->where('id', $id)->select(['id', 'name', 'email', 'status', 'age', 'phoneNumber', 'address',
+            'image_path', 'deleted_at'])->first();
         $roles = Role::pluck('name', 'name')->all();
-
 
         $userRoles = $user->roles->pluck('name', 'name')->all();
         return view('admin.users.edit', [
@@ -86,24 +143,25 @@ class UserController extends Controller
             'userRoles' => $userRoles
         ]);
     }
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'email' => 'email',
         ]);
 
-        $user = User::find($id);
+        $user = User::withTrashed()->where('id', $id)->select(['id', 'name', 'email', 'status', 'age', 'phoneNumber', 'address',
+            'image_path', 'deleted_at'])->first();
 
-        if($request->filled('filepath')) {
+        if ($request->filled('filepath')) {
             $image_path = $request->input('filepath');
             $image_path = explode('http://localhost:8000', $image_path)[1];
-        }else {
+        } else {
             $image_path = $user->image_path;
         }
 
         $user->update([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-//            'password' => bcrypt($request->input('password')),
             'age' => $request->input('age'),
             'address' => $request->input('address'),
             'phoneNumber' => $request->input('phoneNumber'),
@@ -117,97 +175,23 @@ class UserController extends Controller
 
         return redirect(UserController::USERS_PATH)->with('success', 'Cập nhật thành công');
     }
-    public function destroy($id, Request $request) {
-
-        if($request->filled('id')) {
-            DB::table('users')->where('id', $id)->delete();
-        }
-        $model = User::query()
-            ->select(['id', 'image_path', 'name', 'email', 'phoneNumber', 'status', 'address', 'age', 'created_at', 'updated_at'])
-            ->where('deleted_at','<>', 'null')
-            ->where('status', 4);
-
-        return DataTables::of($model)
-            ->editColumn('status', function ($user) {
-                if ($user->status == 1) {
-                    return 'Hoạt động';
-                } elseif ($user->status == 2) {
-                    return 'Không hoạt động';
-                } elseif ($user->status == 3) {
-                    return 'Đợi';
-                } else {
-                    return 'Xóa mềm';
-                }
-            })
-            ->addColumn('action', function ($user) use ($request) {
-                if ($request->filled('status')) {
-                    if ($user->status == 4) {
-                        return view('admin.users.action_delete', ['user' => $user]);
-                    }
-                    return view('admin.users.action', ['user' => $user]);
-                }else {
-                    return view('admin.users.action', ['user' => $user]);
-                }
-            })
-            ->addColumn('image_path', function ($row) {
-                return '<img class="img-thumbnail user-image-45" src="'.$row->image_path.'" alt="' . $row->name . '">';
-            })
-            ->addColumn('roles', function ($user) {
-                $roles = $user->getRoleNames()->map(function($roleName) {
-                    return '<label class="badge bg-primary mx-1">' . $roleName . '</label>';
-                })->implode(' ');
-
-                return '<td>' . $roles . '</td>';
-            })
-            ->rawColumns(['image_path', 'roles', 'action'])
-            ->make();
-    }
-
-    // soft user
-    public function softDelete(Request $request)
+    public function destroy($id)
     {
-        $model = User::query()
-            ->select(['id', 'image_path', 'name', 'email', 'phoneNumber', 'status', 'address', 'age', 'created_at', 'updated_at'])
-            ->whereNull('deleted_at')
-            ->where('status', '<>', 4);
-        if ($request->filled('user_id')) {
-            User::find($request->user_id)->update([
-                'deleted_at' => now(),
-                'status' => 4
-            ]);
+        $array_id = explode(',', $id);
+        $posts = User::withTrashed()->whereIn('id', $array_id)->get();
+        foreach ($posts as $post) {
+            if (is_null($post->deleted_at)) {
+                $post->update([
+                    'status' => 4
+                ]);
+                $post->delete();
+            } else {
+                $post->forceDelete();
+            }
         }
-
-        return DataTables::of($model)
-            ->editColumn('status', function ($user) {
-                $statusMessages = [
-                    1 => 'Hoạt động',
-                    2 => 'Không hoạt động',
-                    3 => 'Đợi',
-                    4 => 'Xóa mềm'
-                ];
-                return $statusMessages[$user->status];
-            })
-            ->addColumn('action', function ($user) use ($request) {
-                if ($request->filled('status')) {
-                    if ($user->status == 4) {
-                        return view('admin.users.action_delete', ['user' => $user]);
-                    }
-                    return view('admin.users.action', ['user' => $user]);
-                }else {
-                    return view('admin.users.action', ['user' => $user]);
-                }
-            })
-            ->addColumn('image_path', function ($row) {
-                return '<img class="img-thumbnail user-image-45" src="'.$row->image_path.'" alt="' . $row->name . '">';
-            })
-            ->addColumn('roles', function ($user) {
-                $roles = $user->getRoleNames()->map(function($roleName) {
-                    return '<label class="badge bg-primary mx-1">' . $roleName . '</label>';
-                })->implode(' ');
-
-                return '<td>' . $roles . '</td>';
-            })
-            ->rawColumns(['image_path', 'roles', 'action'])
-            ->make();
+        return response()->json([
+            'success' => true,
+            'message' => 'Thành công'
+        ]);
     }
 }

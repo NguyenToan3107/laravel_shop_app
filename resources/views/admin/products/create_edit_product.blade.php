@@ -6,7 +6,7 @@
             <h2 class="text-center mb-4">{{ isset($product) ? 'Cập nhật sản phẩm' : 'Tạo mới sản phẩm' }}</h2>
 
             @if(isset($product))
-                {{ Form::open(['route' => ['products.update', $product->slug], 'method' => 'PUT', 'id' => 'formMain', 'enctype' => 'multipart/form-data', 'files' => true]) }}
+                {{ Form::open(['route' => ['products.update', $product->id], 'method' => 'PUT', 'id' => 'formMain', 'enctype' => 'multipart/form-data', 'files' => true]) }}
             @else
                 {{ Form::open(['route' => 'products.store', 'method' => 'POST', 'id' => 'formMain', 'enctype' => 'multipart/form-data']) }}
             @endif

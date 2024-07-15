@@ -52,6 +52,7 @@
         <div class="row mb-4">
             <div class="col-md-12">
                 <h2 class="text-center">{{$product_attribute_set->name}}</h2>
+                <input type="hidden" name="" class="product_set_id" data-id="{{$product_attribute_set->id}}">
             </div>
         </div>
         @can('create-attribute')
@@ -69,7 +70,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <button class="product_attribute_set_create--lable btn btn-secondary">Thêm thuộc tính</button>
+                    <button type="submit" class="product_attribute_set_create--lable btn btn-secondary">Thêm thuộc tính</button>
                 </form>
             </div>
         @endcan
@@ -77,7 +78,18 @@
         <br>
         <div class="row">
             <div class="col-md-12">
-                {{ $dataTable->table()}}
+                <table id="product_attribute__by_set" class="table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" name="" id="select_all_ids_product_attribute_by_set"/></th>
+                        <th>Id</th>
+                        <th>Tên thuộc tính</th>
+                        <th>Giá trị</th>
+                        <th>Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -88,14 +100,34 @@
 @endsection
 
 @push('scripts')
-    {{ $dataTable->scripts() }}
-
     <script>
         $(document).ready(function() {
             $('.product_attribute').select2({
                 placeholder: "Chọn thuộc tính",
                 tags: "true",
             });
+
+            let product_set_id = $('.product_set_id').data('id');
+            console.log(product_set_id);
+
+            let datatable = $('#product_attribute__by_set').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/admin/product_attribute_sets/' + product_set_id + '/edit',
+                    type: 'GET',
+                },
+                scrollX: true,
+                order: [[1, 'asc']],
+                autoWidth: false,
+                columns: [
+                    {data: 'checkbox', name: 'checkbox', orderable: false, searchable: false},
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'value', name: 'value'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            })
         });
     </script>
 @endpush

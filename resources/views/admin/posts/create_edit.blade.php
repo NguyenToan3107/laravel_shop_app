@@ -6,7 +6,7 @@
             <h2 class="text-center mb-4">{{ isset($post) ? 'Cập nhật bài viết' : 'Tạo mới bài viết' }}</h2>
 
             @if(isset($post))
-                {{ Form::open(['route' => ['posts.update', $post->slug], 'method' => 'POST', 'id' => 'formMain_update', 'enctype' => 'multipart/form-data', 'files' => true]) }}
+                {{ Form::open(['route' => ['posts.update', $post->id], 'method' => 'POST', 'id' => 'formMain_update', 'enctype' => 'multipart/form-data', 'files' => true]) }}
                 @method('PUT')
             @else
                 {{ Form::open(['route' => 'posts.store', 'method' => 'POST', 'id' => 'formMain_create', 'enctype' => 'multipart/form-data']) }}

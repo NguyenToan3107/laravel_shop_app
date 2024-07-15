@@ -101,11 +101,10 @@
             <p>Tổng tiền: {{number_format($total_order * 1000, 0)}} đ</p>
         </div>
 
-        <div>
+        <div style="display: flex; flex-direction: row; justify-content: flex-end; gap: 10px">
             @can('create-order')
                 <a href="/admin/orders/create"
                    class="btn btn-primary margin_bottom_detail"
-                   style="margin-left: 680px"
                 >
                     <i class="fa-regular fa-square-plus"></i>
                     Tạo đơn hàng mới
@@ -117,15 +116,36 @@
                     In excel
                 </a>
             @endcan
+            @can('delete-order')
+                <a id="deleteAllSelectedOrder" class="btn btn-danger margin_bottom_detail">
+                    <i class="fa-solid fa-trash"></i>
+                    Xóa những mục đã chọn
+                </a>
+            @endcan
         </div>
         <div class="row">
             <div class="col-md-12">
-                {{ $dataTable->table()}}
+                <table id="orders-table" class="table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" name="" id="select_all_ids_orders"/></th>
+                        <th>Id</th>
+                        <th>Tên</th>
+                        <th>Số điện thoại</th>
+                        <th>Địa chỉ</th>
+                        <th>Khuyến mãi</th>
+                        <th>Giá</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày đặt</th>
+                        <th>Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    {{--    soft delete--}}
     <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -145,49 +165,183 @@
         </div>
     </div>
 
-    {{--  Hard delete  --}}
-    <div class="modal fade" id="trashModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Bạn có chắc muốn xóa không?</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    (Xóa sẽ không thể hoàn tác)
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" id="confirmDeleteButton_remove" class="btn btn-danger">Xóa</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Info -->
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Xóa Thành công</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Bạn đã xóa thành công!
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 @endsection
 
-{{--@push('scripts')--}}
-{{--    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}--}}
-{{--@endpush--}}
-
 @push('scripts')
-    {{ $dataTable->scripts() }}
+    <script>
+        $(document).ready(function () {
+            let datatable = $('#orders-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/admin/orders',
+                    type: 'GET',
+                    data: function (d) {
+                        d.fullname = $('#full_name_order').val();
+                        d.email = $('#email_order').val();
+                        d.phone = $('#phone_order').val();
+                        d.status = $('#status_order').val();
+                        d.started_at = $('#start_date').val();
+                        d.ended_at = $('#ended_date').val();
+                    }
+                },
+                scrollX: true,
+                order: [[7, 'asc']],
+                autoWidth: false,
+                columns: [
+                    {data: 'checkbox', name: 'checkbox', orderable: false, searchable: false},
+                    {data: 'id', name: 'id'},
+                    {data: 'fullname', name: 'fullname'},
+                    {data: 'phone', name: 'phone'},
+                    {data: 'address', name: 'address'},
+                    {data: 'percent_sale', name: 'percent_sale'},
+                    {data: 'price', name: 'price'},
+                    {data: 'status', name: 'status'},
+                    {data: 'updated_at', name: 'updated_at'},
+                    {data: 'action', name: 'action'}
+                ]
+            });
+
+            ///////////////// RESET ORDER
+            const reset_btn_order = document.getElementById('reset_btn_order')
+
+            if (reset_btn_order) {
+                reset_btn_order.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    document.getElementById('full_name_order').value = '';
+                    document.getElementById('email_order').value = '';
+                    document.getElementById('phone_order').value = '';
+                    document.getElementById('status_order').value = '';
+                    document.getElementById('start_date').value = '';
+                    document.getElementById('ended_date').value = '';
+
+                    datatable.draw('page')
+                });
+            }
+
+            ////////////////// SEARCH ORDER
+            $(document).on('submit', '#order_search_form', function (event) {
+                event.preventDefault();
+                datatable.ajax.reload();
+            })
+
+
+            ///////////////// DELETE ORDER
+            $(document).on('click', '.trash_button_order', function (event) {
+                event.preventDefault();
+                let order_id = $(this).val();
+                $('#deleteModal').modal('show')
+                $('#confirmDeleteButton_trash').val(order_id)
+            })
+
+            $('#confirmDeleteButton_trash').on('click', function (event) {
+                event.preventDefault();
+                let order_id = $(this).val();
+
+                $.ajax({
+                    url: `/admin/orders/` + order_id,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    error: function (xhr, status, error) {
+                        $('#deleteModal').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Đã xảy ra lỗi khi xóa đơn hàng",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: true,
+                            className: "toastify-custom toastify-error"
+                        }).showToast();
+
+                        datatable.draw('page')
+                    },
+                    success: function () {
+                        $('#deleteModal').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Xóa đơn hàng thành công",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            className: "toastify-custom toastify-success"
+                        }).showToast();
+
+                        datatable.draw('page')
+                    }
+                })
+            })
+
+            //////////////// DELETE MULTIPLE ORDER
+            $(document).on('click', '#select_all_ids_orders', function () {
+                $(".checkbox_ids_orders").prop('checked', $(this).prop('checked'));
+            });
+            $(document).on('click', '#deleteAllSelectedOrder', function (e) {
+                e.preventDefault();
+
+                let all_ids = []
+                $('input:checked[name=ids_order]:checked').each(function () {
+                    all_ids.push($(this).val())
+                })
+
+                all_ids = all_ids.join(',')
+
+                $.ajax({
+                    url: `/admin/orders/` + all_ids,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    error: function (xhr, status, error) {
+                        $('#deleteModal').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Đã xảy ra lỗi khi xóa đơn hàng",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: true,
+                            className: "toastify-custom toastify-error"
+                        }).showToast();
+
+                        datatable.draw('page')
+                    },
+                    success: function () {
+                        $('#deleteModal').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Xóa đơn hàng thành công",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            className: "toastify-custom toastify-success"
+                        }).showToast();
+
+                        datatable.draw('page')
+                    }
+                })
+
+            })
+        })
+    </script>
 @endpush

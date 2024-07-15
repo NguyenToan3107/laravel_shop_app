@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class ProductAttributeValueController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:create-attribute')->only('store');
+        $this->middleware('permission:delete-attribute')->only('destroy');
+    }
+
     public function store($id_attribute, Request $request) {
         $request->validate([
             'value' => 'required'

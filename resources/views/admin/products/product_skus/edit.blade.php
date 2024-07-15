@@ -38,6 +38,8 @@
         </div>
         <button type="submit" class="btn btn-primary">Cập nhật</button>
     </form>
+    <br>
+    <a style="float: right" class="btn btn-secondary" href="/admin/products/{{$product->id}}">Quay lại</a>
 @endsection
 
 

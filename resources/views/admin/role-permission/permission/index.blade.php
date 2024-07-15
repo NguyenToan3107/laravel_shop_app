@@ -44,7 +44,17 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        {{ $dataTable->table()}}
+{{--                        {{ $dataTable->table()}}--}}
+                        <table id="permissions-table" class="table">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Tên</th>
+                                <th>Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -52,7 +62,27 @@
     </div>
 @endsection
 
-
 @push('scripts')
-    {{ $dataTable->scripts() }}
+{{--    {{ $dataTable->scripts() }}--}}
+    <script>
+        $('#permissions-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '/admin/permissions',
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
+                },
+            },
+            scrollX: true,
+            order: [[0, 'asc']],
+            autoWidth: false,
+            columns: [
+                {data: 'id', name: 'id'},
+                {data: 'name', name: 'name'},
+                {data: 'action', name: 'action'}
+            ]
+        });
+    </script>
 @endpush

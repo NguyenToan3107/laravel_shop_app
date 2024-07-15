@@ -56,13 +56,43 @@
         <br>
         <div class="row">
             <div class="col-md-12">
-                {{ $dataTable->table()}}
+                <table id="product_attribute_set-table" class="table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" name="" id="select_all_ids_product_attribute_set"/></th>
+                        <th>Id</th>
+                        <th>Tên bộ thuộc tính</th>
+                        <th>Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
 @endsection
 
 @push('scripts')
-    {{ $dataTable->scripts() }}
+    <script>
+        $(document).ready(function () {
+            let datatable = $('#product_attribute_set-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/admin/product_attribute_sets',
+                    type: 'GET',
+                },
+                scrollX: true,
+                order: [[1, 'asc']],
+                autoWidth: false,
+                columns: [
+                    {data: 'checkbox', name: 'checkbox', orderable: false, searchable: false},
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            })
+        })
+    </script>
 @endpush
 

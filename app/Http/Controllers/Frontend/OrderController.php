@@ -49,6 +49,7 @@ class OrderController extends Controller
             'status' => 1,
             'price' => $total,
             'percent_sale' => 0,
+            'author_id' => auth()->id()
         ]);
 
         // create order detail

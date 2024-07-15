@@ -6,6 +6,7 @@ use App\DataTables\PermissionsDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
+use Yajra\DataTables\DataTables;
 
 class PermissionController extends Controller
 {
@@ -15,8 +16,19 @@ class PermissionController extends Controller
         $this->middleware('permission:delete-permission')->only('destroy');
         $this->middleware('permission:view-permission')->only('index');
     }
-    public function index(PermissionsDataTable $dataTable) {
-        return $dataTable->render('admin.role-permission.permission.index');
+
+    public function index() {
+        if(request()->ajax()) {
+            $model = Permission::query()->select(['id', 'name', 'created_at', 'updated_at']);
+            return DataTables::of($model)
+                ->addColumn('action', function ($permission) {
+                    return view('admin.role-permission.permission.action', ['permission' => $permission])->render();
+                })
+                ->rawColumns(['action'])
+                ->setRowId('id')
+                ->make(true);
+        }
+        return view('admin.role-permission.permission.index');
     }
     public function create() {
         return view('admin.role-permission.permission.create');
@@ -31,9 +43,6 @@ class PermissionController extends Controller
         ]);
 
         return redirect('admin/permissions')->with('status', 'Tạo mới thành công');
-    }
-    public function show($id) {
-
     }
     public function edit($id) {
         $permission = Permission::find($id);

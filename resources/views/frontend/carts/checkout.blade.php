@@ -24,7 +24,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Email</label>
-                    <input type="text" name="email" class="form-control" id="" required>
+                    <input type="text" name="email" class="form-control" id="">
                 </div>
                 <div class="mb-3">
                     <label for="" class="form-label">Số điện thoại*</label>

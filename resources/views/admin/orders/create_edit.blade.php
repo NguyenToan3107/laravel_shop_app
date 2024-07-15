@@ -88,14 +88,26 @@
             @endif
 
             <br>
-{{--            @if(isset($order))--}}
-{{--                <div class="row">--}}
-{{--                    <div class="col-md-12">--}}
-{{--                        {{ $dataTable->table()}}--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <br>--}}
-{{--            @endif--}}
+            @if(isset($order))
+                <div class="row">
+                    <div class="col-md-12">
+                        <table id="orderdetails-table" class="table">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá tiền</th>
+                                <th>Số lượng</th>
+                                <th>Khuyến mãi</th>
+                                <th>Tổng giá</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
             <div class="form-group">
                 {{ Form::label('percent_sale', 'Khuyến mãi') }}
                 {{ Form::text('percent_sale', $order->percent_sale ?? '', ['class' => 'form-control', 'id' => 'percent_sale', 'required']) }}
@@ -117,7 +129,38 @@
     </div>
 @endsection
 
-{{--@push('scripts')--}}
-{{--    {{ $dataTable->scripts() }}--}}
-{{--@endpush--}}
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            let order_update_id = $('#order_update_id').val()
+
+            console.log(order_update_id)
+
+            $('#orderdetails-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/admin/orders/' + order_update_id + '/edit',
+                    type: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
+                    },
+                },
+                scrollX: true,
+                order: [[0, 'asc']],
+                autoWidth: false,
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'image', name: 'fullname'},
+                    {data: 'product_title', name: 'phone'},
+                    {data: 'product_price', name: 'address'},
+                    {data: 'quantity', name: 'percent_sale'},
+                    {data: 'product_percent_sale', name: 'price'},
+                    {data: 'total', name: 'status'},
+                ]
+            });
+        })
+
+    </script>
+@endpush
 

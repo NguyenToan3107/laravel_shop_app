@@ -17,7 +17,8 @@ class HomeController extends Controller
 
         $products_top_rated = Product::take(5)->orderBy('total_order', 'desc')->get();
 
-        $product_trending = Product::take(5)->inRandomOrder()->get();
+//        $product_trending = Product::take(5)->inRandomOrder()->get();
+        $product_trending = Product::take(5)->orderBy('total_view', 'desc')->get();
 
         if ($request->has('titlesearch')) {
             $items = Product::search($request->titlesearch)

@@ -18,7 +18,8 @@ class ProductDetailController extends Controller
     public function index($slug, Request $request)
     {
         $product = Product::where('slug', $slug)
-            ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id', 'slug', 'price_old', 'description', 'content', 'product_attribute_set_id')->first();
+            ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id', 'slug', 'price_old', 'description', 'content', 'product_attribute_set_id', 'total_view')->first();
+
 
         $product_images = $product->product_images;
 
@@ -51,6 +52,16 @@ class ProductDetailController extends Controller
         $product_skus = $product->skus;
 
         $product_attributes = $product->product_attribute_set->attributes;
+
+        // đếm số lượt truy cập
+        $productKeyView = 'product_' . $product->slug;
+        if(!$request->session()->has($productKeyView)) {
+            $product->update([
+                'total_view' => $product->total_view + 1,
+            ]);
+            $request->session()->put($productKeyView, 1);
+        }
+
         return view('frontend.product_detail.index',
             [
                 'product' => $product,

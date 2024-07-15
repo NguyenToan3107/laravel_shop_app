@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h1>Đơn hàng số #{{ $order->id }}</h1>
+        <h1 class="order_detail_id" data-id="{{$order->id}}">Đơn hàng số #{{ $order->id }}</h1>
         <h2>Chi tiết nội dung đơn hàng</h2>
         <div class="order_info">
             <div class="order_info--user">
@@ -31,7 +31,21 @@
         @endcan
         <div class="row">
             <div class="col-md-12">
-                {{ $dataTable->table()}}
+{{--                {{ $dataTable->table()}}--}}
+                <table id="orderdetails-table" class="table">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Ảnh</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá tiền</th>
+                        <th>Số lượng</th>
+                        <th>Khuyến mãi</th>
+                        <th>Tổng giá</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
 
@@ -59,5 +73,35 @@
 @endsection
 
 @push('scripts')
-    {{ $dataTable->scripts() }}
+{{--    {{ $dataTable->scripts() }}--}}
+<script>
+    $(document).ready(function () {
+        let order_detail_id = $('.order_detail_id').data('id')
+
+        $('#orderdetails-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '/admin/orders/' + order_detail_id,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Thêm CSRF token vào header
+                },
+            },
+            scrollX: true,
+            order: [[0, 'asc']],
+            autoWidth: false,
+            columns: [
+                {data: 'id', name: 'id'},
+                {data: 'image', name: 'fullname'},
+                {data: 'product_title', name: 'phone'},
+                {data: 'product_price', name: 'address'},
+                {data: 'quantity', name: 'percent_sale'},
+                {data: 'product_percent_sale', name: 'price'},
+                {data: 'total', name: 'status'},
+            ]
+        });
+    })
+
+</script>
 @endpush
