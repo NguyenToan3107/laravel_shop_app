@@ -144,6 +144,28 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="deleteMultipleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Bạn có chắc muốn xóa không?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    (Hãy vào thùng rác để xóa nếu như bạn muốn chắc chắn xóa)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    @can('delete-post')
+                        <button type="button" id="confirmDeleteButton_trash_multiple" class="btn btn-danger">Xóa</button>
+                    @endcan
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
@@ -176,20 +198,6 @@
                     {data: 'status', name: 'status'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
-                // language: {
-                //     "decimal":        "",
-                //     "emptyTable":     "Không có dữ liệu",
-                //     "info":           "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                //     "infoEmpty":      "Hiển thị 0 đến 0 của 0 mục",
-                //     "infoFiltered":   "(đã lọc từ _MAX_ tổng số mục)",
-                //     "infoPostFix":    "",
-                //     "thousands":      ",",
-                //     "lengthMenu":     "Hiển thị _MENU_ mục",
-                //     "loadingRecords": "Đang tải...",
-                //     "processing":     "Đang xử lý...",
-                //     "search":         "Tìm kiếm:",
-                //     "zeroRecords":    "Không tìm thấy mục nào phù hợp",
-                // },
             });
 
             ///////////////////////// RESET POST
@@ -215,7 +223,6 @@
                 $('#deleteModal').modal('show')
                 $('#confirmDeleteButton_trash').val(id)
             })
-
             $('#confirmDeleteButton_trash').on('click', function (event) {
                 event.preventDefault();
                 let id = $(this).val();
@@ -264,31 +271,37 @@
                     }
                 });
             });
-            //////////////////////////
+
 
             /////////////// DELETE MULTIPLE
             $(document).on('click', '#select_all_ids', function () {
                 $(".checkbox_ids").prop('checked', $(this).prop('checked'));
             });
-
-            $(document).on('click', '#deleteAllSelectedPost', function (e) {
-                e.preventDefault();
-
+            $(document).on('click', '#deleteAllSelectedPost', function (event) {
+                event.preventDefault();
                 let all_ids = []
                 $('input:checked[name=ids_post]:checked').each(function () {
                     all_ids.push($(this).val())
                 })
 
                 all_ids = all_ids.join(",")
-                console.log(all_ids);
+                $('#deleteMultipleModal').modal('show')
+                $('#confirmDeleteButton_trash_multiple').val(all_ids)
+            })
+            $(document).on('click', '#confirmDeleteButton_trash_multiple', function (e) {
+                e.preventDefault();
+
+                let id = $(this).val();
+                console.log(id);
 
                 $.ajax({
-                    url: `/admin/posts/` + all_ids,
+                    url: `/admin/posts/` + id,
                     type: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     error: function (xhr, status, error) {
+                        $('#deleteMultipleModal').modal('hide')
                         let existingToast = document.querySelector(".toastify");
                         if (existingToast) {
                             existingToast.remove();
@@ -306,6 +319,7 @@
                         datatable.draw(false)
                     },
                     success: function () {
+                        $('#deleteMultipleModal').modal('hide')
                         let existingToast = document.querySelector(".toastify");
                         if (existingToast) {
                             existingToast.remove();

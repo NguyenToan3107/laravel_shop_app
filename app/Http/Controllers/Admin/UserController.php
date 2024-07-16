@@ -42,7 +42,6 @@ class UserController extends Controller
             if ($request->filled('address')) {
                 $model = $model->where('address', 'like', '%' . $request->address . '%');
             }
-
             if ($request->filled('age')) {
                 $model = $model->where('age', 'like', '%' . $request->age . '%');
             }

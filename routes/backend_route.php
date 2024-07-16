@@ -52,9 +52,11 @@ Route::prefix('/admin')->group(function () {
 
     ////////////////////////// PRODUCT ATTRIBUTE VALUE
     Route::middleware('auth')->group(function () {
-        Route::post('/product_attributes/{id_attribute}/product_attribute_value', [ProductAttributeValueController::class, 'store'])
+        Route::post('/product_attributes/{id_attribute}/product_attribute_value',
+            [ProductAttributeValueController::class, 'store'])
             ->name('product_attributes.store');
-        Route::delete('/product_attributes/{id_attribute}/product_attribute_value/{id}', [ProductAttributeValueController::class, 'destroy']);
+        Route::delete('/product_attributes/{id_attribute}/product_attribute_value/{id}',
+            [ProductAttributeValueController::class, 'destroy']);
     });
 
     ////////////////////////// PRODUCT ATTRIBUTE SET
@@ -64,9 +66,6 @@ Route::prefix('/admin')->group(function () {
         Route::get('/product_attribute_sets/{id}/edit', [ProductAttributeSetController::class, 'edit']);
         Route::post('/product_attribute_sets/{id}', [ProductAttributeSetController::class, 'update']);
         Route::delete('/product_attribute_sets/{id}', [ProductAttributeSetController::class, 'destroy']);
-
-        Route::delete('/product_attribute_sets/{id_attribute_set}/product_attribute/{id_attribute}',
-            [ProductAttributeSetController::class, 'deleteAttribute']);
     });
 
     ////////////////////////// PRODUCT SKUS

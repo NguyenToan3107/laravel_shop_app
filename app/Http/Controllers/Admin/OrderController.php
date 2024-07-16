@@ -107,6 +107,7 @@ class OrderController extends Controller
     public function show($id, Request $request)
     {
         $order = Order::with(['orderDetails.products', 'orderDetails.user'])
+            ->withTrashed()
             ->select('id', 'fullname', 'phone', 'address', 'price', 'percent_sale', 'author_id')
             ->findOrFail($id);
 

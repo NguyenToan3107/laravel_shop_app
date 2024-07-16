@@ -130,6 +130,7 @@
         </div>
     </div>
 
+    {{--  Delete one  --}}
     <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -144,6 +145,26 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                     <button type="button" id="confirmDeleteButton_trash" class="btn btn-danger">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{--  Delete multiple  --}}
+    <div class="modal fade" id="delete_multiple_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Bạn có chắc muốn xóa không?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    (Hãy vào thùng rác để xóa nếu như bạn muốn chắc chắn xóa)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" id="confirmDeleteMultipleButton_trash" class="btn btn-danger">Xóa</button>
                 </div>
             </div>
         </div>
@@ -248,7 +269,6 @@
                 $('#deleteModal').modal('show')
                 $('#confirmDeleteButton_trash').val(id)
             })
-
             $('#confirmDeleteButton_trash').on('click', function (event) {
                 event.preventDefault();
                 let id = $(this).val();
@@ -301,24 +321,31 @@
             $(document).on('click', '#select_all_ids_products', function () {
                 $(".checkbox_ids_products").prop('checked', $(this).prop('checked'));
             });
-
-            $(document).on('click', '#deleteAllSelectedProduct', function (e) {
-                e.preventDefault();
+            $(document).on('click', '#deleteAllSelectedProduct', function (event) {
+                event.preventDefault();
 
                 let all_ids = []
                 $('input:checked[name=ids_product]:checked').each(function () {
                     all_ids.push($(this).val())
                 })
-
                 all_ids = all_ids.join(',')
 
+                $('#delete_multiple_modal').modal('show')
+                $('#confirmDeleteMultipleButton_trash').val(all_ids)
+            })
+            $(document).on('click', '#confirmDeleteMultipleButton_trash', function (e) {
+                e.preventDefault();
+
+                let id = $(this).val();
+
                 $.ajax({
-                    url: `/admin/products/` + all_ids,
+                    url: `/admin/products/` + id,
                     type: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     error: function (xhr, status, error) {
+                        $('#delete_multiple_modal').modal('hide')
                         let existingToast = document.querySelector(".toastify");
                         if (existingToast) {
                             existingToast.remove();
@@ -336,6 +363,7 @@
                         datatable.draw(false)
                     },
                     success: function () {
+                        $('#delete_multiple_modal').modal('hide')
                         let existingToast = document.querySelector(".toastify");
                         if (existingToast) {
                             existingToast.remove();

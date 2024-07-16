@@ -163,8 +163,8 @@
         </div>
     </div>
 
-    {{--  Hard delete  --}}
-    <div class="modal fade" id="trashModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    {{--  Multiple delete  --}}
+    <div class="modal fade" id="trashModal_multiple" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -173,32 +173,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    (Xóa sẽ không thể hoàn tác)
+                    (Hãy vào thùng rác để xóa nếu như bạn muốn chắc chắn xóa)
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" id="confirmDeleteButton_remove" class="btn btn-danger">Xóa</button>
+                    <button type="button" id="confirmDeleteButton_remove_multiple" class="btn btn-danger">Xóa</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Modal Info -->
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Xóa Thành công</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Bạn đã xóa thành công!
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 @endsection
 
@@ -328,7 +312,6 @@
             $(document).on('click', '#select_all_ids_users', function () {
                 $(".checkbox_ids_users").prop('checked', $(this).prop('checked'));
             });
-
             $(document).on('click', '#deleteAllSelectedUser', function (e) {
                 e.preventDefault();
 
@@ -339,13 +322,22 @@
 
                 all_ids = all_ids.join(",")
 
+                $('#trashModal_multiple').modal('show')
+                $('#confirmDeleteButton_remove_multiple').val(all_ids)
+            })
+            $(document).on('click', '#confirmDeleteButton_remove_multiple', function (e) {
+                e.preventDefault();
+
+                let user_id = $(this).val();
+
                 $.ajax({
-                    url: `/admin/users/` + all_ids,
+                    url: `/admin/users/` + user_id,
                     type: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     error: function (xhr, status, error) {
+                        $('#trashModal_multiple').modal('hide')
                         let existingToast = document.querySelector(".toastify");
                         if (existingToast) {
                             existingToast.remove();
@@ -363,6 +355,7 @@
                         datatable.draw(false)
                     },
                     success: function () {
+                        $('#trashModal_multiple').modal('hide')
                         let existingToast = document.querySelector(".toastify");
                         if (existingToast) {
                             existingToast.remove();

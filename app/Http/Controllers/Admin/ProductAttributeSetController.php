@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\DataTables\Product_Attribute_By_SetDataTable;
-use App\DataTables\ProductAttributeDataTable;
-use App\DataTables\ProductAttributeSetDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Product_Attribute;
 use App\Models\Product_Attribute_Set;
 use App\Models\Product_Attribute_Set_Attribute;
-use App\Models\Product_Sku;
 use App\Models\Product_Skus_Attribute_Value;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
 class ProductAttributeSetController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:create-attribute-set')->only('store');
+        $this->middleware('permission:edit-attribute-set')->only('update', 'edit');
+        $this->middleware('permission:delete-attribute-set')->only('destroy');
+        $this->middleware('permission:view-attribute-set')->only('index');
+    }
+
     public function index(Request $request) {
         if ($request->ajax()) {
             $model =  Product_Attribute_Set::select('id', 'name');
@@ -48,7 +52,6 @@ class ProductAttributeSetController extends Controller
 
         return redirect()->back()->with('success', 'Tạo bộ thuộc tính thành công!');
     }
-
     public function edit($id, Request $request) {
         $product_attribute_set = Product_Attribute_Set::with('attributes')
             ->where('id', $id)
@@ -123,22 +126,17 @@ class ProductAttributeSetController extends Controller
         }
         return redirect()->back()->with('success', 'Thêm thuộc tính thành công!');
     }
-    public function destroy($id) {
-
-        return redirect()->back()->with('success', 'Thêm thuộc tính thành công!');
-    }
-
-    public function deleteAttribute($id_attribute_set, $id_attribute)
+    public function destroy($id)
     {
-        $product_set_attribute = Product_Attribute_Set_Attribute::where('attribute_set_id', $id_attribute_set)
-            ->where('attribute_id', $id_attribute)->first();
+        $product_set_attribute = Product_Attribute_Set_Attribute::where('attribute_set_id', $id)
+            ->where('attribute_id', request()->get('id_attribute'))->first();
 
-        $products = Product::where('product_attribute_set_id', $id_attribute_set)->get();
+        $products = Product::where('product_attribute_set_id', $id)->get();
 
         foreach ($products as $product) {
             $product_skus = $product->skus;
             foreach ($product_skus as $product_sku) {
-                $product_skus_attributes = $product_sku->attributeValues->where('attribute_id', $id_attribute);
+                $product_skus_attributes = $product_sku->attributeValues->where('attribute_id', response()->get('id_attribute'));
                 foreach ($product_skus_attributes as $product_sku_attribute) {
                     $product_sku_attribute_value = Product_Skus_Attribute_Value::where('attribute_value_id', $product_sku_attribute->id)->first();
                     $product_sku_attribute_value->delete();
@@ -149,8 +147,14 @@ class ProductAttributeSetController extends Controller
         if(isset($product_set_attribute)) {
             $product_set_attribute->delete();
         }else {
-            return redirect()->back()->with('error', 'Xóa thuộc tính thất bại');
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'Thất bại'
+            ]);
         }
-        return redirect()->back()->with('success', 'Xóa thuộc tính thành công');
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Thành công'
+        ]);
     }
 }

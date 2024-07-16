@@ -144,9 +144,6 @@ $(document).ready(function () {
 });
 
 
-////////////////////////////// PRUDUCT DETAIL ////////////////////
-
-
 //////////////////////////////// RESPONSIVE //////////////////////
 
 document.querySelector('.menu-toggle').addEventListener('click', function () {
@@ -259,7 +256,6 @@ $(document).ready(function () {
         })
     })
 })
-
 
 // các category con khi được click sẽ tìm những sản pham liên quan đến nó
 $(document).ready(function () {
@@ -439,8 +435,6 @@ $(document).ready(function () {
 //     );
 // });
 
-
-
 $(document).ready(function () {
     $(document).on('click', '.category_parent--item', function (e) {
         e.preventDefault();
@@ -459,9 +453,6 @@ $(document).ready(function () {
         })
     })
 })
-
-
-
 
 
 

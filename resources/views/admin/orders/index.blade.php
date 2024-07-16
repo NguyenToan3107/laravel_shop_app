@@ -146,6 +146,7 @@
         </div>
     </div>
 
+    {{--  Delete One  --}}
     <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -165,6 +166,25 @@
         </div>
     </div>
 
+    {{--  Delete Multiple  --}}
+    <div class="modal fade" id="delete_multiple_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Bạn có chắc muốn xóa không?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    (Hãy vào thùng rác để xóa nếu như bạn muốn chắc chắn xóa)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" id="confirmDeleteMultiple_trash" class="btn btn-danger">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -225,7 +245,6 @@
                 datatable.ajax.reload();
             })
 
-
             ///////////////// DELETE ORDER
             $(document).on('click', '.trash_button_order', function (event) {
                 event.preventDefault();
@@ -233,7 +252,6 @@
                 $('#deleteModal').modal('show')
                 $('#confirmDeleteButton_trash').val(order_id)
             })
-
             $('#confirmDeleteButton_trash').on('click', function (event) {
                 event.preventDefault();
                 let order_id = $(this).val();
@@ -287,24 +305,31 @@
             $(document).on('click', '#select_all_ids_orders', function () {
                 $(".checkbox_ids_orders").prop('checked', $(this).prop('checked'));
             });
-            $(document).on('click', '#deleteAllSelectedOrder', function (e) {
-                e.preventDefault();
+            $(document).on('click', '#deleteAllSelectedOrder', function (event) {
+                event.preventDefault();
 
                 let all_ids = []
                 $('input:checked[name=ids_order]:checked').each(function () {
                     all_ids.push($(this).val())
                 })
-
                 all_ids = all_ids.join(',')
 
+                $('#delete_multiple_modal').modal('show')
+                $('#confirmDeleteMultiple_trash').val(all_ids)
+            })
+            $(document).on('click', '#confirmDeleteMultiple_trash', function (e) {
+                e.preventDefault();
+
+                let order_id = $(this).val();
+
                 $.ajax({
-                    url: `/admin/orders/` + all_ids,
+                    url: `/admin/orders/` + order_id,
                     type: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     error: function (xhr, status, error) {
-                        $('#deleteModal').modal('hide')
+                        $('#delete_multiple_modal').modal('hide')
                         let existingToast = document.querySelector(".toastify");
                         if (existingToast) {
                             existingToast.remove();
@@ -322,7 +347,7 @@
                         datatable.draw('page')
                     },
                     success: function () {
-                        $('#deleteModal').modal('hide')
+                        $('#delete_multiple_modal').modal('hide')
                         let existingToast = document.querySelector(".toastify");
                         if (existingToast) {
                             existingToast.remove();

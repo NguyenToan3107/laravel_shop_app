@@ -96,7 +96,7 @@ class ProductController extends Controller
     }
     public function show($id, Request $request)
     {
-        $product = Product::where('id', $id)
+        $product = Product::withTrashed()->where('id', $id)
             ->select('id', 'content', 'description', 'price', 'price_old', 'percent_sale', 'status', 'created_at', 'updated_at', 'slug', 'image', 'title',
                     'category_id', 'product_attribute_set_id')
             ->firstOrFail();
@@ -214,7 +214,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product_attribute_sets = Product_Attribute_Set::select('id', 'name')->get();
-        $product = Product::where('id', $id)->first();
+        $product = Product::withTrashed()->where('id', $id)->first();
         $product_attribute_set = $product->product_attribute_set;
 
         $category = Category::find($product->category_id);

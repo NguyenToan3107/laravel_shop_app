@@ -97,6 +97,26 @@
     <br>
     <br>
     <button class="btn btn-secondary"><a style="color: white" href="/admin/product_attribute_sets">Quay lại</a></button>
+
+    {{-- Model delete --}}
+    <div class="modal fade" id="deleteSet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Bạn có chắc muốn xóa không?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    (Hãy vào thùng rác để xóa nếu như bạn muốn chắc chắn xóa)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" id="confirmDeleteSet_trash" class="btn btn-danger">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -128,6 +148,72 @@
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ]
             })
+
+            $(document).on('click', '.delete_product_attribute_set', function (e) {
+                e.preventDefault()
+                let id_set = $(this).data('set');
+                let id_attr = $(this).data('attr');
+                $('#deleteSet').modal('show')
+                $('#confirmDeleteSet_trash').val(id_set + ',' + id_attr)
+            })
+
+            $(document).on('click', '#confirmDeleteSet_trash', function (e) {
+                e.preventDefault()
+                let value = $(this).val(); // Get the value from the element
+                let idArray = value.split(',');
+
+                let id_attribute_set = idArray[0]
+                let id_attribute = idArray[1]
+
+                $.ajax({
+                    url: '/admin/product_attribute_sets/' + id_attribute_set,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        id_attribute: id_attribute
+                    },
+                    error: function (xhr, status, error) {
+                        $('#deleteSet').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Đã xảy ra lỗi khi xóa sản phẩm",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: true,
+                            className: "toastify-custom toastify-error"
+                        }).showToast();
+
+                        datatable.draw(false)
+                    },
+                    success: function () {
+                        $('#deleteSet').modal('hide')
+                        let existingToast = document.querySelector(".toastify");
+                        if (existingToast) {
+                            existingToast.remove();
+                        }
+                        Toastify({
+                            text: "Xóa thành công",
+                            duration: 2000,
+                            close: true,
+                            gravity: "top", // `top` or `bottom`
+                            position: "right", // `left`, `center` or `right`
+                            stopOnFocus: true, // Prevents dismissing of toast on hover
+                            className: "toastify-custom toastify-success"
+                        }).showToast();
+
+                        datatable.draw(false)
+                    }
+                })
+
+            })
+
         });
     </script>
 @endpush
