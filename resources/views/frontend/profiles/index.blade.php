@@ -1,5 +1,7 @@
 @extends('frontend.layouts.app')
 
+@section('title', 'Hồ sơ')
+
 @section('content')
     <div class="detail_nav">
         <a href="/">Trang chủ</a>
@@ -51,7 +53,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-secondary">Hủy</button>
-                <button type="submit" class="btn btn-danger">Lưu</button>
+                <button style="margin-left: 6px;" type="submit" class="btn btn-danger">Lưu</button>
             </form>
         </div>
     </div>

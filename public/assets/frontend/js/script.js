@@ -455,4 +455,25 @@ $(document).ready(function () {
 })
 
 
+// Khi tài liệu được tải hoàn tất
+document.addEventListener('DOMContentLoaded', function() {
+    var scrollToTopBtn = document.querySelector('#scrollToTopBtn');
+
+    // Hiển thị nút khi người dùng cuộn xuống 300px
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 500) {
+            scrollToTopBtn.style.display = 'block';
+        } else {
+            scrollToTopBtn.style.display = 'none';
+        }
+    });
+
+    // Gán hàm scrollToTop cho sự kiện click của nút
+    scrollToTopBtn.addEventListener('click', function () {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Cuộn mượt
+        });
+    });
+});
 

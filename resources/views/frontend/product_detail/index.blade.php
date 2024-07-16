@@ -1,5 +1,7 @@
 @extends('frontend.layouts.app')
 
+@section('title', $product->title)
+
 @section('content')
     <div id="overlay">
         <div class="cv-spinner">
@@ -19,14 +21,22 @@
             <div class="product-detail_subimg">
                 @foreach($product_images as $product_image)
                     <div class="product-detail_subimg--detail">
-                        <img src="{{$product_image->image_url}}" alt="">
+                        <img src="{{$product_image->image_url}}" alt="" id="subImage">
                     </div>
                 @endforeach
 
             </div>
+{{--            <div class="product-detail_img">--}}
+{{--                <img src="{{$product->image}}" alt="{{$product->title}}" id="mainImage">--}}
+{{--            </div>--}}
+
+{{--                <img src="{{$product->image}}" alt="{{$product->title}}" id="mainImage">--}}
             <div class="product-detail_img">
-                <img src="{{$product->image}}" alt="{{$product->title}}">
+                <a href="{{$product->image}}" class="image-link">
+                    <img src="{{$product->image}}" alt="{{$product->title}}" id="mainImage">
+                </a>
             </div>
+
         </div>
         <div class="product-detail_info">
             <h3>{{$product->title}}</h3>
@@ -88,7 +98,9 @@
                         <input type="number" class="form-control" value="0" style="width: 80px;">
                         <span class="input-group-text icon-hidden"><i class="fa-solid fa-plus"></i></span>
                     </div>
-                    <button type="submit" class="btn btn-danger product_cart--button" value="{{$product->id}}">Thêm vào giỏ hàng</button>
+                    <button type="submit" class="btn btn-danger product_cart--button" value="{{$product->id}}">Thêm vào
+                        giỏ hàng
+                    </button>
                     <button type="button" class="btn btn-secondary"><i class="fa-regular fa-heart"></i></button>
                 </div>
             </form>
@@ -142,3 +154,47 @@
 
     @include('frontend.layouts.content.product.list_product')
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+
+            // ckick sub image change main image
+            $(document).on('click', '#subImage', function () {
+                let mainImage = $('#mainImage');
+                let subImageSrc = $(this).attr('src');
+                let mainImageSrc = mainImage.attr('src');
+
+                mainImage.attr('src', subImageSrc);
+                $(this).attr('src', mainImageSrc);
+            });
+
+            // click product skus then add active css
+            $(document).on('click', '.product_skus--item', function () {
+                $('.product_skus--item').removeClass('active');
+
+                $(this).addClass('active');
+            })
+
+            $('.image-link').magnificPopup({
+                type: "image",
+                gallery: {
+                    enabled: true,
+                },
+                image: {
+                    verticalFit: true // Đảm bảo ảnh fit theo chiều dọc
+                },
+                imageLoadComplete: function() {
+                    // Đảm bảo rằng ảnh đã nạp xong trước khi thay đổi kích thước
+                    setTimeout(function() {
+                        $('.mfp-img').css({
+                            'max-height': '80vh', // Chiều cao tối đa là 80% chiều cao màn hình
+                            'max-width': '80vw'   // Chiều rộng tối đa là 80% chiều rộng màn hình
+                        });
+                    }, 10); // Đặt một khoảng thời gian ngắn để chắc chắn ảnh đã nạp
+                }
+
+            });
+        });
+    </script>
+@endpush

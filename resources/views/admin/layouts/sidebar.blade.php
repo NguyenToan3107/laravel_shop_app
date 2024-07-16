@@ -53,7 +53,7 @@
                 </li>
             @endif
 
-            @if(Auth::user()->can('view-product'))
+            @if(Auth::user()->can('view-attribute-set'))
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#product_attribute_set"
                        aria-expanded="false" aria-controls="pages">
@@ -135,6 +135,19 @@
                     </ul>
                 </li>
             @endcan
+
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#settings"
+                   aria-expanded="false" aria-controls="auth">
+                    <i class="fa-solid fa-gear"></i>
+                    Setting
+                </a>
+                <ul id="settings" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                    <li class="sidebar-item">
+                        <a href="/admin/settings" class="sidebar-link">--Cấu hình chung</a>
+                    </li>
+                </ul>
+            </li>
 
             <br>
             <br>

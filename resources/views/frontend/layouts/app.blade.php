@@ -7,10 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Anon - eCommerce Website</title>
+    {{--  Logo  --}}
+{{--    <link rel="icon" type="image/png" href="{{ asset('images/logo-vizion.jpg') }}">--}}
+    <title>@yield('title', 'Exclusive - Điện thoại, Laptop, Tai nghe,...')</title>
+    <link rel="icon" type="image/jpeg" href="{{ asset(url(config('app.frontend_logo'))) }}">
 
     {{--  AJAX  --}}
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     {{--favicon--}}
@@ -41,7 +43,6 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
 
     {{--  slide swiper  --}}
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
@@ -49,17 +50,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 
 
+    {{-- Magnific Popup core CSS file --}}
+    <link rel="stylesheet" href="{{asset('assets/frontend/css/magnific-popup.css')}}">
+    <script src="{{asset('assets/frontend/js/magnific-popup.js')}}" defer></script>
 
     @stack('style')
-
-
 </head>
 
 <body>
 
 {{-- TOP HEADER --}}
 <div class="header_top">
-    <p>Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%! <span style="margin-left: 10px">ShopNow</span></p>
+    <p>Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%! <span
+            style="margin-left: 10px">ShopNow</span></p>
 
     <select class="select_language" aria-label="Small select example">
         <option value="1">English</option>
@@ -75,9 +78,11 @@
     @yield('content')
 </div>
 
-@include('frontend.layouts.footer.footer')
+<button id="scrollToTopBtn" title="Cuộn lên đầu trang">
+    <i class="fa-solid fa-arrow-up"></i>
+</button>
 
-{{--@stack('scripts')--}}
+@include('frontend.layouts.footer.footer')
 
 <script src="{{asset('assets/frontend/js/script.js')}}"></script>
 <!--

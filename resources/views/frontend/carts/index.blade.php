@@ -1,5 +1,7 @@
 @extends('frontend.layouts.app')
 
+@section('title', 'Giỏ hàng')
+
 @section('content')
 
     @if(session('success'))

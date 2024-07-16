@@ -1,5 +1,7 @@
 @extends('frontend.layouts.app')
 
+@section('title', 'Danh sách bài viết')
+
 @section('content')
     <div class="post_header">
         <p>Các bài viết về sản phẩm</p>

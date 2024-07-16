@@ -39,9 +39,9 @@ Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart']);
 Route::post('/update-to-cart/{id}', [CartController::class, 'updateToCart']);
 Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart']);
 
+
 Route::get('/checkout', [OrderController::class, 'index']);
 Route::post('/orders', [OrderController::class, 'store']);
-
 Route::get('/contact', [ContactController::class, 'index']);
 
 
@@ -53,6 +53,7 @@ Route::middleware(['web'])->group(function () {
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile', [ProfileController::class, 'index']);
 });
+
 
 Route::get('/admin/orders/export', [\App\Http\Controllers\Admin\OrderController::class, 'export'])
     ->middleware('auth');

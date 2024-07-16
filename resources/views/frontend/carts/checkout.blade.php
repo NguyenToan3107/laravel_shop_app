@@ -1,5 +1,7 @@
 @extends('frontend.layouts.app')
 
+@section('title', 'Tiến hành thanh toán')
+
 @section('content')
 
     <div class="detail_nav">

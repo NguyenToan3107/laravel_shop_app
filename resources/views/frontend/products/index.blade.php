@@ -1,5 +1,7 @@
 @extends('frontend.layouts.app')
 
+@section('title', 'Exclusive - Trang thông tin sản phẩm')
+
 @section('content')
     @if(session('success'))
         <script>

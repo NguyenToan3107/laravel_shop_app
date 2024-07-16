@@ -74,7 +74,6 @@ class PostController extends Controller
         }
         return view('admin.posts.index');
     }
-
     public function create()
     {
         $users = User::query()
@@ -93,7 +92,6 @@ class PostController extends Controller
             'users' => $usersWithPermission
         ]);
     }
-
     public function store(Request $request)
     {
         if ($request->filled('filepath')) {
@@ -121,7 +119,6 @@ class PostController extends Controller
 
         return redirect(PostController::POSTS_PATH)->with('success', 'Tạo bài thành công');
     }
-
     public function edit($id)
     {
         $post = Post::select(['id', 'title', 'image', 'description', 'content', 'author_id', 'status', 'created_at', 'updated_at', 'slug'])
@@ -141,7 +138,6 @@ class PostController extends Controller
             'user' => $user
         ]);
     }
-
     public function update(Request $request, $id)
     {
 
@@ -170,7 +166,6 @@ class PostController extends Controller
 
         return redirect(PostController::POSTS_PATH)->with('success', 'Cập nhật bài viết thành công');
     }
-
     public function destroy($id)
     {
         $array_id = explode(',', $id);

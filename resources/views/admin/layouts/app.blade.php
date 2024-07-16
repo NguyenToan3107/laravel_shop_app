@@ -82,8 +82,8 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <title>Document</title>
-
+    <title>@yield('title', 'Trang chủ')</title>
+    <link rel="icon" type="image/jpeg" href="{{ asset(url(config('app.admin_logo'))) }}">
 </head>
 <body>
 <div class="wrapper">

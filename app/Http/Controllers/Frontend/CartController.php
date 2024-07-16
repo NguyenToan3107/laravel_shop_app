@@ -11,7 +11,6 @@ class CartController extends Controller
 {
     public function index()
     {
-//        $carts = json_decode(Cookie::get('cart'));
         $carts = json_decode(Cookie::get('cart', '[]'), true);
         $price = 0;
         if ($carts) {

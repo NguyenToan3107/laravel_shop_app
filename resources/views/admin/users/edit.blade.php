@@ -1,5 +1,7 @@
 @extends('admin.layouts.app')
 
+@section('title', 'Cập nhật người dùng')
+
 @section('content')
     <div class="container mt-5 d-flex justify-content-center margin_bottom_detail">
         <div class="border_create w-100">

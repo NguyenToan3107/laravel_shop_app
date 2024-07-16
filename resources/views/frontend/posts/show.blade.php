@@ -1,5 +1,7 @@
 @extends('frontend.layouts.app')
 
+@section('title', $post->title)
+
 @section('content')
     <div class="post_detail--header">
         <p class="post_detail--title">{{$post->title}}</p>

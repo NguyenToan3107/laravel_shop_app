@@ -1,5 +1,7 @@
 @extends('admin.layouts.app')
 
+@section('title', 'Đơn đặt hàng')
+
 @section('content')
 
     @if(session('success'))

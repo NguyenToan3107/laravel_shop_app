@@ -1,5 +1,7 @@
 @extends('admin.layouts.app')
 
+@section('title', 'Đơn đặt ' . ucwords($user->name))
+
 @section('content')
     <div class="container">
         <h1 class="order_detail_id" data-id="{{$order->id}}">Đơn hàng số #{{ $order->id }}</h1>

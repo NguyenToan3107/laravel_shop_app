@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductSkusController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -140,6 +141,12 @@ Route::prefix('/admin')->group(function () {
         Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
         Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
         Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+    });
+
+    /////////////////////////// SETTING
+    Route::middleware('auth')->group(function () {
+        Route::post('/settings/updateLogo', [SettingController::class, 'updateLogo']);
+        Route::resource('settings', SettingController::class);
     });
 
 });

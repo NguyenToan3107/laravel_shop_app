@@ -1,5 +1,7 @@
 @extends('admin.layouts.app')
 
+@section('title', 'Danh sách bài viết')
+
 @section('content')
 
     @if(session('success'))
