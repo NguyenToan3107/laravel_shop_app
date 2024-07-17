@@ -6,54 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
-use Yajra\DataTables\DataTables;
 
 class SettingController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        if (request()->ajax()) {
-            $model = Setting::query()->select('id', 'key', 'value', 'description', 'status');
-
-            if ($request->filled('key')) {
-                $model = $model->where('key', 'like', '%' . $request->key . '%');
-            }
-            if ($request->filled('value')) {
-                $model = $model->where('value', 'like', '%' . $request->value . '%');
-            }
-            if ($request->filled('status')) {
-                $model = $model->withTrashed()->where('status', $request->status);
-            } else {
-                $model = $model->where('status', '<>', 2);
-            }
-
-
-            return DataTables::of($model)
-                ->addColumn('action', function ($setting) {
-                    return view('admin.settings.action', [
-                        'setting' => $setting,
-                    ]);
-                })
-                ->addColumn('checkbox', function ($row) {
-                    return '<input type="checkbox" name="ids_setting" class="checkbox_ids_setting" value="' . $row->id . '"/>';
-                })
-                ->editColumn('status', function ($setting) {
-                    $message = [
-                        1 => 'Active',
-                        2 => 'Inactive'
-                    ];
-                    return $message[$setting->status];
-                })
-                ->rawColumns(['action', 'checkbox'])
-                ->setRowId('id')
-                ->make(true);
-        }
-
-        $adminLogo = config('app.admin_logo');
-        $frontendLogo = config('app.frontend_logo');
+        $sys_logo = config('app.sys_logo');
+        $sys_logo_mobile = config('app.sys_logo_mobile');
+        $sys_favicon = config('app.sys_favicon');
         return view('admin.settings.index', [
-            'adminLogo' => $adminLogo,
-            'frontendLogo' => $frontendLogo,
+            'sys_logo' => $sys_logo,
+            'sys_logo_mobile' => $sys_logo_mobile,
+            'sys_favicon' => $sys_favicon,
         ]);
     }
 
@@ -76,30 +40,29 @@ class SettingController extends Controller
         }
 
         return redirect()->back()->with('success', 'Tạo mới thành công.');
-
     }
 
     public function updateLogo(Request $request)
     {
-        if ($request->filled('filepath_admin')) {
-            $image_path_admin = $request->input('filepath_admin');
-            $image_path_admin = explode('http://localhost:8000', $image_path_admin)[1];
+        if ($request->filled('filepath_logo')) {
+            $image_logo = $request->input('filepath_logo');
+            $image_logo = explode('http://localhost:8000', $image_logo)[1];
         } else {
-            $image_path_admin = '/storage/photos/2/logo/logo-vizion.jpg';
+            $image_logo = \config('app.sys_logo');
         }
-        if ($request->filled('filepath_frontend')) {
-            $image_path_front = $request->input('filepath_frontend');
-            $image_path_front = explode('http://localhost:8000', $image_path_front)[1];
+        if ($request->filled('filepath_logo_mobile')) {
+            $image_logo_mobile = $request->input('filepath_logo_mobile');
+            $image_logo_mobile = explode('http://localhost:8000', $image_logo_mobile)[1];
         } else {
-            $image_path_front = '/storage/photos/2/logo/logo-vizion.jpg';
+            $image_logo_mobile = \config('app.sys_logo_mobile');
         }
 
-        Setting::updateOrCreate(['key' => 'admin_logo'], ['value' => $image_path_admin]);
-        Setting::updateOrCreate(['key' => 'frontend_logo'], ['value' => $image_path_front]);
+        Setting::updateOrCreate(['name' => 'sys_logo'], ['val' => $image_logo]);
+        Setting::updateOrCreate(['name' => 'sys_logo_mobile'], ['val' => $image_logo_mobile]);
 
         // Update the config
-        Config::set('app.admin_logo', $image_path_admin);
-        Config::set('app.frontend_logo', $image_path_front);
+        Config::set('app.sys_logo', $image_logo);
+        Config::set('app.sys_logo_mobile', $image_logo_mobile);
 
         return redirect('/admin/settings')->with('success', 'Cập nhật thành công.');
     }
@@ -114,7 +77,6 @@ class SettingController extends Controller
             'setting' => $setting,
         ]);
     }
-
     public function update($id, Request $request) {
         $setting = Setting::where('id', $id)->withTrashed()->select('id', 'key', 'value', 'status', 'description', 'deleted_at')->first();
         $setting->update([
@@ -127,7 +89,6 @@ class SettingController extends Controller
 
         return redirect('/admin/settings')->with('success', 'Cập nhật thành công.');
     }
-
     public function destroy($id)
     {
         $array_id = explode(',', $id);

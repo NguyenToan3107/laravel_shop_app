@@ -1076,11 +1076,11 @@ header {
 
 /* FOOTER */
 footer {
-    margin-top: 100px;
-    height: 440px;
+    margin-top: 50px;
+    height: auto;
     background-color: black;
     color: #FFFFFF;
-
+    padding-bottom: 50px;
 }
 
 .footer_list {
@@ -1090,10 +1090,37 @@ footer {
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
+    gap: 15px;
 }
 
 .footer_item {
     margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+
+.footer_item ul {
+    font-size: 0.8rem;
+    cursor: pointer;
+    list-style: none;
+    padding-left: 0;
+}
+
+.footer_item li {
+    line-height: 1.5rem;
+}
+
+.footer_item a {
+    text-decoration: none;
+    color: #f3eeee;
+
+}
+
+.footer_item a:hover {
+    color: #d37373;
+    font-size: 0.8rem;
 }
 
 .footer_download {

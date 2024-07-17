@@ -31,14 +31,37 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 //        Builder::useVite();
-        $adminLogo = Setting::where('key', 'admin_logo')->first()->value ?? 'storage/photos/2/logo/logo-vizion.jpg';
-        $frontendLogo = Setting::where('key', 'frontend_logo')->first()->value ?? 'storage/photos/2/logo/logo-vizion.jpg';
+        $sys_logo = Setting::where('name', 'sys_logo')->first()->val ?? '/storage/photos/2/logo/logo-vizion.jpg';
+        $sys_logo_mobile = Setting::where('name', 'sys_logo_mobile')->first()->val ?? '/storage/photos/2/logo/logo-vizion.jpg';
+        $sys_favicon = Setting::where('name', 'sys_favicon')->first()->val ?? '/storage/photos/2/product/empty-photo.jpg';
+        $sys_title = Setting::where('name', 'sys_title')->first()->val;
+        $sys_address = Setting::where('name', 'sys_address')->first()->val;
+        $sys_phone = Setting::where('name', 'sys_phone')->first()->val;
+        $sys_hotline = Setting::where('name', 'sys_hotline')->first()->val;
+        $sys_worktime = Setting::where('name', 'sys_worktime')->first()->val;
+        $sys_mail = Setting::where('name', 'sys_mail')->first()->val;
+        $sys_fanpage = Setting::where('name', 'sys_fanpage')->first()->val;
+        $sys_youtube = Setting::where('name', 'sys_youtube')->first()->val;
+        $sys_footer = Setting::where('name', 'sys_footer')->first()->val;
+        $sys_keyword = Setting::where('name', 'sys_keyword')->first()->val;
 
-        Config::set('app.admin_logo', $adminLogo);
-        Config::set('app.frontend_logo', $frontendLogo);
 
-        View::share('adminLogo', $adminLogo);
-        View::share('frontendLogo', $frontendLogo);
+        Config::set('app.sys_logo', $sys_logo);
+        Config::set('app.sys_logo_mobile', $sys_logo_mobile);
+        Config::set('app.sys_favicon', $sys_favicon);
+        Config::set('app.sys_title', $sys_title);
+        Config::set('app.sys_address', $sys_address);
+        Config::set('app.sys_phone', $sys_phone);
+        Config::set('app.sys_hotline', $sys_hotline);
+        Config::set('app.sys_worktime', $sys_worktime);
+        Config::set('app.sys_mail', $sys_mail);
+        Config::set('app.sys_fanpage', $sys_fanpage);
+        Config::set('app.sys_youtube', $sys_youtube);
+        Config::set('app.sys_footer', $sys_footer);
+        Config::set('app.sys_keyword', $sys_keyword);
+
+//        View::share('adminLogo', $adminLogo);
+//        View::share('frontendLogo', $frontendLogo);
 
     }
 }

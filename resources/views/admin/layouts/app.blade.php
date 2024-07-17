@@ -83,7 +83,11 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <title>@yield('title', 'Trang chủ')</title>
-    <link rel="icon" type="image/jpeg" href="{{ asset(url(config('app.admin_logo'))) }}">
+    @if(Agent::isMobile())
+        <link rel="icon" type="image/jpeg" href="{{ asset(url(config('app.sys_logo_mobile'))) }}">
+    @else
+        <link rel="icon" type="image/jpeg" href="{{ asset(url(config('app.sys_logo'))) }}">
+    @endif
 </head>
 <body>
 <div class="wrapper">

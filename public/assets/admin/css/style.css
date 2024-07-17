@@ -149,7 +149,7 @@ a.sidebar-link {
 
 /* Responsive */
 
-@media (min-width:768px) {
+@media (min-width: 768px) {
     .content {
         width: auto;
     }
@@ -162,6 +162,7 @@ a.sidebar-link {
     padding: 20px;
     max-width: 800px;
 }
+
 .margin_bottom_detail {
     margin-bottom: 50px;
 }
@@ -185,6 +186,7 @@ a.sidebar-link {
     height: 45px; /* Đặt chiều cao */
     border-radius: 20%;
 }
+
 .user-image-detail {
     width: 150px; /* Đặt chiều rộng */
     height: 150px; /* Đặt chiều cao */
@@ -240,16 +242,20 @@ a.sidebar-link {
     color: #FFFFFF;
 
 }
+
 .toastify-custom .toastify__close {
     font-size: 20px;
     opacity: 0.8;
 }
+
 .toastify-custom:hover .toastify__close {
     opacity: 1;
 }
+
 .toastify-success {
     background: green !important;
 }
+
 .toastify-error {
     background: red !important;
 }
@@ -301,6 +307,7 @@ a.sidebar-link {
 .cardBox .card:hover {
     background: var(--blue);
 }
+
 .cardBox .card:hover .numbers,
 .cardBox .card:hover .cardName,
 .cardBox .card:hover .iconBx {
@@ -317,14 +324,14 @@ a.sidebar-link {
 /*  \\\\\\\\\\\\\\\\\\\\\ PROFILE \\\\\\\\\\\\\\\\\\\\\\\\\  */
 
 .ui-w-80 {
-    width : 80px !important;
+    width: 80px !important;
     height: auto;
 }
 
 .btn-default {
     border-color: rgba(24, 28, 33, 0.1);
-    background  : rgba(0, 0, 0, 0);
-    color       : #4E5155;
+    background: rgba(0, 0, 0, 0);
+    color: #4E5155;
 }
 
 label.btn {
@@ -333,8 +340,8 @@ label.btn {
 
 .btn-outline-primary {
     border-color: #26B4FF;
-    background  : transparent;
-    color       : #26B4FF;
+    background: transparent;
+    color: #26B4FF;
 }
 
 .btn {
@@ -347,19 +354,19 @@ label.btn {
 
 .btn-facebook {
     border-color: rgba(0, 0, 0, 0);
-    background  : #3B5998;
-    color       : #fff;
+    background: #3B5998;
+    color: #fff;
 }
 
 .btn-instagram {
     border-color: rgba(0, 0, 0, 0);
-    background  : #000;
-    color       : #fff;
+    background: #000;
+    color: #fff;
 }
 
 .card {
     background-clip: padding-box;
-    box-shadow     : 0 1px 4px rgba(24, 28, 33, 0.012);
+    box-shadow: 0 1px 4px rgba(24, 28, 33, 0.012);
 }
 
 .row-bordered {
@@ -367,11 +374,11 @@ label.btn {
 }
 
 .account-settings-fileinput {
-    position  : absolute;
+    position: absolute;
     visibility: hidden;
-    width     : 1px;
-    height    : 1px;
-    opacity   : 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
 }
 
 .account-settings-links .list-group-item.active {
@@ -382,12 +389,12 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
     background: transparent !important;
 }
 
-.account-settings-multiselect~.select2-container {
+.account-settings-multiselect ~ .select2-container {
     width: 100% !important;
 }
 
 .light-style .account-settings-links .list-group-item {
-    padding     : 0.85rem 1.5rem;
+    padding: 0.85rem 1.5rem;
     border-color: rgba(24, 28, 33, 0.03) !important;
 }
 
@@ -396,7 +403,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 }
 
 .material-style .account-settings-links .list-group-item {
-    padding     : 0.85rem 1.5rem;
+    padding: 0.85rem 1.5rem;
     border-color: rgba(24, 28, 33, 0.03) !important;
 }
 
@@ -405,7 +412,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 }
 
 .dark-style .account-settings-links .list-group-item {
-    padding     : 0.85rem 1.5rem;
+    padding: 0.85rem 1.5rem;
     border-color: rgba(255, 255, 255, 0.03) !important;
 }
 
@@ -418,7 +425,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 }
 
 .light-style .account-settings-links .list-group-item {
-    padding     : 0.85rem 1.5rem;
+    padding: 0.85rem 1.5rem;
     border-color: rgba(24, 28, 33, 0.03) !important;
 }
 
@@ -450,7 +457,6 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
     border: 1px solid white;
     border-radius: 20px;
 }
-
 
 
 /* CREATE PRODUCT */
@@ -518,12 +524,12 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
     margin-top: 80px;
 }
 
-.product_attribute p{
+.product_attribute p {
     font-weight: 500;
     font-size: 1.2rem;
 }
 
-.product_attribute{
+.product_attribute {
     margin-bottom: 15px;
 }
 
@@ -533,15 +539,13 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 }
 
 .product_attribute_value {
-     display: flex;
-     flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 .delete_product_attribute_value {
     cursor: pointer;
 }
-
-
 
 #overlay {
     position: fixed;
@@ -561,6 +565,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
     justify-content: center;
     align-items: center;
 }
+
 .spinner {
     width: 40px;
     height: 40px;
@@ -569,11 +574,77 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
     border-radius: 50%;
     animation: sp-anime 0.8s infinite linear;
 }
+
 @keyframes sp-anime {
     100% {
         transform: rotate(360deg);
     }
 }
-.is-hide{
-    display:none;
+
+.is-hide {
+    display: none;
 }
+
+
+/*  SETTINGS  */
+.img_setting {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+#imageDisplay_logo {
+    /*max-height:100px*/
+}
+
+#imageDisplay_logo img {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #cbcdcd;
+}
+
+#imageDisplay_logo_mobile img {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #cbcdcd;
+}
+
+#imageDisplay_favicon img {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #cbcdcd;
+}
+
+.btn_setting {
+    padding: 6px 10px;
+    border-radius: 5px;
+    color: #007bff;
+    border: 1px solid #dcdfe3;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.btn_setting:hover {
+    background-color: #ecedf1;
+    border: 1px solid #dcdfe3;
+}
+
+.form-setting p {
+    margin-bottom: 2px;
+}
+
+.form-setting input {
+    color: #888;
+}
+
+
+
+
+
+
+
+
+
+
+

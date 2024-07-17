@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Setting extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $table = 'settings';
-    protected $fillable = ['id', 'key', 'value', 'status', 'description', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['id', 'name', 'val', 'type', 'created_at', 'updated_at', 'shop_id', 'desc', 'locale'];
 }

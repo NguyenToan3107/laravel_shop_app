@@ -10,7 +10,7 @@
     {{--  Logo  --}}
 {{--    <link rel="icon" type="image/png" href="{{ asset('images/logo-vizion.jpg') }}">--}}
     <title>@yield('title', 'Exclusive - Điện thoại, Laptop, Tai nghe,...')</title>
-    <link rel="icon" type="image/jpeg" href="{{ asset(url(config('app.frontend_logo'))) }}">
+    <link rel="icon" type="image/jpeg" href="{{ asset(url(config('app.sys_logo'))) }}">
 
     {{--  AJAX  --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
