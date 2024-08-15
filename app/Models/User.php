@@ -17,7 +17,7 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $fillable = ['id', 'name', 'email', 'password', 'status', 'age', 'phoneNumber', 'address', 'role',
-        'image_path', 'deleted_at', 'created_at', 'updated_at'];
+        'image_path', 'deleted_at', 'created_at', 'updated_at', 'provider_id', 'provider'];
     protected $hidden = ['password'];
 
     public function posts()

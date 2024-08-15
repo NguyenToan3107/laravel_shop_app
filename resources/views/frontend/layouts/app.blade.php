@@ -36,7 +36,7 @@
             crossorigin="anonymous"></script>
 
     {{-- Fontaweome --}}
-    <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+    <link href="{{ asset('font-awesome/css/all.min.css') }}" rel="stylesheet">
 
     {{-- Toast --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">

@@ -1,4 +1,5 @@
-<x-guest-layout>
+@extends('admin.layouts.guest')
+@section('content_login')
         <form method="POST" action="{{ route('register') }}">
         @csrf
         <!-- Name -->
@@ -94,4 +95,4 @@
         </div>
     </form>
     <a class="btn btn-secondary" href="/login">Đăng nhập</a>
-</x-guest-layout>
+@endsection
