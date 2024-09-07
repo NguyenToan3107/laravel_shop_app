@@ -52,6 +52,7 @@ Route::middleware(['web'])->group(function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile', [ProfileController::class, 'index']);
+    Route::put('/profile/change-password', [ProfileController::class, 'update']);
 });
 
 

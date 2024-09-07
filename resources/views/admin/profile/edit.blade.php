@@ -27,7 +27,8 @@
                     <div class="tab-content">
                         <div class="tab-pane fade active show" id="account-general">
                             <div class="card-body media align-items-center">
-                                <img class="img-thumbnail user-image-detail-100" src="{{$user->image_path}}" alt="{{$user->name}}">
+                                <img class="img-thumbnail user-image-detail-100" src="{{$user->image_path}}"
+                                     alt="{{$user->name}}">
                                 <br>
                                 <br>
                                 <div class="media-body ml-4">

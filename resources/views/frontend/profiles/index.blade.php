@@ -3,6 +3,38 @@
 @section('title', 'Hồ sơ')
 
 @section('content')
+
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Toastify({
+                    text: "{{ session('success') }}",
+                    duration: 2000,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    className: "toastify-custom toastify-success"
+                }).showToast();
+            });
+        </script>
+
+    @elseif(session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Toastify({
+                    text: "{{ session('error') }}",
+                    duration: 2000,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "right", // `left`, `center` or `right`
+                    stopOnFocus: true, // Prevents dismissing of toast on hover
+                    className: "toastify-custom toastify-error"
+                }).showToast();
+            });
+        </script>
+    @endif
+
     <div class="detail_nav">
         <a href="/">Trang chủ</a>
         <i class="fa-solid fa-chevron-right"></i>
@@ -33,23 +65,25 @@
         </div>
         <div class="profile_form">
             <h5>Chỉnh sửa hồ sơ</h5>
-            <form>
+            <form action="/profile/change-password" method="post">
+                @csrf
+                @method("put")
                 <div class="mb-3">
                     <label for="" class="form-label">Tên</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" placeholder="{{$user->name}}">
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="{{$user->email}}">
+                    <div id="emailHelp" class="form-text">Chúng tôi sẽ không bao giờ chia sẻ email của bạn với bất kỳ ai.</div>
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Thay đổi mật khẩu</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" required placeholder="Mật khẩu hiện tại">
+                    <input type="password" name="current_password" required class="form-control" id="exampleInputPassword1" placeholder="Mật khẩu hiện tại">
                     <br>
-                    <input type="password" class="form-control" required placeholder="Mật khẩu mới">
+                    <input type="password" name="new_password" required class="form-control" placeholder="Mật khẩu mới">
                     <br>
-                    <input type="password" class="form-control" required placeholder="Nhập lại mật khẩu">
+                    <input type="password" name="new_password_confirmation" required class="form-control" placeholder="Nhập lại mật khẩu">
                 </div>
 
                 <button type="submit" class="btn btn-secondary">Hủy</button>
