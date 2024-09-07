@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function index(Request $request) {
-
         $products_new_arivals = Product::take(5)->orderBy('created_at', 'desc')
             ->select('id', 'image', 'title', 'price', 'percent_sale', 'category_id', 'price_old', 'slug')
             ->get();

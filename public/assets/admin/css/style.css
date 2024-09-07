@@ -278,46 +278,81 @@ a.sidebar-link {
 .cardBox .card {
     position: relative;
     background: var(--white);
-    padding: 30px;
-    border-radius: 20px;
+    padding: 10px 20px;
+    border-radius: 6px;
     display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
     cursor: pointer;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+}
+
+.cardBox .card:nth-child(1) {
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    border: none;
+}
+
+.cardBox .card:nth-child(2) {
+    background: linear-gradient(to right, #5ee7df, #b490ca);
+    border: none;
+}
+
+.cardBox .card:nth-child(3) {
+    background: linear-gradient(to right, #ff6a88, #ffb3a7);
+    border: none;
+}
+
+.cardBox .card:nth-child(4) {
+    background: linear-gradient(to right, #00d2ff, #3a7bd5);
+
+    border: none;
+}
+
+.cardBox .card .card_icon i {
+    font-size: 2.5rem;
+    color: whitesmoke;
 }
 
 .cardBox .card .numbers {
     position: relative;
     font-weight: 500;
     font-size: 2.5rem;
-    color: var(--blue);
+    color: white;
 }
 
 .cardBox .card .cardName {
-    color: var(--black2);
+    color: white;
     font-size: 1.1rem;
     margin-top: 5px;
 }
 
-.cardBox .card .iconBx {
-    font-size: 3.5rem;
-    color: var(--black2);
-}
-
 .cardBox .card:hover {
-    background: var(--blue);
-}
-
-.cardBox .card:hover .numbers,
-.cardBox .card:hover .cardName,
-.cardBox .card:hover .iconBx {
-    color: var(--white);
+    opacity: 0.8;
 }
 
 .flex-form {
     display: flex;
     flex-direction: row;
     gap: 6px;
+}
+
+/*  Biểu đồ  */
+.order_analysis {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.order_analysis canvas  {
+    flex: 1;
+    margin: 0 10px;
+    height: 300px;
+    max-width: 45%;
+    padding: 20px;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.1);
 }
 
 

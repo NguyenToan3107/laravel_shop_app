@@ -65,11 +65,11 @@
                     </tr>
                     <tr>
                         <td>Shipping</td>
-                        <td>30,000</td>
+                        <td>(Coming Soon...)</td>
                     </tr>
                     <tr>
                         <td><strong>Tổng tiền</strong></td>
-                        <td><strong>{{number_format( $total * 1000 - 30000, 0)}} đ</strong></td>
+                        <td><strong>{{number_format( $total * 1000, 0)}} đ</strong></td>
                     </tr>
                 </table>
 
@@ -107,7 +107,6 @@
 @endsection
 
 @push('scripts')
-        <!-- Replace YOUR_API_KEY here by your key above -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwaLDG4ZPsKoA-eKtq0Qr0ztmwoj2uhAA&callback=initMap" async defer></script>
         <script>
             function initMap() {
@@ -117,19 +116,4 @@
                 });
             }
         </script>
-
-
-{{--    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"--}}
-{{--          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>--}}
-{{--    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"--}}
-{{--            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>--}}
-{{--    <script>--}}
-{{--        document.addEventListener('DOMContentLoaded', function () {--}}
-{{--            var map = L.map('map').setView([51.505, -0.09], 13);--}}
-{{--            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {--}}
-{{--                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'--}}
-{{--            }).addTo(map);--}}
-{{--        });--}}
-{{--    </script>--}}
-
 @endpush

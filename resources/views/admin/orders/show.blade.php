@@ -33,7 +33,6 @@
         @endcan
         <div class="row">
             <div class="col-md-12">
-{{--                {{ $dataTable->table()}}--}}
                 <table id="orderdetails-table" class="table">
                     <thead>
                     <tr>
@@ -55,11 +54,11 @@
             <?php
                 $sub_total = number_format($order->price * 1000, 0);
                 $discount = number_format(($order->percent_sale / 100) * $order->price * 1000, 0);
-                $total =number_format(($order->price - (($order->percent_sale / 100) * $order->price) - 30) * 1000, 0);
+                $total =number_format(($order->price - ($order->percent_sale / 100) * $order->price) * 1000, 0);
             ?>
             <p>Tổng phụ: {{$sub_total}} đ</p>
             <p>Khuyến mãi: {{$discount}} đ</p>
-            <p>Phí vận chuyển: 30,000 đ</p>
+            <p>Phí vận chuyển: (Coming Soon...)</p>
             <p style="font-weight: bold">Tổng tiền: {{$total}} đ</p>
         </div>
 
@@ -75,7 +74,6 @@
 @endsection
 
 @push('scripts')
-{{--    {{ $dataTable->scripts() }}--}}
 <script>
     $(document).ready(function () {
         let order_detail_id = $('.order_detail_id').data('id')

@@ -6,8 +6,10 @@ use App\DataTables\orders\OrderDetailsDataTable;
 use App\DataTables\OrdersDataTable;
 use App\Exports\OrdersExport;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -224,6 +226,18 @@ class OrderController extends Controller
             'deleted_at' => null
         ]);
 
+        if($order->status >= 4) {
+           foreach ($order->orderDetails as $orderDetail) {
+               $product = Product::with('categories')->where('id', $orderDetail->item_id)->first();
+               $product->update([
+                   'total_order' => (is_null($product->total_order) ? 0 : $product->total_order) + $orderDetail->quantity
+               ]);
+               $product?->categories->update([
+                   'total_order' => (is_null($product->categories->total_order) ? 0 : $product->categories->total_order) + $orderDetail->quantity
+               ]);
+           }
+        }
+
         return redirect('/admin/orders')->with('success', 'Cập nhật đơn hàng thành công!');
     }
     public function destroy($id)
@@ -262,4 +276,5 @@ class OrderController extends Controller
         ]);
         return $pdf->download('invoice.pdf');
     }
+
 }

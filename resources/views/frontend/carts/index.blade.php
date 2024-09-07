@@ -110,11 +110,11 @@
                     </tr>
                     <tr>
                         <td>Phí vận chuyển</td>
-                        <td>30,000</td>
+                        <td>(Coming Soon...)</td>
                     </tr>
                     <tr>
                         <td><strong>Tổng tiền</strong></td>
-                        <td><strong>{{number_format($price * 1000 - 30000, 0)}}</strong></td>
+                        <td><strong>{{number_format($price * 1000, 0)}}</strong></td>
                     </tr>
                 </table>
                 <br>

@@ -60,11 +60,6 @@ class OrderController extends Controller
                 'unit_price' => $cart->price,
                 'order_id' => $order->id
             ]);
-
-            $product = Product::where('id', $cart->product_id)->first();
-            $product->update([
-                'total_order' => $product->total_order + $cart->quantity
-            ]);
         }
 
         // send email
