@@ -55,8 +55,7 @@ Route::prefix('/admin')->group(function () {
     ////////////////////////// PRODUCT ATTRIBUTE VALUE
     Route::middleware('auth')->group(function () {
         Route::post('/product_attributes/{id_attribute}/product_attribute_value',
-            [ProductAttributeValueController::class, 'store'])
-            ->name('product_attributes.store');
+            [ProductAttributeValueController::class, 'store']);
         Route::delete('/product_attributes/{id_attribute}/product_attribute_value/{id}',
             [ProductAttributeValueController::class, 'destroy']);
     });

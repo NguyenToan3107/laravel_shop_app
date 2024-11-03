@@ -1,6 +1,7 @@
 FROM php:8.2-fpm-buster
 SHELL ["/bin/bash", "-oeux", "pipefail", "-c"]
 
+RUN docker-php-ext-install opcache
 # timezone environmentdocker-compose exec app php -v
 ENV TZ=Asia/Tokyo \
   # locale
@@ -11,6 +12,11 @@ ENV TZ=Asia/Tokyo \
   COMPOSER_ALLOW_SUPERUSER=1 \
   COMPOSER_HOME=/composer
 
+# Set up environment variables
+ENV PHP_OPCACHE_ENABLE=1
+ENV PHP_OPCACHE_ENABLE_CLI=1
+ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
+ENV PHP_OPCACHE_REVALIDATE_FREQ=1
 
 
 COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer

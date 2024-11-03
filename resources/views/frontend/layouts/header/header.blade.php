@@ -83,6 +83,7 @@
                                 </a>
                             </form>
                         </li>
+                        <li><a class="dropdown-item" href="/orders/my-order">Đơn mua</a></li>
                     @else
                         <li><a class="dropdown-item" href="/login">Đăng nhập</a></li>
                     @endif

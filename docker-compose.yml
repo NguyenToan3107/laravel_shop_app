@@ -7,11 +7,12 @@ services:
 
   # MySQL
   db:
-    image: 3shin/mysql5.7:latest
+#    image: 3shin/mysql5.7:latest
+    image: mariadb:10.6
 #    build:
 #      context: .
 #      dockerfile: ./.docker/db/Dockerfile
-    container_name: mysql_laravel
+    container_name: mariadb_laravel
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=testuser

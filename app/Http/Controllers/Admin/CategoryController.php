@@ -40,10 +40,10 @@ class CategoryController extends Controller
             'title' => 'required|unique:categories|max:20',
         ]);
 
-        if($request->filled('filepath')) {
+        if ($request->filled('filepath')) {
             $image_path = $request->input('filepath');
             $image_path = explode('http://localhost:8000', $image_path)[1];
-        }else {
+        } else {
             $image_path = '/storage/photos/products/empty-photo.jpg';
         }
 
@@ -59,19 +59,20 @@ class CategoryController extends Controller
     public function edit($slug)
     {
         $category = Category::where('slug', $slug)->first();
-        if($category->parent_id !== null){
+        if ($category->parent_id !== null) {
             $parent_category = Category::where('id', $category->parent_id)->first();
-        }
-        else {
+        } else {
             $parent_category = $category;
         }
         $categories = Category::with('children')->whereNull('parent_id')->get();
-        return view('admin.categories.create_edit',
+        return view(
+            'admin.categories.create_edit',
             [
                 'c' => $category,
                 'categories' => $categories,
                 'parent_category' => $parent_category
-            ]);
+            ]
+        );
     }
 
     public function update(Request $request, $slug)
@@ -79,10 +80,10 @@ class CategoryController extends Controller
         $category = Category::where('slug', $slug)->first();
         $description = $request->input('description');
 
-        if($request->filled('filepath')) {
+        if ($request->filled('filepath')) {
             $image_path = $request->input('filepath');
             $image_path = explode('http://localhost:8000', $image_path)[1];
-        }else {
+        } else {
             $image_path = $category->image;
         }
 

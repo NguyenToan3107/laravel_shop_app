@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 
 class OrderController extends Controller
@@ -75,5 +76,15 @@ class OrderController extends Controller
         }
 
         return redirect('/cart')->with('success', 'Bạn đã đặt hàng thành công!');
+    }
+
+    public function myOrder()
+    {
+        $user = Auth::user();
+
+        $orders = Order::where('author_id', $user->id)->get();
+        return view('frontend.orders.myOrder', [
+            'orders' => $orders,
+        ]);
     }
 }
